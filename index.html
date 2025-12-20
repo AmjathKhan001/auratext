@@ -3,276 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AuraText - Glowing Text Effects Generator</title>
-    <meta name="description" content="Create stunning glowing text effects, neon signs, and aura typography for logos, designs, posters and website. Free text effects generator with 15+ effects.">
+    <title>AuraText - Glowing Text Effects Generator | Create Stunning Text Auras</title>
+    <meta name="description" content="Create stunning glowing text effects, neon signs, and aura typography for logos, designs, posters and website. Free text effects generator with 23+ effects.">
+    <meta name="keywords" content="text effects, glowing text, neon text, aura text, text generator, logo maker, text design, typography, free text effects">
+    <meta name="author" content="Amjath Khan">
+    <meta property="og:title" content="AuraText - Glowing Text Effects Generator">
+    <meta property="og:description" content="Create stunning glowing text effects in seconds. Free text effects generator for logos and designs.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://auratext-six.vercel.app/">
+    <meta property="og:image" content="https://auratext-six.vercel.app/preview.png">
+    <link rel="canonical" href="https://auratext-six.vercel.app/">
     
-    <!-- Inline critical CSS to prevent unstyled content -->
-    <style>
-        /* Critical minimal styles to load first */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f7ff;
-            min-height: 100vh;
-            padding: 0;
-            margin: 0;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        body.loaded {
-            opacity: 1;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        /* Navigation */
-        .navbar {
-            background: white;
-            padding: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #8a2be2;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        /* Hero section */
-        .hero {
-            text-align: center;
-            padding: 40px 0;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, #8a2be2, #00ffff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
-        /* Hide content until loaded */
-        .content {
-            display: none;
-        }
-        
-        .content.loaded {
-            display: block;
-        }
-        
-        /* Loading indicator */
-        .loading {
-            text-align: center;
-            padding: 100px 20px;
-            font-size: 1.2rem;
-            color: #666;
-        }
-        
-        /* Basic button styles */
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-family: inherit;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background: #8a2be2;
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: #6a0dad;
-            transform: translateY(-2px);
-        }
-    </style>
-    
-    <!-- Load full CSS asynchronously -->
-    <link rel="preload" href="style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="style.css"></noscript>
-    
-    <!-- Font Awesome -->
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
 </head>
 <body>
-    <!-- Loading indicator -->
-    <div id="loading" class="loading">
-        <i class="fas fa-spinner fa-spin fa-2x"></i>
-        <p>Loading AuraText Generator...</p>
-    </div>
-    
-    <!-- Main content (hidden until loaded) -->
-    <div id="content" class="content">
-        <!-- Navigation -->
-        <nav class="navbar">
-            <div class="container">
-                <div class="logo">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-aura"></i>
+                <span>AuraText</span>
+            </a>
+            <div class="nav-links">
+                <a href="#home" class="active">Home</a>
+                <a href="#effects">Effects</a>
+                <a href="#tools">Tools</a>
+                <a href="blog.html">Blog</a>
+                <a href="#contact">Contact</a>
+                <span class="visitor-count">
+                    <i class="fas fa-users"></i>
+                    <span id="visitor-counter">Loading...</span>
+                </span>
+            </div>
+            <button class="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Create <span class="gradient-text">Glowing Text Effects</span> with Aura</h1>
+            <p class="subtitle">Generate stunning aura text, neon signs, and glowing typography in seconds. No design skills needed.</p>
+            <p>AuraText is a free glowing text generator. Create mesmerizing text effects with aura glows, neon rings, and luminous typography for your logos, social media, and designs.</p>
+        </div>
+    </section>
+
+    <!-- Text Generator -->
+    <section class="generator">
+        <div class="container">
+            <!-- Text Input -->
+            <div class="input-section">
+                <div class="input-group">
+                    <input type="text" id="text-input" placeholder="Enter your text here..." value="AuraText" maxlength="20">
+                    <div class="input-actions">
+                        <button id="clear-btn" class="btn-secondary">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button id="random-btn" class="btn-secondary">
+                            <i class="fas fa-random"></i> Random
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Color Picker -->
+                <div class="color-picker">
+                    <label>Text Color:</label>
+                    <div class="color-options">
+                        <input type="color" id="text-color" value="#8a2be2">
+                        <div class="color-swatches">
+                            <span class="color-swatch" style="background-color: #8a2be2;" data-color="#8a2be2"></span>
+                            <span class="color-swatch" style="background-color: #00ffff;" data-color="#00ffff"></span>
+                            <span class="color-swatch" style="background-color: #ff4a4a;" data-color="#ff4a4a"></span>
+                            <span class="color-swatch" style="background-color: #4aff6b;" data-color="#4aff6b"></span>
+                            <span class="color-swatch" style="background-color: #ffb74a;" data-color="#ffb74a"></span>
+                            <span class="color-swatch" style="background-color: #9d4aff;" data-color="#9d4aff"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="font-size-control">
+                        <label>Font Size:</label>
+                        <input type="range" id="font-size" min="20" max="120" value="60">
+                        <span id="font-size-value">60px</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section">
+                <div class="preview-container">
+                    <div class="text-preview">
+                        <span id="text-display">AuraText</span>
+                    </div>
+                    <div class="preview-actions">
+                        <button id="download-btn" class="btn-primary">
+                            <i class="fas fa-download"></i> Download PNG
+                        </button>
+                        <button id="print-btn" class="btn-secondary">
+                            <i class="fas fa-print"></i> Save as PDF
+                        </button>
+                        <button id="copy-btn" class="btn-secondary">
+                            <i class="fas fa-copy"></i> Copy CSS
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Effects Gallery -->
+            <div class="effects-section" id="effects">
+                <h2>Available Aura Effects</h2>
+                <p class="section-subtitle">Click on any effect to apply it to your text. 23+ amazing effects!</p>
+                
+                <div class="effects-grid">
+                    <!-- Effects will be loaded by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- More Tools Section -->
+    <section class="tools-section" id="tools">
+        <div class="container">
+            <h2>Explore More Useful Tools</h2>
+            <p class="section-subtitle">Check out these other helpful tools for safety, fire protection, and utilities.</p>
+            
+            <div class="tools-categories">
+                <div class="tool-category">
+                    <h3><i class="fas fa-shield-alt"></i> HSE Tools</h3>
+                    <div class="tool-links">
+                        <a href="https://www.hsecalculator.com/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-calculator"></i> HSE Calculators
+                        </a>
+                        <a href="https://hse-toolkit.vercel.app/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-toolbox"></i> HSE Tools Toolkit
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-category">
+                    <h3><i class="fas fa-fire-extinguisher"></i> Fire Safety Tools</h3>
+                    <div class="tool-links">
+                        <a href="https://safetyguide360-ceilingmounted-firee.vercel.app/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-fire"></i> Ceiling Mounted Fire Extinguisher Tool
+                        </a>
+                        <a href="https://www.firesafetytool.com/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-calculator"></i> Fire Safety Calculators
+                        </a>
+                        <a href="https://safetyguide360-fire-extinguisher-au.vercel.app/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-clipboard-check"></i> Fire Extinguisher Audit Tool
+                        </a>
+                        <a href="https://safetyguide360-firesafety-assessmen.vercel.app/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-clipboard-list"></i> Fire Safety Assessment Tool
+                        </a>
+                        <a href="https://fire-extinguisher-calculator.vercel.app/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-calculator"></i> Fire Extinguisher Estimator
+                        </a>
+                        <a href="https://kitchen-fire-suppression-calculator.vercel.app/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-utensils"></i> Kitchen Suppression Calculator
+                        </a>
+                        <a href="https://safetyguide360-room-flooding-system.vercel.app/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-water"></i> Room Flooding System Tool
+                        </a>
+                        <a href="https://safetyguide360-panel-fire-suppressi.vercel.app/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-server"></i> Panel Fire Suppression Calculator
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="tool-category">
+                    <h3><i class="fas fa-tools"></i> Utility Tools</h3>
+                    <div class="tool-links">
+                        <a href="https://www.dailysmarttool.com/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-wrench"></i> Daily Smart Tools
+                        </a>
+                        <a href="https://www.webtoolsdaily.com/" target="_blank" rel="noopener noreferrer">
+                            <i class="fas fa-globe"></i> Web Tools Daily
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Use -->
+    <section class="instructions" id="how-to">
+        <div class="container">
+            <h2>How to Use AuraText</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>Enter Your Text</h3>
+                    <p>Type your desired text in the input field. You can use up to 20 characters.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>Choose an Effect</h3>
+                    <p>Browse through our collection of aura effects and click on one you like.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>Customize</h3>
+                    <p>Adjust the color, size, and other properties to match your vision.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <h3>Download & Share</h3>
+                    <p>Download your creation as PNG, save as PDF, or share it with others.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2>Contact & Feedback</h2>
+            <p class="section-subtitle">Have questions, feedback, or need help? Get in touch!</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h4>Email</h4>
+                    <a href="mailto:contact@amjathkhan.com">contact@amjathkhan.com</a>
+                </div>
+                <div class="contact-item">
+                    <h4>Phone</h4>
+                    <a href="tel:+919750816163">+91-9750816163</a>
+                </div>
+                <div class="contact-item">
+                    <h4>Website</h4>
+                    <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">www.amjathkhan.com</a>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <a href="https://bsky.app/profile/amjathkhan.bsky.social" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-bluesky"></i> Bluesky
+                </a>
+                <a href="https://www.facebook.com/Amjathkhan.s" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook"></i> Facebook
+                </a>
+                <a href="https://www.instagram.com/amjathkhan_official/" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://x.com/amjikhan" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-twitter"></i> Twitter/X
+                </a>
+                <a href="https://www.linkedin.com/in/amjathkhan-shiekusman/" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-linkedin"></i> LinkedIn
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
                     <i class="fas fa-aura"></i>
                     <span>AuraText</span>
                 </div>
-                <div class="nav-links">
-                    <a href="#home" class="active">Home</a>
+                <p class="footer-tagline">Create mesmerizing glowing text effects for logos, social media, and designs.</p>
+                
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
                     <a href="#effects">Effects</a>
                     <a href="#tools">Tools</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="affiliate.html">Affiliate Disclosure</a>
                     <a href="#contact">Contact</a>
-                    <span class="visitor-count">
-                        <i class="fas fa-users"></i>
-                        <span id="visitor-counter">12,547</span>
-                    </span>
                 </div>
-                <button class="menu-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </nav>
-
-        <!-- Hero Section -->
-        <section class="hero" id="home">
-            <div class="container">
-                <h1>Create Glowing Text Effects with Aura</h1>
-                <p class="subtitle">Generate stunning aura text, neon signs, and glowing typography in seconds. No design skills needed.</p>
-            </div>
-        </section>
-
-        <!-- Text Generator -->
-        <section class="generator">
-            <div class="container">
-                <!-- Text Input -->
-                <div class="input-section">
-                    <div class="input-group">
-                        <input type="text" id="text-input" placeholder="Enter your text here..." value="AuraText" maxlength="20">
-                        <div class="input-actions">
-                            <button id="clear-btn" class="btn-secondary">
-                                <i class="fas fa-times"></i> Clear
-                            </button>
-                            <button id="random-btn" class="btn-secondary">
-                                <i class="fas fa-random"></i> Random
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Color Picker -->
-                    <div class="color-picker">
-                        <label>Text Color:</label>
-                        <div class="color-options">
-                            <input type="color" id="text-color" value="#8a2be2">
-                            <div class="color-swatches">
-                                <span class="color-swatch" style="background-color: #8a2be2;" data-color="#8a2be2"></span>
-                                <span class="color-swatch" style="background-color: #00ffff;" data-color="#00ffff"></span>
-                                <span class="color-swatch" style="background-color: #ff4a4a;" data-color="#ff4a4a"></span>
-                                <span class="color-swatch" style="background-color: #4aff6b;" data-color="#4aff6b"></span>
-                                <span class="color-swatch" style="background-color: #ffb74a;" data-color="#ffb74a"></span>
-                                <span class="color-swatch" style="background-color: #9d4aff;" data-color="#9d4aff"></span>
-                            </div>
-                        </div>
-                        
-                        <div class="font-size-control">
-                            <label>Font Size:</label>
-                            <input type="range" id="font-size" min="20" max="120" value="60">
-                            <span id="font-size-value">60px</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Preview Section -->
-                <div class="preview-section">
-                    <div class="preview-container">
-                        <div class="text-preview">
-                            <span id="text-display">AuraText</span>
-                        </div>
-                        <div class="preview-actions">
-                            <button id="download-btn" class="btn-primary">
-                                <i class="fas fa-download"></i> Download PNG
-                            </button>
-                            <button id="print-btn" class="btn-secondary">
-                                <i class="fas fa-print"></i> Save as PDF
-                            </button>
-                            <button id="copy-btn" class="btn-secondary">
-                                <i class="fas fa-copy"></i> Copy CSS
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Effects Gallery -->
-                <div class="effects-section" id="effects">
-                    <h2>Available Aura Effects</h2>
-                    <p class="section-subtitle">Click on any effect to apply it to your text.</p>
-                    
-                    <div class="effects-grid" id="effects-grid">
-                        <!-- Effects loaded by JS -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-logo">
-                        <i class="fas fa-aura"></i>
-                        <span>AuraText</span>
-                    </div>
-                    <p class="copyright">
-                        © 2024 AuraText Generator. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank">Amjath Khan</a>.
-                    </p>
+                
+                <div class="copyright">
+                    <p>© 2024 AuraText Generator. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
                     <p class="visitor-count-footer">
-                        <i class="fas fa-users"></i> Visitors: <span id="footer-visitor-counter">12,547</span>
+                        <i class="fas fa-users"></i> Visitors: <span id="footer-visitor-counter">Loading...</span>
                     </p>
                 </div>
             </div>
-        </footer>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-message">Effect applied successfully!</span>
     </div>
 
     <!-- Scripts -->
-    <script>
-        // First, load CSS if preload failed
-        if (!document.querySelector('link[rel="stylesheet"][href="style.css"]')) {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = 'style.css';
-            document.head.appendChild(link);
-        }
-        
-        // Show content when everything is ready
-        window.addEventListener('load', function() {
-            document.body.classList.add('loaded');
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('content').classList.add('loaded');
-        });
-    </script>
-    
-    <!-- Main script -->
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
 </body>
 </html>
