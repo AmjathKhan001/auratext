@@ -254,6 +254,120 @@ const textEffects = [
             element.style.color = 'transparent';
             element.style.textShadow = '1px 1px 2px rgba(0,0,0,0.3)';
         }
+    },
+    {
+        id: 'rainbow',
+        name: 'Rainbow',
+        apply: (element) => {
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
+            element.style.background = 'linear-gradient(45deg, #ff0000, #ff9900, #ffff00, #00ff00, #0099ff, #6600ff, #ff00ff)';
+            element.style.webkitBackgroundClip = 'text';
+            element.style.backgroundClip = 'text';
+            element.style.color = 'transparent';
+            element.style.textShadow = '0 0 10px rgba(255,255,255,0.5)';
+            element.style.letterSpacing = '2px';
+        }
+    },
+    {
+        id: 'matrix',
+        name: 'Matrix',
+        apply: (element) => {
+            element.style.fontFamily = "'Courier New', monospace";
+            element.style.color = '#00ff41';
+            element.style.textShadow = `
+                0 0 5px #00ff41,
+                0 0 10px #00ff41,
+                0 0 20px #00ff41
+            `;
+            element.style.letterSpacing = '1px';
+            element.style.animation = 'none';
+        }
+    },
+    {
+        id: 'galaxy',
+        name: 'Galaxy',
+        apply: (element) => {
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
+            element.style.background = 'linear-gradient(45deg, #9d00ff, #ff00ff, #00ffff)';
+            element.style.webkitBackgroundClip = 'text';
+            element.style.backgroundClip = 'text';
+            element.style.color = 'transparent';
+            element.style.textShadow = '0 0 20px rgba(157,0,255,0.5)';
+            element.style.letterSpacing = '2px';
+        }
+    },
+    {
+        id: 'metallic',
+        name: 'Metallic',
+        apply: (element) => {
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
+            element.style.background = 'linear-gradient(to bottom, #aaa, #fff, #666, #aaa)';
+            element.style.webkitBackgroundClip = 'text';
+            element.style.backgroundClip = 'text';
+            element.style.color = 'transparent';
+            element.style.textShadow = '2px 2px 4px rgba(0,0,0,0.5)';
+            element.style.letterSpacing = '1px';
+        }
+    },
+    {
+        id: 'holographic',
+        name: 'Holographic',
+        apply: (element) => {
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
+            element.style.color = '#ffffff';
+            element.style.textShadow = `
+                0 0 5px #fff,
+                0 0 10px #fff,
+                0 0 15px #fff,
+                0 0 20px #00ffff,
+                0 0 35px #00ffff,
+                0 0 40px #00ffff
+            `;
+            element.style.letterSpacing = '3px';
+        }
+    },
+    {
+        id: 'psychedelic',
+        name: 'Psychedelic',
+        apply: (element) => {
+            element.style.fontFamily = "'Comic Sans MS', cursive";
+            element.style.background = 'linear-gradient(45deg, #ff0000, #ff00ff, #0000ff, #00ffff, #00ff00)';
+            element.style.webkitBackgroundClip = 'text';
+            element.style.backgroundClip = 'text';
+            element.style.color = 'transparent';
+            element.style.animation = 'none';
+            element.style.letterSpacing = '1px';
+        }
+    },
+    {
+        id: 'cyberpunk',
+        name: 'Cyberpunk',
+        apply: (element) => {
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
+            element.style.color = '#00ffff';
+            element.style.textShadow = `
+                0 0 5px #00ffff,
+                0 0 10px #00ffff,
+                0 0 20px #ff00ff,
+                0 0 30px #ff00ff
+            `;
+            element.style.letterSpacing = '2px';
+        }
+    },
+    {
+        id: 'water',
+        name: 'Water',
+        apply: (element) => {
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
+            element.style.color = '#4aefff';
+            element.style.textShadow = `
+                1px 1px 0 #0066cc,
+                2px 2px 0 #0066cc,
+                0 0 10px #4aefff,
+                0 0 20px #4aefff
+            `;
+            element.style.letterSpacing = '1px';
+        }
     }
 ];
 
@@ -276,6 +390,9 @@ function init() {
     
     // Setup color swatches
     setupColorSwatches();
+    
+    // Fix navigation links
+    setupNavigation();
 }
 
 // Create effect cards for the gallery
@@ -385,6 +502,53 @@ function setupColorSwatches() {
     if (colorSwatches.length > 0) {
         colorSwatches[0].classList.add('active');
     }
+}
+
+// Setup navigation links
+function setupNavigation() {
+    // Fix internal page navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId === '#' || targetId.startsWith('#!')) return;
+            
+            // If it's a hash link on the same page
+            if (targetId.startsWith('#') && targetId !== '#') {
+                e.preventDefault();
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Close mobile menu if open
+                    if (navLinks && navLinks.classList.contains('active')) {
+                        navLinks.classList.remove('active');
+                    }
+                    
+                    // Scroll to element
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-links a').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            }
+        });
+    });
+    
+    // Highlight current page in navigation
+    const currentPage = window.location.pathname.split('/').pop();
+    document.querySelectorAll('.nav-links a').forEach(link => {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage || 
+            (currentPage === '' && linkHref === 'index.html') ||
+            (currentPage === 'index.html' && linkHref === '#')) {
+            link.classList.add('active');
+        }
+    });
 }
 
 // Setup event listeners
@@ -500,31 +664,9 @@ function downloadAsPNG() {
     downloadBtn.disabled = true;
     
     try {
-        // Create a temporary div with the text
-        const tempDiv = document.createElement('div');
-        tempDiv.style.position = 'absolute';
-        tempDiv.style.left = '-9999px';
-        tempDiv.style.top = '-9999px';
-        tempDiv.style.fontSize = textDisplay.style.fontSize;
-        tempDiv.style.fontFamily = textDisplay.style.fontFamily;
-        tempDiv.style.color = textDisplay.style.color;
-        tempDiv.style.textShadow = textDisplay.style.textShadow;
-        tempDiv.style.fontWeight = textDisplay.style.fontWeight;
-        tempDiv.style.background = textDisplay.style.background;
-        tempDiv.style.webkitBackgroundClip = textDisplay.style.webkitBackgroundClip;
-        tempDiv.style.backgroundClip = textDisplay.style.backgroundClip;
-        tempDiv.style.webkitTextStroke = textDisplay.style.webkitTextStroke;
-        tempDiv.style.letterSpacing = textDisplay.style.letterSpacing;
-        tempDiv.style.transform = textDisplay.style.transform;
-        tempDiv.style.fontStyle = textDisplay.style.fontStyle;
-        tempDiv.style.textTransform = textDisplay.style.textTransform;
-        tempDiv.textContent = textDisplay.textContent;
-        document.body.appendChild(tempDiv);
-        
-        // Get dimensions
         const text = textInput ? textInput.value.trim() || 'AuraText' : 'AuraText';
         
-        // Create a simple download with canvas (basic version)
+        // Create a simple download with canvas
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         
@@ -536,14 +678,13 @@ function downloadAsPNG() {
         ctx.fillStyle = '#f5f7ff';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Draw text with simple styling (basic fallback)
+        // Draw text
         ctx.font = `bold 60px Arial`;
         ctx.fillStyle = currentColor;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
         
-        // Add some glow effect
+        // Add glow effect
         ctx.shadowColor = currentColor;
         ctx.shadowBlur = 20;
         ctx.fillText(text, canvas.width / 2, canvas.height / 2);
@@ -553,15 +694,12 @@ function downloadAsPNG() {
         const imageURL = canvas.toDataURL('image/png');
         const link = document.createElement('a');
         link.href = imageURL;
-        link.download = `auratext-${text}-${currentEffect}.png`;
+        link.download = `auratext-${text.replace(/\s+/g, '-')}-${currentEffect}.png`;
         
         // Trigger download
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
-        // Clean up
-        document.body.removeChild(tempDiv);
         
         showToast('Image downloaded!');
         
