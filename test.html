@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        .success {
+            color: green;
+            font-size: 24px;
+            margin: 20px;
+        }
+        .error {
+            color: red;
+            font-size: 24px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>AuraText Deployment Test</h1>
+    
+    <div id="css-test">
+        <h2>CSS Test:</h2>
+        <div id="css-result" class="error">❌ CSS not loaded</div>
+    </div>
+    
+    <div id="js-test">
+        <h2>JavaScript Test:</h2>
+        <div id="js-result" class="error">❌ JS not loaded</div>
+    </div>
+    
+    <script>
+        // Test CSS loading
+        setTimeout(function() {
+            var style = window.getComputedStyle(document.body);
+            if (style.fontFamily && style.fontFamily !== 'serif') {
+                document.getElementById('css-result').innerHTML = '✅ CSS loaded successfully';
+                document.getElementById('css-result').className = 'success';
+            }
+            
+            // Test JS
+            if (typeof console !== 'undefined') {
+                document.getElementById('js-result').innerHTML = '✅ JavaScript loaded successfully';
+                document.getElementById('js-result').className = 'success';
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
