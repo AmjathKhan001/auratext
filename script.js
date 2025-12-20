@@ -45,51 +45,48 @@ const textEffects = [
         id: 'aura-glow',
         name: 'Aura Glow',
         apply: (element) => {
-            element.style.fontFamily = "'Monoton', cursive";
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.color = '#fff';
             element.style.textShadow = `
+                0 0 10px ${currentColor},
                 0 0 20px ${currentColor},
+                0 0 30px ${currentColor},
                 0 0 40px ${currentColor},
-                0 0 60px ${currentColor},
-                0 0 80px ${currentColor},
-                0 0 100px ${currentColor}
+                0 0 50px ${currentColor}
             `;
-            element.style.letterSpacing = '3px';
+            element.style.letterSpacing = '2px';
         }
     },
     {
         id: 'purple-aura',
         name: 'Purple Aura',
         apply: (element) => {
-            element.style.fontFamily = "'Poppins', sans-serif";
-            element.style.fontWeight = '900';
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.color = '#fff';
             element.style.textShadow = `
                 0 0 10px #9d4aff,
                 0 0 20px #9d4aff,
                 0 0 30px #9d4aff,
                 0 0 40px #8a2be2,
-                0 0 70px #8a2be2,
-                0 0 80px #8a2be2
+                0 0 60px #8a2be2,
+                0 0 70px #8a2be2
             `;
-            element.style.letterSpacing = '2px';
+            element.style.letterSpacing = '1px';
         }
     },
     {
         id: 'neon-cyan',
         name: 'Neon Cyan',
         apply: (element) => {
-            element.style.fontFamily = "'Bungee', cursive";
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.color = '#00ffff';
             element.style.textShadow = `
                 0 0 10px #00ffff,
                 0 0 20px #00ffff,
                 0 0 30px #00ffff,
                 0 0 40px #008b8b,
-                0 0 70px #008b8b,
-                0 0 80px #008b8b,
-                0 0 100px #008b8b,
-                0 0 150px #008b8b
+                0 0 60px #008b8b,
+                0 0 80px #008b8b
             `;
             element.style.letterSpacing = '1px';
         }
@@ -98,12 +95,12 @@ const textEffects = [
         id: 'bungee-3d',
         name: 'Bungee 3D',
         apply: (element) => {
-            element.style.fontFamily = "'Bungee', cursive";
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.color = currentColor;
             element.style.textShadow = `
-                3px 3px 0 #000,
-                6px 6px 0 rgba(0,0,0,0.2),
-                9px 9px 0 rgba(0,0,0,0.1)
+                2px 2px 0 #000,
+                4px 4px 0 rgba(0,0,0,0.2),
+                6px 6px 0 rgba(0,0,0,0.1)
             `;
             element.style.letterSpacing = '1px';
         }
@@ -112,13 +109,13 @@ const textEffects = [
         id: 'glitch',
         name: 'Glitch',
         apply: (element) => {
-            element.style.fontFamily = "'Rubik Glitch', cursive";
+            element.style.fontFamily = "'Courier New', monospace";
             element.style.color = currentColor;
             element.style.textShadow = `
-                2px 0 #ff00ff,
-                -2px 0 #00ffff
+                1px 0 #ff00ff,
+                -1px 0 #00ffff
             `;
-            element.style.letterSpacing = '2px';
+            element.style.letterSpacing = '1px';
             element.style.animation = 'glitch 0.3s infinite';
         }
     },
@@ -126,8 +123,7 @@ const textEffects = [
         id: 'gradient',
         name: 'Gradient',
         apply: (element) => {
-            element.style.fontFamily = "'Poppins', sans-serif";
-            element.style.fontWeight = '800';
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.background = `linear-gradient(45deg, ${currentColor}, #ff4a4a, #ffb74a)`;
             element.style.webkitBackgroundClip = 'text';
             element.style.backgroundClip = 'text';
@@ -140,10 +136,9 @@ const textEffects = [
         id: 'outline',
         name: 'Outline',
         apply: (element) => {
-            element.style.fontFamily = "'Poppins', sans-serif";
-            element.style.fontWeight = '900';
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.color = 'transparent';
-            element.style.webkitTextStroke = `3px ${currentColor}`;
+            element.style.webkitTextStroke = `2px ${currentColor}`;
             element.style.textShadow = 'none';
             element.style.letterSpacing = '1px';
         }
@@ -153,11 +148,10 @@ const textEffects = [
         name: 'Vintage',
         apply: (element) => {
             element.style.fontFamily = "'Times New Roman', serif";
-            element.style.fontWeight = '700';
             element.style.color = '#8B4513';
             element.style.textShadow = `
-                2px 2px 0 #DEB887,
-                4px 4px 0 rgba(139, 69, 19, 0.3)
+                1px 1px 0 #DEB887,
+                2px 2px 0 rgba(139, 69, 19, 0.3)
             `;
             element.style.letterSpacing = '1px';
             element.style.fontStyle = 'italic';
@@ -168,14 +162,13 @@ const textEffects = [
         name: 'Comic Book',
         apply: (element) => {
             element.style.fontFamily = "'Comic Sans MS', cursive";
-            element.style.fontWeight = '900';
             element.style.color = '#ff4a4a';
             element.style.textShadow = `
-                3px 3px 0 #000,
-                5px 5px 0 rgba(0,0,0,0.2)
+                2px 2px 0 #000,
+                4px 4px 0 rgba(0,0,0,0.2)
             `;
             element.style.letterSpacing = '1px';
-            element.style.transform = 'skew(-5deg)';
+            element.style.transform = 'skew(-3deg)';
         }
     },
     {
@@ -183,13 +176,12 @@ const textEffects = [
         name: 'Elegant',
         apply: (element) => {
             element.style.fontFamily = "'Georgia', serif";
-            element.style.fontWeight = '400';
             element.style.color = '#333';
             element.style.textShadow = `
                 1px 1px 0 #fff,
                 2px 2px 0 rgba(0,0,0,0.1)
             `;
-            element.style.letterSpacing = '3px';
+            element.style.letterSpacing = '2px';
             element.style.textTransform = 'uppercase';
         }
     },
@@ -197,13 +189,12 @@ const textEffects = [
         id: 'fire',
         name: 'Fire',
         apply: (element) => {
-            element.style.fontFamily = "'Poppins', sans-serif";
-            element.style.fontWeight = '900';
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.background = 'linear-gradient(to bottom, #ff4a4a, #ffb74a)';
             element.style.webkitBackgroundClip = 'text';
             element.style.backgroundClip = 'text';
             element.style.color = 'transparent';
-            element.style.textShadow = '0 0 20px #ff4a4a';
+            element.style.textShadow = '0 0 10px #ff4a4a';
             element.style.letterSpacing = '1px';
         }
     },
@@ -211,12 +202,11 @@ const textEffects = [
         id: 'ice',
         name: 'Ice',
         apply: (element) => {
-            element.style.fontFamily = "'Poppins', sans-serif";
-            element.style.fontWeight = '900';
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.color = '#4aefff';
             element.style.textShadow = `
+                0 0 5px #4aefff,
                 0 0 10px #4aefff,
-                0 0 20px #4aefff,
                 1px 1px 0 #0066cc,
                 2px 2px 0 #0066cc
             `;
@@ -227,14 +217,14 @@ const textEffects = [
         id: 'shadow',
         name: 'Long Shadow',
         apply: (element) => {
-            element.style.fontFamily = "'Poppins', sans-serif";
-            element.style.fontWeight = '900';
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.color = currentColor;
             
+            // Create long shadow effect
             let shadow = '';
-            for(let i = 1; i <= 20; i++) {
+            for(let i = 1; i <= 15; i++) {
                 shadow += `${i}px ${i}px 0 rgba(0,0,0,${0.1 + (i * 0.02)})`;
-                if(i < 20) shadow += ', ';
+                if(i < 15) shadow += ', ';
             }
             
             element.style.textShadow = shadow;
@@ -245,26 +235,24 @@ const textEffects = [
         id: 'gold',
         name: 'Gold Foil',
         apply: (element) => {
-            element.style.fontFamily = "'Poppins', sans-serif";
-            element.style.fontWeight = '900';
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.background = 'linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C)';
             element.style.webkitBackgroundClip = 'text';
             element.style.backgroundClip = 'text';
             element.style.color = 'transparent';
-            element.style.textShadow = '2px 2px 4px rgba(0,0,0,0.3)';
+            element.style.textShadow = '1px 1px 2px rgba(0,0,0,0.3)';
         }
     },
     {
         id: 'chrome',
         name: 'Chrome',
         apply: (element) => {
-            element.style.fontFamily = "'Poppins', sans-serif";
-            element.style.fontWeight = '900';
+            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
             element.style.background = 'linear-gradient(to right, #757F9A, #D7DDE8)';
             element.style.webkitBackgroundClip = 'text';
             element.style.backgroundClip = 'text';
             element.style.color = 'transparent';
-            element.style.textShadow = '2px 2px 4px rgba(0,0,0,0.3)';
+            element.style.textShadow = '1px 1px 2px rgba(0,0,0,0.3)';
         }
     }
 ];
@@ -306,7 +294,7 @@ function createEffectCards() {
         }
         
         card.innerHTML = `
-            <div class="effect-preview" style="font-size: 24px;">
+            <div class="effect-preview" style="font-size: 22px;">
                 <span class="effect-preview-text">${effect.name}</span>
             </div>
             <div class="effect-name">${effect.name}</div>
@@ -314,14 +302,13 @@ function createEffectCards() {
         
         // Apply preview styling
         const previewText = card.querySelector('.effect-preview-text');
-        previewText.textContent = effect.name.length > 10 ? effect.name.substring(0, 10) + '...' : effect.name;
+        previewText.textContent = effect.name;
         
-        // Create a temporary function to apply effect to preview
-        const tempApply = effect.apply;
+        // Apply the effect to preview
         effect.apply(previewText);
         
         // Reset some styles for preview
-        previewText.style.fontSize = '24px';
+        previewText.style.fontSize = '22px';
         previewText.style.animation = 'none';
         
         card.addEventListener('click', () => {
@@ -345,6 +332,10 @@ function applyEffect(effectId) {
     const effect = textEffects.find(e => e.id === effectId);
     
     if (effect && textDisplay) {
+        // Reset animation first
+        textDisplay.style.animation = 'none';
+        
+        // Apply the effect
         effect.apply(textDisplay);
         
         // Update preview cards
@@ -368,7 +359,7 @@ function updateTextDisplay() {
     
     // Update preview cards text
     document.querySelectorAll('.effect-preview-text').forEach(preview => {
-        preview.textContent = text.length > 10 ? text.substring(0, 10) + '...' : text;
+        preview.textContent = text;
     });
 }
 
@@ -501,97 +492,103 @@ function setupEventListeners() {
 
 // Download text as PNG
 function downloadAsPNG() {
-    if (!textDisplay) return;
+    if (!textDisplay || !downloadBtn) return;
     
     // Show loading state
     const originalText = downloadBtn.innerHTML;
-    downloadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+    downloadBtn.innerHTML = '🔄 Generating...';
     downloadBtn.disabled = true;
     
-    // Use html2canvas to capture the text
-    html2canvas(textDisplay, {
-        backgroundColor: null,
-        scale: 3,
-        width: textDisplay.offsetWidth,
-        height: textDisplay.offsetHeight,
-        onclone: function(clonedDoc) {
-            const clonedText = clonedDoc.getElementById('text-display');
-            if (clonedText) {
-                clonedText.style.fontSize = textDisplay.style.fontSize;
-                clonedText.style.color = textDisplay.style.color;
-                clonedText.style.textShadow = textDisplay.style.textShadow;
-                clonedText.style.fontFamily = textDisplay.style.fontFamily;
-                clonedText.style.fontWeight = textDisplay.style.fontWeight;
-                clonedText.style.background = textDisplay.style.background;
-                clonedText.style.webkitBackgroundClip = textDisplay.style.webkitBackgroundClip;
-                clonedText.style.backgroundClip = textDisplay.style.backgroundClip;
-                clonedText.style.webkitTextStroke = textDisplay.style.webkitTextStroke;
-            }
-        }
-    }).then(canvas => {
-        // Convert canvas to data URL
-        const imageURL = canvas.toDataURL('image/png', 1.0);
+    try {
+        // Create a temporary div with the text
+        const tempDiv = document.createElement('div');
+        tempDiv.style.position = 'absolute';
+        tempDiv.style.left = '-9999px';
+        tempDiv.style.top = '-9999px';
+        tempDiv.style.fontSize = textDisplay.style.fontSize;
+        tempDiv.style.fontFamily = textDisplay.style.fontFamily;
+        tempDiv.style.color = textDisplay.style.color;
+        tempDiv.style.textShadow = textDisplay.style.textShadow;
+        tempDiv.style.fontWeight = textDisplay.style.fontWeight;
+        tempDiv.style.background = textDisplay.style.background;
+        tempDiv.style.webkitBackgroundClip = textDisplay.style.webkitBackgroundClip;
+        tempDiv.style.backgroundClip = textDisplay.style.backgroundClip;
+        tempDiv.style.webkitTextStroke = textDisplay.style.webkitTextStroke;
+        tempDiv.style.letterSpacing = textDisplay.style.letterSpacing;
+        tempDiv.style.transform = textDisplay.style.transform;
+        tempDiv.style.fontStyle = textDisplay.style.fontStyle;
+        tempDiv.style.textTransform = textDisplay.style.textTransform;
+        tempDiv.textContent = textDisplay.textContent;
+        document.body.appendChild(tempDiv);
+        
+        // Get dimensions
+        const text = textInput ? textInput.value.trim() || 'AuraText' : 'AuraText';
+        
+        // Create a simple download with canvas (basic version)
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Set canvas size
+        canvas.width = 800;
+        canvas.height = 400;
+        
+        // Draw background
+        ctx.fillStyle = '#f5f7ff';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw text with simple styling (basic fallback)
+        ctx.font = `bold 60px Arial`;
+        ctx.fillStyle = currentColor;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        
+        // Add some glow effect
+        ctx.shadowColor = currentColor;
+        ctx.shadowBlur = 20;
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        ctx.shadowBlur = 0;
         
         // Create download link
+        const imageURL = canvas.toDataURL('image/png');
         const link = document.createElement('a');
         link.href = imageURL;
-        const text = textInput ? textInput.value.trim() || 'AuraText' : 'AuraText';
-        link.download = `auratext-${text}-${currentEffect}-${Date.now()}.png`;
+        link.download = `auratext-${text}-${currentEffect}.png`;
         
         // Trigger download
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         
+        // Clean up
+        document.body.removeChild(tempDiv);
+        
+        showToast('Image downloaded!');
+        
+    } catch (error) {
+        console.error('Error generating image:', error);
+        showToast('Error generating image', 'error');
+    } finally {
         // Reset button
         downloadBtn.innerHTML = originalText;
         downloadBtn.disabled = false;
-        
-        showToast('Image downloaded successfully!');
-    }).catch(error => {
-        console.error('Error generating image:', error);
-        downloadBtn.innerHTML = originalText;
-        downloadBtn.disabled = false;
-        showToast('Error generating image. Please try again.', 'error');
-    });
+    }
 }
 
 // Save as PDF function
 function saveAsPDF() {
-    if (!textDisplay) return;
+    if (!textDisplay || !printBtn) return;
     
     // Show loading state
     const originalText = printBtn.innerHTML;
-    printBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating PDF...';
+    printBtn.innerHTML = '📄 Creating PDF...';
     printBtn.disabled = true;
     
-    // Use html2canvas first
-    html2canvas(textDisplay, {
-        backgroundColor: null,
-        scale: 2,
-        width: textDisplay.offsetWidth,
-        height: textDisplay.offsetHeight,
-        onclone: function(clonedDoc) {
-            const clonedText = clonedDoc.getElementById('text-display');
-            if (clonedText) {
-                clonedText.style.fontSize = textDisplay.style.fontSize;
-                clonedText.style.color = textDisplay.style.color;
-                clonedText.style.textShadow = textDisplay.style.textShadow;
-                clonedText.style.fontFamily = textDisplay.style.fontFamily;
-                clonedText.style.fontWeight = textDisplay.style.fontWeight;
-                clonedText.style.background = textDisplay.style.background;
-                clonedText.style.webkitBackgroundClip = textDisplay.style.webkitBackgroundClip;
-                clonedText.style.backgroundClip = textDisplay.style.backgroundClip;
-                clonedText.style.webkitTextStroke = textDisplay.style.webkitTextStroke;
-            }
-        }
-    }).then(canvas => {
-        // Convert canvas to image data
-        const imgData = canvas.toDataURL('image/png');
-        
-        // Create a new window for printing
-        const printWindow = window.open('', '_blank');
+    try {
         const text = textInput ? textInput.value.trim() || 'AuraText' : 'AuraText';
+        
+        // Create print window
+        const printWindow = window.open('', '_blank');
         
         printWindow.document.write(`
             <!DOCTYPE html>
@@ -601,21 +598,13 @@ function saveAsPDF() {
                 <style>
                     body {
                         font-family: Arial, sans-serif;
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        min-height: 100vh;
-                        margin: 0;
-                        padding: 20px;
-                        background: #f5f5f5;
+                        padding: 40px;
+                        background: white;
                     }
                     .print-container {
-                        text-align: center;
-                        background: white;
-                        padding: 40px;
-                        border-radius: 10px;
-                        box-shadow: 0 0 20px rgba(0,0,0,0.1);
                         max-width: 800px;
+                        margin: 0 auto;
+                        text-align: center;
                     }
                     .logo {
                         font-size: 24px;
@@ -623,37 +612,25 @@ function saveAsPDF() {
                         color: #8a2be2;
                         margin-bottom: 20px;
                     }
-                    .print-image {
-                        max-width: 100%;
-                        height: auto;
-                        margin: 20px 0;
+                    .text-display {
+                        font-size: 48px;
+                        font-weight: bold;
+                        margin: 40px 0;
+                        padding: 30px;
+                        background: #f5f7ff;
+                        border-radius: 12px;
+                        word-break: break-word;
                     }
                     .details {
                         text-align: left;
                         margin-top: 30px;
-                        padding-top: 20px;
-                        border-top: 1px solid #eee;
-                    }
-                    .details h3 {
-                        color: #333;
-                        margin-bottom: 10px;
-                    }
-                    .details p {
-                        margin: 5px 0;
-                        color: #666;
+                        padding: 20px;
+                        background: #f8f9fa;
+                        border-radius: 8px;
                     }
                     @media print {
-                        body {
-                            background: white;
-                            padding: 0;
-                        }
-                        .print-container {
-                            box-shadow: none;
-                            padding: 0;
-                        }
-                        .no-print {
-                            display: none;
-                        }
+                        body { padding: 20px; }
+                        .no-print { display: none; }
                     }
                 </style>
             </head>
@@ -661,7 +638,16 @@ function saveAsPDF() {
                 <div class="print-container">
                     <div class="logo">AuraText Generator</div>
                     <h1>Your Text Effect</h1>
-                    <img src="${imgData}" alt="${text} with ${currentEffect} effect" class="print-image">
+                    
+                    <div class="text-display" style="
+                        font-family: ${textDisplay.style.fontFamily || 'Arial'};
+                        color: ${textDisplay.style.color || '#8a2be2'};
+                        text-shadow: ${textDisplay.style.textShadow || 'none'};
+                        background: ${textDisplay.style.background || 'none'};
+                        -webkit-text-stroke: ${textDisplay.style.webkitTextStroke || 'none'};
+                    ">
+                        ${text}
+                    </div>
                     
                     <div class="details">
                         <h3>Details:</h3>
@@ -673,19 +659,36 @@ function saveAsPDF() {
                     </div>
                     
                     <div class="no-print" style="margin-top: 30px;">
-                        <button onclick="window.print()" style="padding: 10px 20px; background: #8a2be2; color: white; border: none; border-radius: 5px; cursor: pointer; margin-right: 10px;">
-                            Print
+                        <button onclick="window.print()" style="
+                            padding: 12px 24px;
+                            background: #8a2be2;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            margin-right: 10px;
+                            font-size: 16px;
+                        ">
+                            🖨️ Print
                         </button>
-                        <button onclick="window.close()" style="padding: 10px 20px; background: #666; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                            Close
+                        <button onclick="window.close()" style="
+                            padding: 12px 24px;
+                            background: #666;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            cursor: pointer;
+                            font-size: 16px;
+                        ">
+                            ❌ Close
                         </button>
                     </div>
                 </div>
                 <script>
-                    // Auto-print option (optional)
-                    // window.onload = function() {
-                    //     window.print();
-                    // }
+                    // Auto-focus print dialog
+                    setTimeout(() => {
+                        window.print();
+                    }, 500);
                 </script>
             </body>
             </html>
@@ -693,18 +696,16 @@ function saveAsPDF() {
         
         printWindow.document.close();
         
+        showToast('PDF ready for printing!');
+        
+    } catch (error) {
+        console.error('Error creating PDF:', error);
+        showToast('Error creating PDF', 'error');
+    } finally {
         // Reset button
         printBtn.innerHTML = originalText;
         printBtn.disabled = false;
-        
-        showToast('PDF ready for printing!');
-        
-    }).catch(error => {
-        console.error('Error creating PDF:', error);
-        printBtn.innerHTML = originalText;
-        printBtn.disabled = false;
-        showToast('Error creating PDF. Please try again.', 'error');
-    });
+    }
 }
 
 // Copy CSS style to clipboard
@@ -757,11 +758,13 @@ function showToast(message, type = 'success') {
     
     // Set color based on type
     if (type === 'error') {
-        toast.style.backgroundColor = 'var(--danger-color)';
+        toast.style.backgroundColor = '#dc3545';
     } else if (type === 'warning') {
-        toast.style.backgroundColor = 'var(--warning-color)';
+        toast.style.backgroundColor = '#ffc107';
+        toast.style.color = '#000';
     } else {
-        toast.style.backgroundColor = 'var(--primary-color)';
+        toast.style.backgroundColor = '#8a2be2';
+        toast.style.color = '#fff';
     }
     
     // Show toast
@@ -773,23 +776,9 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
-// Add glitch animation CSS
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes glitch {
-        0% { transform: translate(0); }
-        20% { transform: translate(-2px, 2px); }
-        40% { transform: translate(-2px, -2px); }
-        60% { transform: translate(2px, 2px); }
-        80% { transform: translate(2px, -2px); }
-        100% { transform: translate(0); }
-    }
-    
-    .effect-preview-text {
-        transition: all 0.3s ease;
-    }
-`;
-document.head.appendChild(style);
-
 // Initialize the app when DOM is loaded
-document.addEventListener('DOMContentLoaded', init);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
