@@ -1,922 +1,464 @@
 // DOM Elements
-const textInput = document.getElementById('text-input');
-const textDisplay = document.getElementById('text-display');
-const textColorPicker = document.getElementById('text-color');
-const fontSizeSlider = document.getElementById('font-size');
-const fontSizeValue = document.getElementById('font-size-value');
-const clearBtn = document.getElementById('clear-btn');
-const randomBtn = document.getElementById('random-btn');
-const downloadBtn = document.getElementById('download-btn');
-const printBtn = document.getElementById('print-btn');
-const copyBtn = document.getElementById('copy-btn');
+const textPreview = document.getElementById('textPreview');
+const textInput = document.getElementById('textInput');
+const fontSize = document.getElementById('fontSize');
+const fontSizeValue = document.getElementById('fontSizeValue');
+const textColor = document.getElementById('textColor');
+const bgColor = document.getElementById('bgColor');
+const layersContainer = document.getElementById('layersContainer');
+const addLayerBtn = document.getElementById('addLayer');
+const resetLayersBtn = document.getElementById('resetLayers');
+const downloadPNGBtn = document.getElementById('downloadPNG');
+const savePDFBtn = document.getElementById('savePDF');
+const copyCSSBtn = document.getElementById('copyCSS');
 const effectsGrid = document.querySelector('.effects-grid');
 const toast = document.getElementById('toast');
-const toastMessage = document.getElementById('toast-message');
-const colorSwatches = document.querySelectorAll('.color-swatch');
-const visitorCounter = document.getElementById('visitor-counter');
-const footerVisitorCounter = document.getElementById('footer-visitor-counter');
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
 
-// Current state
-let currentEffect = 'aura-glow';
-let currentColor = '#8a2be2';
+// State
+let layers = [];
+let currentLayerId = 1;
 
-// Visitor counter - Using localStorage for demo
-let visitorCount = localStorage.getItem('auratext_visitors') || 12547;
-
-// Update visitor counter
-function updateVisitorCounter() {
-    // Increment count
-    visitorCount = parseInt(visitorCount) + 1;
-    localStorage.setItem('auratext_visitors', visitorCount);
-    
-    // Format number with commas
-    const formattedCount = visitorCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    
-    // Update both counters
-    if (visitorCounter) visitorCounter.textContent = formattedCount;
-    if (footerVisitorCounter) footerVisitorCounter.textContent = formattedCount;
-}
-
-// Text effects data
-const textEffects = [
-    {
-        id: 'aura-glow',
-        name: 'Aura Glow',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = '#fff';
-            element.style.textShadow = `
-                0 0 10px ${currentColor},
-                0 0 20px ${currentColor},
-                0 0 30px ${currentColor},
-                0 0 40px ${currentColor},
-                0 0 50px ${currentColor}
-            `;
-            element.style.letterSpacing = '2px';
-        }
-    },
-    {
-        id: 'purple-aura',
-        name: 'Purple Aura',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = '#fff';
-            element.style.textShadow = `
-                0 0 10px #9d4aff,
-                0 0 20px #9d4aff,
-                0 0 30px #9d4aff,
-                0 0 40px #8a2be2,
-                0 0 60px #8a2be2,
-                0 0 70px #8a2be2
-            `;
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'neon-cyan',
-        name: 'Neon Cyan',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = '#00ffff';
-            element.style.textShadow = `
-                0 0 10px #00ffff,
-                0 0 20px #00ffff,
-                0 0 30px #00ffff,
-                0 0 40px #008b8b,
-                0 0 60px #008b8b,
-                0 0 80px #008b8b
-            `;
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'bungee-3d',
-        name: 'Bungee 3D',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = currentColor;
-            element.style.textShadow = `
-                2px 2px 0 #000,
-                4px 4px 0 rgba(0,0,0,0.2),
-                6px 6px 0 rgba(0,0,0,0.1)
-            `;
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'glitch',
-        name: 'Glitch',
-        apply: (element) => {
-            element.style.fontFamily = "'Courier New', monospace";
-            element.style.color = currentColor;
-            element.style.textShadow = `
-                1px 0 #ff00ff,
-                -1px 0 #00ffff
-            `;
-            element.style.letterSpacing = '1px';
-            element.style.animation = 'glitch 0.3s infinite';
-        }
-    },
-    {
-        id: 'gradient',
-        name: 'Gradient',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.background = `linear-gradient(45deg, ${currentColor}, #ff4a4a, #ffb74a)`;
-            element.style.webkitBackgroundClip = 'text';
-            element.style.backgroundClip = 'text';
-            element.style.color = 'transparent';
-            element.style.textShadow = 'none';
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'outline',
-        name: 'Outline',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = 'transparent';
-            element.style.webkitTextStroke = `2px ${currentColor}`;
-            element.style.textShadow = 'none';
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'vintage',
-        name: 'Vintage',
-        apply: (element) => {
-            element.style.fontFamily = "'Times New Roman', serif";
-            element.style.color = '#8B4513';
-            element.style.textShadow = `
-                1px 1px 0 #DEB887,
-                2px 2px 0 rgba(139, 69, 19, 0.3)
-            `;
-            element.style.letterSpacing = '1px';
-            element.style.fontStyle = 'italic';
-        }
-    },
-    {
-        id: 'comic',
-        name: 'Comic Book',
-        apply: (element) => {
-            element.style.fontFamily = "'Comic Sans MS', cursive";
-            element.style.color = '#ff4a4a';
-            element.style.textShadow = `
-                2px 2px 0 #000,
-                4px 4px 0 rgba(0,0,0,0.2)
-            `;
-            element.style.letterSpacing = '1px';
-            element.style.transform = 'skew(-3deg)';
-        }
-    },
-    {
-        id: 'elegant',
-        name: 'Elegant',
-        apply: (element) => {
-            element.style.fontFamily = "'Georgia', serif";
-            element.style.color = '#333';
-            element.style.textShadow = `
-                1px 1px 0 #fff,
-                2px 2px 0 rgba(0,0,0,0.1)
-            `;
-            element.style.letterSpacing = '2px';
-            element.style.textTransform = 'uppercase';
-        }
-    },
-    {
-        id: 'fire',
-        name: 'Fire',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.background = 'linear-gradient(to bottom, #ff4a4a, #ffb74a)';
-            element.style.webkitBackgroundClip = 'text';
-            element.style.backgroundClip = 'text';
-            element.style.color = 'transparent';
-            element.style.textShadow = '0 0 10px #ff4a4a';
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'ice',
-        name: 'Ice',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = '#4aefff';
-            element.style.textShadow = `
-                0 0 5px #4aefff,
-                0 0 10px #4aefff,
-                1px 1px 0 #0066cc,
-                2px 2px 0 #0066cc
-            `;
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'shadow',
-        name: 'Long Shadow',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = currentColor;
-            
-            // Create long shadow effect
-            let shadow = '';
-            for(let i = 1; i <= 15; i++) {
-                shadow += `${i}px ${i}px 0 rgba(0,0,0,${0.1 + (i * 0.02)})`;
-                if(i < 15) shadow += ', ';
-            }
-            
-            element.style.textShadow = shadow;
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'gold',
-        name: 'Gold Foil',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.background = 'linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C)';
-            element.style.webkitBackgroundClip = 'text';
-            element.style.backgroundClip = 'text';
-            element.style.color = 'transparent';
-            element.style.textShadow = '1px 1px 2px rgba(0,0,0,0.3)';
-        }
-    },
-    {
-        id: 'chrome',
-        name: 'Chrome',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.background = 'linear-gradient(to right, #757F9A, #D7DDE8)';
-            element.style.webkitBackgroundClip = 'text';
-            element.style.backgroundClip = 'text';
-            element.style.color = 'transparent';
-            element.style.textShadow = '1px 1px 2px rgba(0,0,0,0.3)';
-        }
-    },
-    {
-        id: 'rainbow',
-        name: 'Rainbow',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.background = 'linear-gradient(45deg, #ff0000, #ff9900, #ffff00, #00ff00, #0099ff, #6600ff, #ff00ff)';
-            element.style.webkitBackgroundClip = 'text';
-            element.style.backgroundClip = 'text';
-            element.style.color = 'transparent';
-            element.style.textShadow = '0 0 10px rgba(255,255,255,0.5)';
-            element.style.letterSpacing = '2px';
-        }
-    },
-    {
-        id: 'matrix',
-        name: 'Matrix',
-        apply: (element) => {
-            element.style.fontFamily = "'Courier New', monospace";
-            element.style.color = '#00ff41';
-            element.style.textShadow = `
-                0 0 5px #00ff41,
-                0 0 10px #00ff41,
-                0 0 20px #00ff41
-            `;
-            element.style.letterSpacing = '1px';
-            element.style.animation = 'none';
-        }
-    },
-    {
-        id: 'galaxy',
-        name: 'Galaxy',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.background = 'linear-gradient(45deg, #9d00ff, #ff00ff, #00ffff)';
-            element.style.webkitBackgroundClip = 'text';
-            element.style.backgroundClip = 'text';
-            element.style.color = 'transparent';
-            element.style.textShadow = '0 0 20px rgba(157,0,255,0.5)';
-            element.style.letterSpacing = '2px';
-        }
-    },
-    {
-        id: 'metallic',
-        name: 'Metallic',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.background = 'linear-gradient(to bottom, #aaa, #fff, #666, #aaa)';
-            element.style.webkitBackgroundClip = 'text';
-            element.style.backgroundClip = 'text';
-            element.style.color = 'transparent';
-            element.style.textShadow = '2px 2px 4px rgba(0,0,0,0.5)';
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'holographic',
-        name: 'Holographic',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = '#ffffff';
-            element.style.textShadow = `
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 15px #fff,
-                0 0 20px #00ffff,
-                0 0 35px #00ffff,
-                0 0 40px #00ffff
-            `;
-            element.style.letterSpacing = '3px';
-        }
-    },
-    {
-        id: 'psychedelic',
-        name: 'Psychedelic',
-        apply: (element) => {
-            element.style.fontFamily = "'Comic Sans MS', cursive";
-            element.style.background = 'linear-gradient(45deg, #ff0000, #ff00ff, #0000ff, #00ffff, #00ff00)';
-            element.style.webkitBackgroundClip = 'text';
-            element.style.backgroundClip = 'text';
-            element.style.color = 'transparent';
-            element.style.animation = 'none';
-            element.style.letterSpacing = '1px';
-        }
-    },
-    {
-        id: 'cyberpunk',
-        name: 'Cyberpunk',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = '#00ffff';
-            element.style.textShadow = `
-                0 0 5px #00ffff,
-                0 0 10px #00ffff,
-                0 0 20px #ff00ff,
-                0 0 30px #ff00ff
-            `;
-            element.style.letterSpacing = '2px';
-        }
-    },
-    {
-        id: 'water',
-        name: 'Water',
-        apply: (element) => {
-            element.style.fontFamily = "'Arial Black', 'Arial Bold', Gadget, sans-serif";
-            element.style.color = '#4aefff';
-            element.style.textShadow = `
-                1px 1px 0 #0066cc,
-                2px 2px 0 #0066cc,
-                0 0 10px #4aefff,
-                0 0 20px #4aefff
-            `;
-            element.style.letterSpacing = '1px';
-        }
-    }
-];
-
-// Initialize the app
+// Initialize
 function init() {
-    // Update visitor counter
-    updateVisitorCounter();
+    // Load saved state
+    loadState();
     
-    // Set initial text
-    updateTextDisplay();
+    // Create first layer
+    createLayer();
     
-    // Create effect cards
-    createEffectCards();
+    // Initialize controls
+    updateTextPreview();
     
-    // Apply default effect
-    applyEffect(currentEffect);
+    // Generate effects
+    generateEffects();
     
     // Setup event listeners
     setupEventListeners();
-    
-    // Setup color swatches
-    setupColorSwatches();
-    
-    // Fix navigation links
-    setupNavigation();
 }
 
-// Create effect cards for the gallery
-function createEffectCards() {
-    if (!effectsGrid) return;
+// Load state from localStorage
+function loadState() {
+    const savedState = localStorage.getItem('auraTextState');
+    if (savedState) {
+        const state = JSON.parse(savedState);
+        textInput.value = state.text || 'AuraText';
+        fontSize.value = state.fontSize || 60;
+        textColor.value = state.textColor || '#ffffff';
+        bgColor.value = state.bgColor || '#1a1a2e';
+        
+        if (state.layers && state.layers.length > 0) {
+            layers = state.layers;
+            currentLayerId = Math.max(...layers.map(l => l.id)) + 1;
+            renderLayers();
+        }
+    }
+}
+
+// Save state to localStorage
+function saveState() {
+    const state = {
+        text: textInput.value,
+        fontSize: fontSize.value,
+        textColor: textColor.value,
+        bgColor: bgColor.value,
+        layers: layers
+    };
+    localStorage.setItem('auraTextState', JSON.stringify(state));
+}
+
+// Create a new layer
+function createLayer() {
+    const layer = {
+        id: currentLayerId++,
+        offsetX: 5,
+        offsetY: 5,
+        blur: 10,
+        color: '#ff6b6b',
+        spread: 0
+    };
+    
+    layers.push(layer);
+    renderLayers();
+    updateTextPreview();
+    saveState();
+}
+
+// Render all layers
+function renderLayers() {
+    layersContainer.innerHTML = '';
+    
+    layers.forEach((layer, index) => {
+        const layerElement = document.createElement('div');
+        layerElement.className = 'layer-controls';
+        layerElement.innerHTML = `
+            <div class="layer-header">
+                <h3>Layer ${index + 1}</h3>
+                ${layers.length > 1 ? '<button class="btn btn-secondary btn-sm remove-layer" data-id="' + layer.id + '"><i class="fas fa-times"></i> Remove</button>' : ''}
+            </div>
+            <div class="layer-grid">
+                <div class="layer-control">
+                    <label>Horizontal Offset: <span class="value" id="offsetXValue${layer.id}">${layer.offsetX}px</span></label>
+                    <input type="range" class="offset-x" data-id="${layer.id}" min="-50" max="50" value="${layer.offsetX}">
+                </div>
+                <div class="layer-control">
+                    <label>Vertical Offset: <span class="value" id="offsetYValue${layer.id}">${layer.offsetY}px</span></label>
+                    <input type="range" class="offset-y" data-id="${layer.id}" min="-50" max="50" value="${layer.offsetY}">
+                </div>
+                <div class="layer-control">
+                    <label>Blur Radius: <span class="value" id="blurValue${layer.id}">${layer.blur}px</span></label>
+                    <input type="range" class="blur" data-id="${layer.id}" min="0" max="50" value="${layer.blur}">
+                </div>
+                <div class="layer-control">
+                    <label>Spread: <span class="value" id="spreadValue${layer.id}">${layer.spread}px</span></label>
+                    <input type="range" class="spread" data-id="${layer.id}" min="0" max="50" value="${layer.spread}">
+                </div>
+                <div class="layer-control">
+                    <label>Color</label>
+                    <input type="color" class="color" data-id="${layer.id}" value="${layer.color}">
+                </div>
+            </div>
+        `;
+        layersContainer.appendChild(layerElement);
+    });
+    
+    // Add event listeners to layer controls
+    attachLayerEvents();
+}
+
+// Attach events to layer controls
+function attachLayerEvents() {
+    document.querySelectorAll('.offset-x').forEach(input => {
+        input.addEventListener('input', function() {
+            const id = parseInt(this.dataset.id);
+            const layer = layers.find(l => l.id === id);
+            layer.offsetX = parseInt(this.value);
+            document.getElementById(`offsetXValue${id}`).textContent = `${layer.offsetX}px`;
+            updateTextPreview();
+            saveState();
+        });
+    });
+    
+    document.querySelectorAll('.offset-y').forEach(input => {
+        input.addEventListener('input', function() {
+            const id = parseInt(this.dataset.id);
+            const layer = layers.find(l => l.id === id);
+            layer.offsetY = parseInt(this.value);
+            document.getElementById(`offsetYValue${id}`).textContent = `${layer.offsetY}px`;
+            updateTextPreview();
+            saveState();
+        });
+    });
+    
+    document.querySelectorAll('.blur').forEach(input => {
+        input.addEventListener('input', function() {
+            const id = parseInt(this.dataset.id);
+            const layer = layers.find(l => l.id === id);
+            layer.blur = parseInt(this.value);
+            document.getElementById(`blurValue${id}`).textContent = `${layer.blur}px`;
+            updateTextPreview();
+            saveState();
+        });
+    });
+    
+    document.querySelectorAll('.spread').forEach(input => {
+        input.addEventListener('input', function() {
+            const id = parseInt(this.dataset.id);
+            const layer = layers.find(l => l.id === id);
+            layer.spread = parseInt(this.value);
+            document.getElementById(`spreadValue${id}`).textContent = `${layer.spread}px`;
+            updateTextPreview();
+            saveState();
+        });
+    });
+    
+    document.querySelectorAll('.color').forEach(input => {
+        input.addEventListener('input', function() {
+            const id = parseInt(this.dataset.id);
+            const layer = layers.find(l => l.id === id);
+            layer.color = this.value;
+            updateTextPreview();
+            saveState();
+        });
+    });
+    
+    document.querySelectorAll('.remove-layer').forEach(button => {
+        button.addEventListener('click', function() {
+            const id = parseInt(this.dataset.id);
+            layers = layers.filter(l => l.id !== id);
+            renderLayers();
+            updateTextPreview();
+            saveState();
+        });
+    });
+}
+
+// Update text preview
+function updateTextPreview() {
+    // Update text content
+    textPreview.textContent = textInput.value || 'AuraText';
+    
+    // Update font size
+    const size = `${fontSize.value}px`;
+    textPreview.style.fontSize = size;
+    fontSizeValue.textContent = size;
+    
+    // Update colors
+    textPreview.style.color = textColor.value;
+    document.body.style.backgroundColor = bgColor.value;
+    
+    // Update text shadow
+    const shadows = layers.map(layer => 
+        `${layer.offsetX}px ${layer.offsetY}px ${layer.blur}px ${layer.spread}px ${layer.color}`
+    ).join(', ');
+    
+    textPreview.style.textShadow = shadows || 'none';
+}
+
+// Generate preset effects
+function generateEffects() {
+    const effects = [
+        {
+            name: "Neon Glow",
+            description: "Bright neon effect with blue glow",
+            shadows: [
+                { offsetX: 0, offsetY: 0, blur: 20, spread: 0, color: '#00ffff' },
+                { offsetX: 0, offsetY: 0, blur: 40, spread: 0, color: '#0080ff' },
+                { offsetX: 0, offsetY: 0, blur: 60, spread: 0, color: '#0000ff' }
+            ],
+            textColor: '#ffffff',
+            bgColor: '#000000'
+        },
+        {
+            name: "Fire Text",
+            description: "Hot fire effect with orange and red",
+            shadows: [
+                { offsetX: 0, offsetY: 0, blur: 10, spread: 0, color: '#ff3300' },
+                { offsetX: 0, offsetY: 0, blur: 20, spread: 0, color: '#ff6600' },
+                { offsetX: 0, offsetY: 0, blur: 30, spread: 0, color: '#ff9900' }
+            ],
+            textColor: '#ffff00',
+            bgColor: '#330000'
+        },
+        {
+            name: "3D Pop",
+            description: "Realistic 3D shadow effect",
+            shadows: [
+                { offsetX: 2, offsetY: 2, blur: 0, spread: 0, color: '#555555' },
+                { offsetX: 4, offsetY: 4, blur: 0, spread: 0, color: '#333333' },
+                { offsetX: 6, offsetY: 6, blur: 0, spread: 0, color: '#111111' }
+            ],
+            textColor: '#ffffff',
+            bgColor: '#666666'
+        },
+        {
+            name: "Soft Glow",
+            description: "Subtle soft shadow glow",
+            shadows: [
+                { offsetX: 0, offsetY: 0, blur: 30, spread: 0, color: 'rgba(255, 255, 255, 0.5)' },
+                { offsetX: 0, offsetY: 0, blur: 60, spread: 0, color: 'rgba(255, 255, 255, 0.3)' }
+            ],
+            textColor: '#f0f0f0',
+            bgColor: '#2a2a2a'
+        },
+        {
+            name: "Rainbow Aura",
+            description: "Colorful rainbow shadow effect",
+            shadows: [
+                { offsetX: 5, offsetY: 5, blur: 15, spread: 0, color: '#ff0000' },
+                { offsetX: -5, offsetY: -5, blur: 15, spread: 0, color: '#00ff00' },
+                { offsetX: 5, offsetY: -5, blur: 15, spread: 0, color: '#0000ff' },
+                { offsetX: -5, offsetY: 5, blur: 15, spread: 0, color: '#ffff00' }
+            ],
+            textColor: '#ffffff',
+            bgColor: '#222222'
+        },
+        {
+            name: "Cyberpunk",
+            description: "Cyberpunk style with purple and blue",
+            shadows: [
+                { offsetX: 0, offsetY: 0, blur: 20, spread: 0, color: '#ff00ff' },
+                { offsetX: 0, offsetY: 0, blur: 40, spread: 0, color: '#00ffff' },
+                { offsetX: 0, offsetY: 0, blur: 60, spread: 0, color: '#0000ff' }
+            ],
+            textColor: '#00ff00',
+            bgColor: '#0a0a1a'
+        }
+    ];
     
     effectsGrid.innerHTML = '';
     
-    textEffects.forEach(effect => {
-        const card = document.createElement('div');
-        card.className = 'effect-card';
-        card.dataset.effect = effect.id;
+    effects.forEach((effect, index) => {
+        const effectCard = document.createElement('div');
+        effectCard.className = 'effect-card';
+        effectCard.dataset.index = index;
         
-        if (effect.id === currentEffect) {
-            card.classList.add('active');
-        }
+        // Create preview shadow
+        const previewShadows = effect.shadows.map(s => 
+            `${s.offsetX}px ${s.offsetY}px ${s.blur}px ${s.spread}px ${s.color}`
+        ).join(', ');
         
-        card.innerHTML = `
-            <div class="effect-preview" style="font-size: 22px;">
-                <span class="effect-preview-text">${effect.name}</span>
+        effectCard.innerHTML = `
+            <div class="effect-preview" style="color: ${effect.textColor}; text-shadow: ${previewShadows}; background: ${effect.bgColor}">
+                Aura
             </div>
-            <div class="effect-name">${effect.name}</div>
+            <h3>${effect.name}</h3>
+            <p>${effect.description}</p>
         `;
         
-        // Apply preview styling
-        const previewText = card.querySelector('.effect-preview-text');
-        previewText.textContent = effect.name;
-        
-        // Apply the effect to preview
-        effect.apply(previewText);
-        
-        // Reset some styles for preview
-        previewText.style.fontSize = '22px';
-        previewText.style.animation = 'none';
-        
-        card.addEventListener('click', () => {
-            applyEffect(effect.id);
-            showToast(`"${effect.name}" effect applied!`);
-            
-            // Update active card
-            document.querySelectorAll('.effect-card').forEach(c => {
-                c.classList.remove('active');
-            });
-            card.classList.add('active');
-        });
-        
-        effectsGrid.appendChild(card);
+        effectCard.addEventListener('click', () => applyEffect(effect));
+        effectsGrid.appendChild(effectCard);
     });
 }
 
-// Apply a specific effect
-function applyEffect(effectId) {
-    currentEffect = effectId;
-    const effect = textEffects.find(e => e.id === effectId);
+// Apply selected effect
+function applyEffect(effect) {
+    layers = effect.shadows.map((shadow, index) => ({
+        id: currentLayerId++,
+        ...shadow
+    }));
     
-    if (effect && textDisplay) {
-        // Reset animation first
-        textDisplay.style.animation = 'none';
-        
-        // Apply the effect
-        effect.apply(textDisplay);
-        
-        // Update preview cards
-        document.querySelectorAll('.effect-card').forEach(card => {
-            const cardEffectId = card.dataset.effect;
-            if (cardEffectId === effectId) {
-                card.classList.add('active');
-            } else {
-                card.classList.remove('active');
-            }
-        });
-    }
+    textColor.value = effect.textColor;
+    bgColor.value = effect.bgColor;
+    
+    renderLayers();
+    updateTextPreview();
+    saveState();
+    
+    showToast(`Applied ${effect.name} effect!`);
 }
 
-// Update the text display
-function updateTextDisplay() {
-    const text = textInput.value.trim() || 'AuraText';
-    if (textDisplay) {
-        textDisplay.textContent = text;
-    }
+// Download as PNG
+function downloadPNG() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const text = textPreview;
     
-    // Update preview cards text
-    document.querySelectorAll('.effect-preview-text').forEach(preview => {
-        preview.textContent = text;
-    });
-}
-
-// Setup color swatches
-function setupColorSwatches() {
-    colorSwatches.forEach(swatch => {
-        swatch.addEventListener('click', () => {
-            const color = swatch.dataset.color;
-            currentColor = color;
-            if (textColorPicker) textColorPicker.value = color;
-            
-            // Update active swatch
-            colorSwatches.forEach(s => s.classList.remove('active'));
-            swatch.classList.add('active');
-            
-            // Re-apply current effect with new color
-            applyEffect(currentEffect);
-            showToast(`Color changed to ${color}`);
-        });
-    });
+    // Get computed styles
+    const style = window.getComputedStyle(text);
+    const fontSize = parseFloat(style.fontSize);
+    const fontFamily = style.fontFamily;
+    const color = style.color;
     
-    // Set first swatch as active
-    if (colorSwatches.length > 0) {
-        colorSwatches[0].classList.add('active');
-    }
-}
-
-// Setup navigation links
-function setupNavigation() {
-    // Fix internal page navigation
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            const targetId = this.getAttribute('href');
-            if (targetId === '#' || targetId.startsWith('#!')) return;
-            
-            // If it's a hash link on the same page
-            if (targetId.startsWith('#') && targetId !== '#') {
-                e.preventDefault();
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    // Close mobile menu if open
-                    if (navLinks && navLinks.classList.contains('active')) {
-                        navLinks.classList.remove('active');
-                    }
-                    
-                    // Scroll to element
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Update active nav link
-                    document.querySelectorAll('.nav-links a').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                }
-            }
-        });
-    });
+    // Set canvas size with padding
+    canvas.width = text.offsetWidth + 100;
+    canvas.height = text.offsetHeight + 100;
     
-    // Highlight current page in navigation
-    const currentPage = window.location.pathname.split('/').pop();
-    document.querySelectorAll('.nav-links a').forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage || 
-            (currentPage === '' && linkHref === 'index.html') ||
-            (currentPage === 'index.html' && linkHref === '#')) {
-            link.classList.add('active');
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Set background
+    ctx.fillStyle = bgColor.value;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // Set text properties
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    // Create text shadow
+    const shadows = layers.map(layer => 
+        `${layer.offsetX}px ${layer.offsetY}px ${layer.blur}px ${layer.color}`
+    ).join(', ');
+    
+    ctx.shadowColor = layers[0]?.color || 'transparent';
+    ctx.shadowBlur = layers[0]?.blur || 0;
+    ctx.shadowOffsetX = layers[0]?.offsetX || 0;
+    ctx.shadowOffsetY = layers[0]?.offsetY || 0;
+    
+    // Draw text
+    ctx.fillText(text.textContent, canvas.width / 2, canvas.height / 2);
+    
+    // For multiple shadows, we need multiple draws (simplified)
+    if (layers.length > 1) {
+        for (let i = 1; i < Math.min(layers.length, 3); i++) {
+            const layer = layers[i];
+            ctx.shadowColor = layer.color;
+            ctx.shadowBlur = layer.blur;
+            ctx.shadowOffsetX = layer.offsetX;
+            ctx.shadowOffsetY = layer.offsetY;
+            ctx.fillText(text.textContent, canvas.width / 2, canvas.height / 2);
         }
-    });
+    }
+    
+    // Create download link
+    const link = document.createElement('a');
+    link.download = 'auratext-design.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    
+    showToast('PNG downloaded successfully!');
 }
 
-// Setup event listeners
-function setupEventListeners() {
-    // Text input
-    if (textInput) {
-        textInput.addEventListener('input', updateTextDisplay);
-    }
-    
-    // Color picker
-    if (textColorPicker) {
-        textColorPicker.addEventListener('input', (e) => {
-            currentColor = e.target.value;
-            
-            // Update active color swatch if it matches a swatch color
-            let matchedSwatch = false;
-            colorSwatches.forEach(swatch => {
-                if (swatch.dataset.color === currentColor) {
-                    swatch.classList.add('active');
-                    matchedSwatch = true;
-                } else {
-                    swatch.classList.remove('active');
-                }
-            });
-            
-            // If no match, remove all active states
-            if (!matchedSwatch) {
-                colorSwatches.forEach(swatch => swatch.classList.remove('active'));
-            }
-            
-            // Re-apply current effect with new color
-            applyEffect(currentEffect);
-        });
-    }
-    
-    // Font size slider
-    if (fontSizeSlider && fontSizeValue) {
-        fontSizeSlider.addEventListener('input', (e) => {
-            const size = e.target.value;
-            fontSizeValue.textContent = `${size}px`;
-            if (textDisplay) {
-                textDisplay.style.fontSize = `${size}px`;
-            }
-        });
-    }
-    
-    // Clear button
-    if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-            if (textInput) textInput.value = '';
-            updateTextDisplay();
-            showToast('Text cleared');
-        });
-    }
-    
-    // Random button
-    if (randomBtn) {
-        randomBtn.addEventListener('click', () => {
-            const randomWords = ['Aura', 'Glow', 'Neon', 'Effect', 'Design', 'Create', 'Magic', 'Light', 'Shine', 'Sparkle'];
-            const randomWord = randomWords[Math.floor(Math.random() * randomWords.length)];
-            if (textInput) textInput.value = randomWord;
-            updateTextDisplay();
-            showToast(`Random text: "${randomWord}"`);
-        });
-    }
-    
-    // Download button
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', downloadAsPNG);
-    }
-    
-    // Print/PDF button
-    if (printBtn) {
-        printBtn.addEventListener('click', saveAsPDF);
-    }
-    
-    // Copy style button
-    if (copyBtn) {
-        copyBtn.addEventListener('click', copyStyle);
-    }
-    
-    // Menu toggle for mobile
-    if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-        
-        // Close menu when clicking on a link
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-    }
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (navLinks && navLinks.classList.contains('active') && 
-            !navLinks.contains(e.target) && 
-            !menuToggle.contains(e.target)) {
-            navLinks.classList.remove('active');
-        }
-    });
+// Save as PDF
+function savePDF() {
+    showToast('PDF export coming soon! This would require a PDF library integration.');
 }
 
-// Download text as PNG
-function downloadAsPNG() {
-    if (!textDisplay || !downloadBtn) return;
-    
-    // Show loading state
-    const originalText = downloadBtn.innerHTML;
-    downloadBtn.innerHTML = '🔄 Generating...';
-    downloadBtn.disabled = true;
-    
-    try {
-        const text = textInput ? textInput.value.trim() || 'AuraText' : 'AuraText';
-        
-        // Create a simple download with canvas
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        
-        // Set canvas size
-        canvas.width = 800;
-        canvas.height = 400;
-        
-        // Draw background
-        ctx.fillStyle = '#f5f7ff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        
-        // Draw text
-        ctx.font = `bold 60px Arial`;
-        ctx.fillStyle = currentColor;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        
-        // Add glow effect
-        ctx.shadowColor = currentColor;
-        ctx.shadowBlur = 20;
-        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
-        ctx.shadowBlur = 0;
-        
-        // Create download link
-        const imageURL = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-        link.href = imageURL;
-        link.download = `auratext-${text.replace(/\s+/g, '-')}-${currentEffect}.png`;
-        
-        // Trigger download
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        
-        showToast('Image downloaded!');
-        
-    } catch (error) {
-        console.error('Error generating image:', error);
-        showToast('Error generating image', 'error');
-    } finally {
-        // Reset button
-        downloadBtn.innerHTML = originalText;
-        downloadBtn.disabled = false;
-    }
-}
-
-// Save as PDF function
-function saveAsPDF() {
-    if (!textDisplay || !printBtn) return;
-    
-    // Show loading state
-    const originalText = printBtn.innerHTML;
-    printBtn.innerHTML = '📄 Creating PDF...';
-    printBtn.disabled = true;
-    
-    try {
-        const text = textInput ? textInput.value.trim() || 'AuraText' : 'AuraText';
-        
-        // Create print window
-        const printWindow = window.open('', '_blank');
-        
-        printWindow.document.write(`
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>AuraText - ${text}</title>
-                <style>
-                    body {
-                        font-family: Arial, sans-serif;
-                        padding: 40px;
-                        background: white;
-                    }
-                    .print-container {
-                        max-width: 800px;
-                        margin: 0 auto;
-                        text-align: center;
-                    }
-                    .logo {
-                        font-size: 24px;
-                        font-weight: bold;
-                        color: #8a2be2;
-                        margin-bottom: 20px;
-                    }
-                    .text-display {
-                        font-size: 48px;
-                        font-weight: bold;
-                        margin: 40px 0;
-                        padding: 30px;
-                        background: #f5f7ff;
-                        border-radius: 12px;
-                        word-break: break-word;
-                    }
-                    .details {
-                        text-align: left;
-                        margin-top: 30px;
-                        padding: 20px;
-                        background: #f8f9fa;
-                        border-radius: 8px;
-                    }
-                    @media print {
-                        body { padding: 20px; }
-                        .no-print { display: none; }
-                    }
-                </style>
-            </head>
-            <body>
-                <div class="print-container">
-                    <div class="logo">AuraText Generator</div>
-                    <h1>Your Text Effect</h1>
-                    
-                    <div class="text-display" style="
-                        font-family: ${textDisplay.style.fontFamily || 'Arial'};
-                        color: ${textDisplay.style.color || '#8a2be2'};
-                        text-shadow: ${textDisplay.style.textShadow || 'none'};
-                        background: ${textDisplay.style.background || 'none'};
-                        -webkit-text-stroke: ${textDisplay.style.webkitTextStroke || 'none'};
-                    ">
-                        ${text}
-                    </div>
-                    
-                    <div class="details">
-                        <h3>Details:</h3>
-                        <p><strong>Text:</strong> ${text}</p>
-                        <p><strong>Effect:</strong> ${currentEffect}</p>
-                        <p><strong>Color:</strong> ${currentColor}</p>
-                        <p><strong>Generated:</strong> ${new Date().toLocaleString()}</p>
-                        <p><strong>Website:</strong> auratext.app</p>
-                    </div>
-                    
-                    <div class="no-print" style="margin-top: 30px;">
-                        <button onclick="window.print()" style="
-                            padding: 12px 24px;
-                            background: #8a2be2;
-                            color: white;
-                            border: none;
-                            border-radius: 8px;
-                            cursor: pointer;
-                            margin-right: 10px;
-                            font-size: 16px;
-                        ">
-                            🖨️ Print
-                        </button>
-                        <button onclick="window.close()" style="
-                            padding: 12px 24px;
-                            background: #666;
-                            color: white;
-                            border: none;
-                            border-radius: 8px;
-                            cursor: pointer;
-                            font-size: 16px;
-                        ">
-                            ❌ Close
-                        </button>
-                    </div>
-                </div>
-                <script>
-                    // Auto-focus print dialog
-                    setTimeout(() => {
-                        window.print();
-                    }, 500);
-                </script>
-            </body>
-            </html>
-        `);
-        
-        printWindow.document.close();
-        
-        showToast('PDF ready for printing!');
-        
-    } catch (error) {
-        console.error('Error creating PDF:', error);
-        showToast('Error creating PDF', 'error');
-    } finally {
-        // Reset button
-        printBtn.innerHTML = originalText;
-        printBtn.disabled = false;
-    }
-}
-
-// Copy CSS style to clipboard
-function copyStyle() {
-    if (!textDisplay) return;
-    
-    const styles = window.getComputedStyle(textDisplay);
-    
-    // Get relevant styles
+// Copy CSS
+function copyCSS() {
     const css = `
-/* AuraText CSS - ${currentEffect} */
-.text-effect {
-    font-family: ${styles.fontFamily};
-    font-size: ${styles.fontSize};
-    font-weight: ${styles.fontWeight};
-    color: ${styles.color};
-    text-shadow: ${styles.textShadow};
-    letter-spacing: ${styles.letterSpacing};
-    ${styles.background && styles.background !== 'none' ? `background: ${styles.background};` : ''}
-    ${styles.webkitBackgroundClip ? `-webkit-background-clip: ${styles.webkitBackgroundClip};` : ''}
-    ${styles.backgroundClip ? `background-clip: ${styles.backgroundClip};` : ''}
-    ${styles.webkitTextStroke ? `-webkit-text-stroke: ${styles.webkitTextStroke};` : ''}
-    ${styles.fontStyle ? `font-style: ${styles.fontStyle};` : ''}
-    ${styles.textTransform ? `text-transform: ${styles.textTransform};` : ''}
-    ${styles.transform ? `transform: ${styles.transform};` : ''}
+.auratext {
+    font-size: ${fontSize.value}px;
+    color: ${textColor.value};
+    text-shadow: ${layers.map(layer => 
+        `${layer.offsetX}px ${layer.offsetY}px ${layer.blur}px ${layer.spread}px ${layer.color}`
+    ).join(', ')};
 }
     `.trim();
     
-    // Copy to clipboard
     navigator.clipboard.writeText(css).then(() => {
-        showToast('CSS style copied to clipboard!');
+        showToast('CSS copied to clipboard!');
     }).catch(err => {
         console.error('Failed to copy: ', err);
-        // Fallback method
-        const textArea = document.createElement('textarea');
-        textArea.value = css;
-        document.body.appendChild(textArea);
-        textArea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textArea);
-        showToast('CSS style copied to clipboard!');
+        showToast('Failed to copy CSS. Please try again.');
     });
 }
 
 // Show toast notification
-function showToast(message, type = 'success') {
-    if (!toast || !toastMessage) return;
-    
-    toastMessage.textContent = message;
-    
-    // Set color based on type
-    if (type === 'error') {
-        toast.style.backgroundColor = '#dc3545';
-    } else if (type === 'warning') {
-        toast.style.backgroundColor = '#ffc107';
-        toast.style.color = '#000';
-    } else {
-        toast.style.backgroundColor = '#8a2be2';
-        toast.style.color = '#fff';
-    }
-    
-    // Show toast
+function showToast(message) {
+    toast.textContent = message;
     toast.classList.add('show');
     
-    // Hide after 3 seconds
     setTimeout(() => {
         toast.classList.remove('show');
     }, 3000);
 }
 
-// Initialize the app when DOM is loaded
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-} else {
-    init();
+// Setup event listeners
+function setupEventListeners() {
+    textInput.addEventListener('input', () => {
+        updateTextPreview();
+        saveState();
+    });
+    
+    fontSize.addEventListener('input', () => {
+        updateTextPreview();
+        saveState();
+    });
+    
+    textColor.addEventListener('input', () => {
+        updateTextPreview();
+        saveState();
+    });
+    
+    bgColor.addEventListener('input', () => {
+        updateTextPreview();
+        saveState();
+    });
+    
+    addLayerBtn.addEventListener('click', createLayer);
+    
+    resetLayersBtn.addEventListener('click', () => {
+        layers = [];
+        createLayer();
+        showToast('Layers reset to default');
+    });
+    
+    downloadPNGBtn.addEventListener('click', downloadPNG);
+    savePDFBtn.addEventListener('click', savePDF);
+    copyCSSBtn.addEventListener('click', copyCSS);
 }
+
+// Initialize app when DOM is loaded
+document.addEventListener('DOMContentLoaded', init);
