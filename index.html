@@ -10,9 +10,9 @@
     <meta property="og:title" content="AuraText - Glowing Text Effects Generator">
     <meta property="og:description" content="Create stunning glowing text effects in seconds. Free text effects generator for logos and designs.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://auratext-roan.vercel.app/">
-    <meta property="og:image" content="https://auratext-roan.vercel.app/preview.png">
-    <link rel="canonical" href="https://auratext-roan.vercel.app/">
+    <meta property="og:url" content="https://auratext-two.vercel.app/">
+    <meta property="og:image" content="https://auratext-two.vercel.app/preview.png">
+    <link rel="canonical" href="https://auratext-two.vercel.app/">
     
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
@@ -44,9 +44,10 @@
             <div class="nav-links">
                 <a href="#home" class="active">Home</a>
                 <a href="#effects">Effects</a>
+                <a href="#text-styles">Text Styles</a>
                 <a href="#tools">Tools</a>
                 <a href="#coming-soon">Coming Soon</a>
-                <a href="blog.html">Blog</a>
+                <a href="#blog">Blog</a>
                 <a href="#contact">Contact</a>
                 <span class="visitor-count">
                     <i class="fas fa-users"></i>
@@ -99,26 +100,103 @@
                         </button>
                     </div>
                 </div>
+
+                <!-- Quick Text Suggestions -->
+                <div class="quick-text-suggestions">
+                    <label>Quick Text Options:</label>
+                    <div class="suggestion-buttons">
+                        <button class="text-suggestion" data-text="GLOW">GLOW</button>
+                        <button class="text-suggestion" data-text="NEON">NEON</button>
+                        <button class="text-suggestion" data-text="AURA">AURA</button>
+                        <button class="text-suggestion" data-text="SHINE">SHINE</button>
+                        <button class="text-suggestion" data-text="SPARK">SPARK</button>
+                        <button class="text-suggestion" data-text="LIGHT">LIGHT</button>
+                        <button class="text-suggestion" data-text="MAGIC">MAGIC</button>
+                        <button class="text-suggestion" data-text="STAR">STAR</button>
+                    </div>
+                </div>
+                
+                <!-- Text Style Selector -->
+                <div class="style-selector">
+                    <label>Text Style Category:</label>
+                    <div class="style-categories" id="style-categories">
+                        <button class="style-category-btn active" data-category="all">
+                            <i class="fas fa-star"></i> All Effects
+                        </button>
+                        <button class="style-category-btn" data-category="neon">
+                            <i class="fas fa-lightbulb"></i> Neon
+                        </button>
+                        <button class="style-category-btn" data-category="3d">
+                            <i class="fas fa-cube"></i> 3D
+                        </button>
+                        <button class="style-category-btn" data-category="grunge">
+                            <i class="fas fa-paint-roller"></i> Grunge
+                        </button>
+                        <button class="style-category-btn" data-category="metallic">
+                            <i class="fas fa-gem"></i> Metallic
+                        </button>
+                        <button class="style-category-btn" data-category="gold">
+                            <i class="fas fa-crown"></i> Gold
+                        </button>
+                        <button class="style-category-btn" data-category="shiny">
+                            <i class="fas fa-sparkles"></i> Shiny
+                        </button>
+                        <button class="style-category-btn" data-category="fabric">
+                            <i class="fas fa-tshirt"></i> Fabric
+                        </button>
+                        <button class="style-category-btn" data-category="cartoon">
+                            <i class="fas fa-mask"></i> Cartoon
+                        </button>
+                        <button class="style-category-btn" data-category="tech">
+                            <i class="fas fa-microchip"></i> Tech
+                        </button>
+                        <button class="style-category-btn" data-category="retro">
+                            <i class="fas fa-gamepad"></i> Retro
+                        </button>
+                        <button class="style-category-btn" data-category="misc">
+                            <i class="fas fa-random"></i> Misc
+                        </button>
+                    </div>
+                </div>
                 
                 <!-- Color Picker -->
                 <div class="color-picker">
-                    <label>Text Color:</label>
-                    <div class="color-options">
-                        <input type="color" id="text-color" value="#8a2be2">
-                        <div class="color-swatches">
-                            <span class="color-swatch" style="background-color: #8a2be2;" data-color="#8a2be2"></span>
-                            <span class="color-swatch" style="background-color: #00ffff;" data-color="#00ffff"></span>
-                            <span class="color-swatch" style="background-color: #ff4a4a;" data-color="#ff4a4a"></span>
-                            <span class="color-swatch" style="background-color: #4aff6b;" data-color="#4aff6b"></span>
-                            <span class="color-swatch" style="background-color: #ffb74a;" data-color="#ffb74a"></span>
-                            <span class="color-swatch" style="background-color: #9d4aff;" data-color="#9d4aff"></span>
+                    <div class="color-control">
+                        <label>Text Color:</label>
+                        <div class="color-options">
+                            <input type="color" id="text-color" value="#8a2be2">
+                            <div class="color-swatches">
+                                <span class="color-swatch" style="background-color: #8a2be2;" data-color="#8a2be2"></span>
+                                <span class="color-swatch" style="background-color: #00ffff;" data-color="#00ffff"></span>
+                                <span class="color-swatch" style="background-color: #ff4a4a;" data-color="#ff4a4a"></span>
+                                <span class="color-swatch" style="background-color: #4aff6b;" data-color="#4aff6b"></span>
+                                <span class="color-swatch" style="background-color: #ffb74a;" data-color="#ffb74a"></span>
+                                <span class="color-swatch" style="background-color: #9d4aff;" data-color="#9d4aff"></span>
+                            </div>
                         </div>
                     </div>
                     
-                    <div class="font-size-control">
-                        <label>Font Size:</label>
-                        <input type="range" id="font-size" min="20" max="120" value="60">
-                        <span id="font-size-value">60px</span>
+                    <div class="font-control">
+                        <div class="font-size-control">
+                            <label>Font Size:</label>
+                            <div class="slider-container">
+                                <input type="range" id="font-size" min="20" max="120" value="60">
+                                <span id="font-size-value">60px</span>
+                            </div>
+                        </div>
+                        
+                        <div class="font-family-control">
+                            <label>Font Style:</label>
+                            <select id="font-family">
+                                <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Default</option>
+                                <option value="Arial, sans-serif">Arial</option>
+                                <option value="'Helvetica Neue', Helvetica, sans-serif">Helvetica</option>
+                                <option value="'Times New Roman', serif">Times New Roman</option>
+                                <option value="Georgia, serif">Georgia</option>
+                                <option value="'Courier New', monospace">Courier New</option>
+                                <option value="Verdana, Geneva, sans-serif">Verdana</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -151,6 +229,18 @@
                 <div class="effects-grid">
                     <!-- Effects will be loaded by JavaScript -->
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Designer Text Styles Section -->
+    <section class="designer-styles-section" id="text-styles">
+        <div class="container">
+            <h2>Designer Text Styles</h2>
+            <p class="section-subtitle">Professional text styles inspired by top designers. Click to apply!</p>
+            
+            <div class="designer-styles-grid">
+                <!-- Designer styles will be loaded by JavaScript -->
             </div>
         </div>
     </section>
@@ -295,6 +385,64 @@
         </div>
     </section>
 
+    <!-- Blog Section -->
+    <section class="blog-section" id="blog">
+        <div class="container">
+            <h2>Latest Blog Posts</h2>
+            <p class="section-subtitle">Learn tips, tricks, and techniques for creating amazing text effects</p>
+            
+            <div class="blog-grid">
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3>Top 10 Glowing Text Effects for Social Media</h3>
+                        <p class="blog-meta"><i class="far fa-calendar"></i> December 15, 2024 | <i class="far fa-clock"></i> 5 min read</p>
+                        <p class="blog-excerpt">Discover the most popular glowing text effects that will make your social media posts stand out from the crowd and increase engagement.</p>
+                        <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3>How to Create Professional Logo Text with Aura Effects</h3>
+                        <p class="blog-meta"><i class="far fa-calendar"></i> December 10, 2024 | <i class="far fa-clock"></i> 7 min read</p>
+                        <p class="blog-excerpt">Step-by-step guide to creating stunning logo text using aura effects. Perfect for businesses and personal brands looking to stand out.</p>
+                        <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3>The Psychology of Color in Text Effects</h3>
+                        <p class="blog-meta"><i class="far fa-calendar"></i> December 5, 2024 | <i class="far fa-clock"></i> 6 min read</p>
+                        <p class="blog-excerpt">Learn how different colors in text effects influence emotions and perceptions. Choose the right colors for your message.</p>
+                        <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="blog-content">
+                        <h3>Increasing Engagement with Animated Text Effects</h3>
+                        <p class="blog-meta"><i class="far fa-calendar"></i> November 28, 2024 | <i class="far fa-clock"></i> 8 min read</p>
+                        <p class="blog-excerpt">Explore how animated text effects can boost your website engagement rates and keep visitors on your page longer.</p>
+                        <a href="#" class="blog-read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- How to Use -->
     <section class="instructions" id="how-to">
         <div class="container">
@@ -376,19 +524,17 @@
                 <p class="footer-tagline">Create mesmerizing glowing text effects for logos, social media, and designs.</p>
                 
                 <div class="footer-links">
-                    <a href="index.html">Home</a>
+                    <a href="#home">Home</a>
                     <a href="#effects">Effects</a>
+                    <a href="#text-styles">Text Styles</a>
                     <a href="#tools">Tools</a>
                     <a href="#coming-soon">Coming Soon</a>
-                    <a href="blog.html">Blog</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="terms.html">Terms of Service</a>
-                    <a href="affiliate.html">Affiliate Disclosure</a>
+                    <a href="#blog">Blog</a>
                     <a href="#contact">Contact</a>
                 </div>
                 
                 <div class="copyright">
-                    <p>© 2025 www.auratext.online. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
+                    <p>© 2024 AuraText Generator. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
                     <p class="visitor-count-footer">
                         <i class="fas fa-users"></i> Visitors: <span id="footer-visitor-counter">Loading...</span>
                     </p>
