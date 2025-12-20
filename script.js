@@ -5,6 +5,7 @@ const textColor = document.getElementById('text-color');
 const colorSwatches = document.querySelectorAll('.color-swatch');
 const fontSize = document.getElementById('font-size');
 const fontSizeValue = document.getElementById('font-size-value');
+const fontFamily = document.getElementById('font-family');
 const clearBtn = document.getElementById('clear-btn');
 const randomBtn = document.getElementById('random-btn');
 const downloadBtn = document.getElementById('download-btn');
@@ -13,6 +14,7 @@ const copyBtn = document.getElementById('copy-btn');
 const effectsGrid = document.querySelector('.effects-grid');
 const designerStylesGrid = document.querySelector('.designer-styles-grid');
 const styleCategories = document.querySelectorAll('.style-category-btn');
+const textSuggestions = document.querySelectorAll('.text-suggestion');
 const toast = document.getElementById('toast');
 const toastMessage = document.getElementById('toast-message');
 const visitorCounter = document.getElementById('visitor-counter');
@@ -172,8 +174,12 @@ function init() {
     // Load saved effect from localStorage
     const savedEffect = localStorage.getItem('auraEffect');
     if (savedEffect) {
-        const effect = JSON.parse(savedEffect);
-        applyEffect(effect);
+        try {
+            const effect = JSON.parse(savedEffect);
+            applyEffect(effect);
+        } catch (e) {
+            console.error('Error loading saved effect:', e);
+        }
     }
 }
 
@@ -196,12 +202,14 @@ function loadVisitorCount() {
 // Update visitor counter display
 function updateVisitorCounter() {
     const formattedCount = visitorCount.toLocaleString();
-    visitorCounter.textContent = formattedCount;
-    footerVisitorCounter.textContent = formattedCount;
+    if (visitorCounter) visitorCounter.textContent = formattedCount;
+    if (footerVisitorCounter) footerVisitorCounter.textContent = formattedCount;
 }
 
 // Generate effects grid with filtering
 function generateEffects() {
+    if (!effectsGrid) return;
+    
     effectsGrid.innerHTML = '';
     
     effects.forEach((effect, index) => {
@@ -228,6 +236,8 @@ function generateEffects() {
 
 // Generate designer styles
 function generateDesignerStyles() {
+    if (!designerStylesGrid) return;
+    
     designerStylesGrid.innerHTML = '';
     
     designerStyles.forEach((style, index) => {
@@ -264,14 +274,17 @@ function filterEffects() {
 
 // Apply an effect
 function applyEffect(effect) {
+    if (!effect || !textDisplay) return;
+    
     currentEffect = effect;
     textDisplay.style.color = effect.color;
     textDisplay.style.textShadow = effect.shadow;
-    textColor.value = effect.color;
+    if (textColor) textColor.value = effect.color;
     
     // Reset font styles
     textDisplay.style.fontStyle = 'normal';
     textDisplay.style.fontWeight = 'bold';
+    if (fontFamily) fontFamily.value = "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif";
     
     localStorage.setItem('auraEffect', JSON.stringify(effect));
     showToast(`${effect.name} applied!`);
@@ -279,12 +292,14 @@ function applyEffect(effect) {
 
 // Apply designer style
 function applyDesignerStyle(style) {
+    if (!style || !textDisplay) return;
+    
     currentEffect = style;
     textDisplay.style.color = style.color;
     textDisplay.style.textShadow = style.shadow;
     textDisplay.style.fontStyle = style.fontStyle;
     textDisplay.style.fontWeight = style.fontWeight;
-    textColor.value = style.color;
+    if (textColor) textColor.value = style.color;
     
     localStorage.setItem('auraEffect', JSON.stringify(style));
     showToast(`${style.name} style applied!`);
@@ -292,12 +307,15 @@ function applyDesignerStyle(style) {
 
 // Apply random effect
 function applyRandomEffect() {
+    if (effects.length === 0) return;
     const randomIndex = Math.floor(Math.random() * effects.length);
     applyEffect(effects[randomIndex]);
 }
 
 // Update text display
 function updateTextDisplay() {
+    if (!textInput || !textDisplay) return;
+    
     const text = textInput.value.trim() || 'AuraText';
     textDisplay.textContent = text;
     localStorage.setItem('auraText', text);
@@ -305,6 +323,8 @@ function updateTextDisplay() {
 
 // Show toast notification
 function showToast(message) {
+    if (!toast || !toastMessage) return;
+    
     toastMessage.textContent = message;
     toast.classList.add('show');
     
@@ -315,51 +335,82 @@ function showToast(message) {
 
 // Download as PNG
 function downloadAsPNG() {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    const style = window.getComputedStyle(textDisplay);
-    const fontSize = parseFloat(style.fontSize);
-    const fontFamily = style.fontFamily;
-    const color = style.color;
-    const textShadow = style.textShadow;
-    
-    ctx.font = `${style.fontWeight} ${style.fontStyle} ${fontSize}px ${fontFamily}`;
-    const textWidth = ctx.measureText(textDisplay.textContent).width;
-    
-    const padding = 100;
-    canvas.width = textWidth + padding * 2;
-    canvas.height = fontSize * 2 + padding * 2;
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#0f0c29';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    ctx.font = `${style.fontWeight} ${style.fontStyle} ${fontSize}px ${fontFamily}`;
-    ctx.fillStyle = color;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    
-    // Apply shadow effect
-    const shadowParts = textShadow.split(', ');
-    if (shadowParts.length > 0) {
-        const firstShadow = shadowParts[0].split(' ');
-        if (firstShadow.length >= 3) {
-            ctx.shadowColor = color;
-            ctx.shadowBlur = parseInt(firstShadow[2]) || 20;
-            ctx.shadowOffsetX = parseInt(firstShadow[0]) || 0;
-            ctx.shadowOffsetY = parseInt(firstShadow[1]) || 0;
-        }
+    if (!textDisplay) {
+        showToast('Error: Text display not found!');
+        return;
     }
     
-    ctx.fillText(textDisplay.textContent, canvas.width / 2, canvas.height / 2);
-    
-    const link = document.createElement('a');
-    link.download = 'auratext-effect.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    
-    showToast('Image downloaded successfully!');
+    try {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Get computed styles
+        const style = window.getComputedStyle(textDisplay);
+        const fontSize = parseFloat(style.fontSize);
+        const fontFamily = style.fontFamily;
+        const color = style.color;
+        const fontWeight = style.fontWeight;
+        const fontStyle = style.fontStyle;
+        
+        // Calculate text width
+        ctx.font = `${fontWeight} ${fontStyle} ${fontSize}px ${fontFamily}`;
+        const text = textDisplay.textContent;
+        const textWidth = ctx.measureText(text).width;
+        
+        // Set canvas size with padding
+        const padding = 100;
+        canvas.width = textWidth + padding * 2;
+        canvas.height = fontSize * 2 + padding * 2;
+        
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Set background
+        ctx.fillStyle = '#0f0c29';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Set text properties
+        ctx.font = `${fontWeight} ${fontStyle} ${fontSize}px ${fontFamily}`;
+        ctx.fillStyle = color;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Apply shadow effect
+        const shadow = style.textShadow;
+        const shadowParts = shadow.split('), ');
+        
+        if (shadowParts.length > 0) {
+            // Get the first shadow for main effect
+            const firstShadow = shadowParts[0].replace(')', '').split(' ');
+            if (firstShadow.length >= 3) {
+                const offsetX = parseInt(firstShadow[0]) || 0;
+                const offsetY = parseInt(firstShadow[1]) || 0;
+                const blur = parseInt(firstShadow[2]) || 0;
+                const shadowColor = firstShadow.slice(3).join(' ') || color;
+                
+                ctx.shadowColor = shadowColor;
+                ctx.shadowBlur = blur;
+                ctx.shadowOffsetX = offsetX;
+                ctx.shadowOffsetY = offsetY;
+            }
+        }
+        
+        // Draw text
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+        
+        // Create download link
+        const link = document.createElement('a');
+        link.download = 'auratext-effect.png';
+        link.href = canvas.toDataURL('image/png');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        showToast('Image downloaded successfully!');
+    } catch (error) {
+        console.error('Error downloading PNG:', error);
+        showToast('Error downloading image. Please try again.');
+    }
 }
 
 // Save as PDF
@@ -369,53 +420,81 @@ function saveAsPDF() {
 
 // Copy CSS to clipboard
 function copyCSS() {
-    const style = window.getComputedStyle(textDisplay);
-    const css = `
+    if (!textDisplay || !fontSize) return;
+    
+    try {
+        const style = window.getComputedStyle(textDisplay);
+        const css = `
 .auratext-effect {
     font-size: ${fontSize.value}px;
     color: ${style.color};
     text-shadow: ${style.textShadow};
     font-style: ${style.fontStyle};
     font-weight: ${style.fontWeight};
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: ${style.fontFamily};
 }
-    `.trim();
-    
-    navigator.clipboard.writeText(css).then(() => {
-        showToast('CSS copied to clipboard!');
-    }).catch(err => {
-        console.error('Failed to copy: ', err);
+        `.trim();
+        
+        navigator.clipboard.writeText(css).then(() => {
+            showToast('CSS copied to clipboard!');
+        }).catch(err => {
+            console.error('Failed to copy: ', err);
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = css;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showToast('CSS copied to clipboard!');
+        });
+    } catch (error) {
+        console.error('Error copying CSS:', error);
         showToast('Failed to copy CSS. Please try again.');
-    });
+    }
 }
 
 // Setup event listeners
 function setupEventListeners() {
     // Text input
-    textInput.addEventListener('input', updateTextDisplay);
+    if (textInput) {
+        textInput.addEventListener('input', updateTextDisplay);
+        textInput.addEventListener('keyup', updateTextDisplay);
+    }
     
     // Color picker
-    textColor.addEventListener('input', (e) => {
-        textDisplay.style.color = e.target.value;
-        currentEffect = null;
-    });
+    if (textColor) {
+        textColor.addEventListener('input', (e) => {
+            if (textDisplay) textDisplay.style.color = e.target.value;
+            currentEffect = null;
+        });
+    }
     
     // Color swatches
     colorSwatches.forEach(swatch => {
         swatch.addEventListener('click', () => {
             const color = swatch.dataset.color;
-            textColor.value = color;
-            textDisplay.style.color = color;
+            if (textColor) textColor.value = color;
+            if (textDisplay) textDisplay.style.color = color;
             currentEffect = null;
         });
     });
     
     // Font size slider
-    fontSize.addEventListener('input', (e) => {
-        const size = e.target.value + 'px';
-        textDisplay.style.fontSize = size;
-        fontSizeValue.textContent = size;
-    });
+    if (fontSize) {
+        fontSize.addEventListener('input', (e) => {
+            const size = e.target.value + 'px';
+            if (textDisplay) textDisplay.style.fontSize = size;
+            if (fontSizeValue) fontSizeValue.textContent = size;
+        });
+    }
+    
+    // Font family selector
+    if (fontFamily) {
+        fontFamily.addEventListener('change', (e) => {
+            if (textDisplay) textDisplay.style.fontFamily = e.target.value;
+        });
+    }
     
     // Style category buttons
     styleCategories.forEach(btn => {
@@ -430,38 +509,63 @@ function setupEventListeners() {
         });
     });
     
-    // Clear button
-    clearBtn.addEventListener('click', () => {
-        textInput.value = '';
-        updateTextDisplay();
-        showToast('Text cleared!');
+    // Text suggestions
+    textSuggestions.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const text = btn.dataset.text;
+            if (textInput) {
+                textInput.value = text;
+                updateTextDisplay();
+                showToast(`Text changed to "${text}"`);
+            }
+        });
     });
+    
+    // Clear button
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (textInput) textInput.value = '';
+            updateTextDisplay();
+            showToast('Text cleared!');
+        });
+    }
     
     // Random button
-    randomBtn.addEventListener('click', () => {
-        applyRandomEffect();
-    });
+    if (randomBtn) {
+        randomBtn.addEventListener('click', () => {
+            applyRandomEffect();
+        });
+    }
     
     // Download button
-    downloadBtn.addEventListener('click', downloadAsPNG);
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', downloadAsPNG);
+    }
     
     // Print/PDF button
-    printBtn.addEventListener('click', saveAsPDF);
+    if (printBtn) {
+        printBtn.addEventListener('click', saveAsPDF);
+    }
     
     // Copy button
-    copyBtn.addEventListener('click', copyCSS);
+    if (copyBtn) {
+        copyBtn.addEventListener('click', copyCSS);
+    }
     
     // Menu toggle
-    menuToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('show');
-    });
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
-            navLinks.classList.remove('show');
-        }
-    });
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            navLinks.classList.toggle('show');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('show');
+            }
+        });
+    }
     
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -478,11 +582,20 @@ function setupEventListeners() {
                 });
                 
                 // Close mobile menu if open
-                navLinks.classList.remove('show');
+                if (navLinks) navLinks.classList.remove('show');
             }
         });
     });
+    
+    // Initialize font size display
+    if (fontSize && fontSizeValue) {
+        fontSizeValue.textContent = fontSize.value + 'px';
+    }
 }
 
 // Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', init);
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
