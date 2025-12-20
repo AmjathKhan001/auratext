@@ -867,3 +867,276 @@ body {
         padding: 1.5rem;
     }
 }
+/* Add these new styles to your existing style.css file */
+
+/* Text Style Selector */
+.style-selector {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.style-selector label {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+.style-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.style-category-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.25rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.style-category-btn:hover {
+    background: rgba(138, 43, 226, 0.3);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.style-category-btn.active {
+    background: linear-gradient(45deg, #8a2be2, #4a00e0);
+    color: white;
+    border-color: #8a2be2;
+    box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+}
+
+.style-category-btn i {
+    font-size: 1rem;
+}
+
+/* Designer Text Styles Section */
+.designer-styles-section {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, rgba(48, 43, 99, 0.8), rgba(36, 36, 62, 0.8));
+}
+
+.designer-styles-section h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.designer-styles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.designer-style-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+.designer-style-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #8a2be2;
+    box-shadow: 0 10px 20px rgba(138, 43, 226, 0.2);
+}
+
+.designer-style-preview {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1rem;
+}
+
+.designer-style-preview span {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.designer-style-card h3 {
+    color: white;
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.designer-style-card p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.designer-style-tag {
+    display: inline-block;
+    background: rgba(138, 43, 226, 0.2);
+    color: #8a2be2;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Blog Section */
+.blog-section {
+    padding: 4rem 0;
+    background: rgba(15, 12, 41, 0.9);
+}
+
+.blog-section h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.blog-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.blog-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #8a2be2;
+    box-shadow: 0 10px 20px rgba(138, 43, 226, 0.2);
+}
+
+.blog-image {
+    height: 200px;
+    background: linear-gradient(45deg, #8a2be2, #4a00e0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 4rem;
+}
+
+.blog-content {
+    padding: 1.5rem;
+}
+
+.blog-content h3 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    line-height: 1.4;
+}
+
+.blog-meta {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.blog-meta i {
+    margin-right: 5px;
+}
+
+.blog-excerpt {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.blog-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #8a2be2;
+    text-decoration: none;
+    font-weight: 600;
+    transition: gap 0.3s;
+}
+
+.blog-read-more:hover {
+    gap: 12px;
+    color: #4a00e0;
+}
+
+/* Filter active state for effects */
+.effect-card.filtered-out {
+    display: none;
+}
+
+/* Update existing styles for consistency */
+.generator {
+    margin-top: 0;
+}
+
+/* Responsive adjustments for new sections */
+@media (max-width: 768px) {
+    .style-categories {
+        justify-content: center;
+    }
+    
+    .style-category-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+    
+    .designer-styles-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .blog-image {
+        height: 150px;
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .style-categories {
+        gap: 0.5rem;
+    }
+    
+    .style-category-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+    }
+    
+    .blog-content h3 {
+        font-size: 1.2rem;
+    }
+}
