@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Gradient Generator | AuraText Tools</title>
+    <meta name="description" content="Create beautiful CSS gradients with custom colors and directions. Free gradient generator for websites and designs.">
+    
+    <!-- Use the same styles as your main site -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Gradient-specific styles -->
+    <style>
+        /* Add these styles to your existing style.css or keep them here */
+        .gradient-page {
+            padding-top: 2rem;
+        }
+        
+        .gradient-generator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .gradient-generator {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .gradient-preview {
+            height: 300px;
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+        }
+        
+        .gradient-controls {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group label {
+            display: block;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .color-pickers {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .color-picker-item {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0.5rem;
+        }
+        
+        .color-input-group input[type="color"] {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        
+        .color-input-group input[type="text"] {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: monospace;
+        }
+        
+        .type-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .type-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .type-btn.active {
+            background: #8a2be2;
+            color: white;
+            border-color: #8a2be2;
+        }
+        
+        .type-btn:hover {
+            background: rgba(138, 43, 226, 0.3);
+        }
+        
+        .gradient-output {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .code-output {
+            background: #1a1a2e;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+        }
+        
+        .code-output pre {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .gradient-examples {
+            margin-top: 3rem;
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .example-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+            border-color: #8a2be2;
+        }
+        
+        .example-preview {
+            height: 80px;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+        
+        .example-card h4 {
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation - Copy from your index.html -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-aura"></i>
+                <span>AuraText</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#effects">Effects</a>
+                <a href="index.html#text-styles">Text Styles</a>
+                <a href="index.html#tools">Tools</a>
+                <a href="gradient.html" class="active">Gradient Tool</a>
+                <a href="index.html#coming-soon">Coming Soon</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#contact">Contact</a>
+                <span class="visitor-count">
+                    <i class="fas fa-users"></i>
+                    <span id="visitor-counter">Loading...</span>
+                </span>
+            </div>
+            <button class="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Ads Banner -->
+    <div class="ads-banner">
+        <div class="container">
+            <a href="https://amzn.to/4p8ceG6" target="_blank" class="amazon-ad-btn">
+                <i class="fas fa-tag"></i>
+                <span>Clearence Sale Store Upto 70% All Day</span>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+            <a href="https://buymeacoffee.com/s.amjathkhan" target="_blank" class="coffee-btn">
+                <i class="fas fa-coffee"></i>
+                <span>Buy Me a Coffee</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container gradient-page">
+        <header class="hero">
+            <h1>CSS Gradient Generator</h1>
+            <p class="subtitle">Create beautiful gradient backgrounds for your websites</p>
+            <p>Generate CSS gradients with custom colors, directions, and types. Perfect for backgrounds, buttons, and design elements.</p>
+        </header>
+
+        <div class="gradient-generator">
+            <!-- Preview Column -->
+            <div class="preview-column">
+                <div class="gradient-preview" id="gradientPreview"></div>
+                <div class="preview-actions">
+                    <button id="copyCss" class="btn-primary">
+                        <i class="fas fa-copy"></i> Copy CSS Code
+                    </button>
+                    <button id="randomGradient" class="btn-secondary">
+                        <i class="fas fa-random"></i> Random Gradient
+                    </button>
+                </div>
+            </div>
+
+            <!-- Controls Column -->
+            <div class="gradient-controls">
+                <!-- Color Controls -->
+                <div class="control-group">
+                    <label>Colors</label>
+                    <div class="color-pickers" id="colorPickers">
+                        <!-- Colors will be added here by JavaScript -->
+                    </div>
+                    <button id="addColor" class="btn-secondary" style="margin-top: 1rem; width: 100%;">
+                        <i class="fas fa-plus"></i> Add Color
+                    </button>
+                </div>
+
+                <!-- Gradient Type -->
+                <div class="control-group">
+                    <label>Gradient Type</label>
+                    <div class="type-buttons">
+                        <button class="type-btn active" data-type="linear">Linear</button>
+                        <button class="type-btn" data-type="radial">Radial</button>
+                        <button class="type-btn" data-type="conic">Conic</button>
+                    </div>
+                </div>
+
+                <!-- Direction/Angle -->
+                <div class="control-group">
+                    <label for="direction">Direction</label>
+                    <select id="direction" class="form-control">
+                        <option value="to right">To Right →</option>
+                        <option value="to bottom">To Bottom ↓</option>
+                        <option value="45deg">45° Diagonal ↗</option>
+                        <option value="90deg">90° Vertical →</option>
+                        <option value="135deg">135° Diagonal ↘</option>
+                        <option value="180deg">180° ←</option>
+                        <option value="225deg">225° Diagonal ↙</option>
+                        <option value="270deg">270° ↑</option>
+                        <option value="315deg">315° Diagonal ↖</option>
+                        <option value="circle">Radial Circle</option>
+                        <option value="ellipse">Radial Ellipse</option>
+                    </select>
+                    
+                    <div class="angle-control" style="margin-top: 1rem;">
+                        <label>Custom Angle: <span id="angleValue">90</span>°</label>
+                        <input type="range" id="angle" min="0" max="360" value="90" style="width: 100%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSS Output -->
+        <div class="gradient-output">
+            <h3><i class="fas fa-code"></i> CSS Code</h3>
+            <div class="code-output">
+                <pre id="cssOutput">background: linear-gradient(to right, #ff6b6b, #4ecdc4);</pre>
+            </div>
+            <div class="output-actions" style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button id="copyAll" class="btn-primary">
+                    <i class="fas fa-copy"></i> Copy Code
+                </button>
+                <button id="copyFullCss" class="btn-secondary">
+                    <i class="fas fa-file-code"></i> Copy Full CSS
+                </button>
+            </div>
+        </div>
+
+        <!-- Examples Section -->
+        <section class="gradient-examples">
+            <h2>Popular Gradient Examples</h2>
+            <p class="section-subtitle">Click on any example to apply it</p>
+            
+            <div class="examples-grid">
+                <div class="example-card" data-colors="#ff6b6b,#4ecdc4" data-type="linear" data-direction="to right">
+                    <div class="example-preview" style="background: linear-gradient(to right, #ff6b6b, #4ecdc4);"></div>
+                    <h4>Sunset Beach</h4>
+                </div>
+                <div class="example-card" data-colors="#667eea,#764ba2" data-type="linear" data-direction="to right">
+                    <div class="example-preview" style="background: linear-gradient(to right, #667eea, #764ba2);"></div>
+                    <h4>Purple Dream</h4>
+                </div>
+                <div class="example-card" data-colors="#f093fb,#f5576c" data-type="linear" data-direction="to right">
+                    <div class="example-preview" style="background: linear-gradient(to right, #f093fb, #f5576c);"></div>
+                    <h4>Pink Sunrise</h4>
+                </div>
+                <div class="example-card" data-colors="#4facfe,#00f2fe" data-type="linear" data-direction="to right">
+                    <div class="example-preview" style="background: linear-gradient(to right, #4facfe, #00f2fe);"></div>
+                    <h4>Ocean Blue</h4>
+                </div>
+                <div class="example-card" data-colors="#43e97b,#38f9d7" data-type="linear" data-direction="45deg">
+                    <div class="example-preview" style="background: linear-gradient(45deg, #43e97b, #38f9d7);"></div>
+                    <h4>Emerald Green</h4>
+                </div>
+                <div class="example-card" data-colors="#fa709a,#fee140" data-type="linear" data-direction="to right">
+                    <div class="example-preview" style="background: linear-gradient(to right, #fa709a, #fee140);"></div>
+                    <h4>Peach Sunset</h4>
+                </div>
+                <div class="example-card" data-colors="#30cfd0,#330867" data-type="linear" data-direction="to right">
+                    <div class="example-preview" style="background: linear-gradient(to right, #30cfd0, #330867);"></div>
+                    <h4>Deep Ocean</h4>
+                </div>
+                <div class="example-card" data-colors="#a8edea,#fed6e3" data-type="linear" data-direction="to right">
+                    <div class="example-preview" style="background: linear-gradient(to right, #a8edea, #fed6e3);"></div>
+                    <h4>Soft Pastel</h4>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to Use -->
+        <section class="instructions">
+            <h2>How to Use This Tool</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>Choose Colors</h3>
+                    <p>Select your gradient colors using the color pickers or enter hex codes.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>Adjust Settings</h3>
+                    <p>Select gradient type (linear, radial, conic) and direction/angle.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>Copy Code</h3>
+                    <p>Copy the generated CSS code and use it in your projects.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <h3>Try Examples</h3>
+                    <p>Click on any example gradient to quickly apply it.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer - Copy from your index.html -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-aura"></i>
+                    <span>AuraText</span>
+                </div>
+                <p class="footer-tagline">Create beautiful text effects and design tools for your projects.</p>
+                
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#effects">Effects</a>
+                    <a href="index.html#text-styles">Text Styles</a>
+                    <a href="gradient.html">Gradient Tool</a>
+                    <a href="index.html#coming-soon">More Tools</a>
+                    <a href="index.html#blog">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                
+                <div class="copyright">
+                    <p>© 2024 AuraText Tools. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-message">CSS copied to clipboard!</span>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Gradient Generator JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize gradient data
+            let gradientColors = ['#ff6b6b', '#4ecdc4'];
+            let gradientType = 'linear';
+            let gradientDirection = 'to right';
+            
+            // DOM Elements
+            const gradientPreview = document.getElementById('gradientPreview');
+            const colorPickers = document.getElementById('colorPickers');
+            const cssOutput = document.getElementById('cssOutput');
+            const copyCssBtn = document.getElementById('copyCss');
+            const copyAllBtn = document.getElementById('copyAll');
+            const copyFullCssBtn = document.getElementById('copyFullCss');
+            const randomGradientBtn = document.getElementById('randomGradient');
+            const addColorBtn = document.getElementById('addColor');
+            const typeButtons = document.querySelectorAll('.type-btn');
+            const directionSelect = document.getElementById('direction');
+            const angleSlider = document.getElementById('angle');
+            const angleValue = document.getElementById('angleValue');
+            const exampleCards = document.querySelectorAll('.example-card');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            // Initialize color pickers
+            function initializeColorPickers() {
+                colorPickers.innerHTML = '';
+                gradientColors.forEach((color, index) => {
+                    const colorPicker = document.createElement('div');
+                    colorPicker.className = 'color-picker-item';
+                    colorPicker.innerHTML = `
+                        <div class="color-input-group">
+                            <input type="color" class="color-picker" value="${color}" data-index="${index}">
+                            <input type="text" class="color-hex" value="${color}" data-index="${index}" maxlength="7">
+                            ${gradientColors.length > 2 ? `<button class="remove-color" data-index="${index}"><i class="fas fa-times"></i></button>` : ''}
+                        </div>
+                    `;
+                    colorPickers.appendChild(colorPicker);
+                });
+                
+                // Add event listeners for new color pickers
+                document.querySelectorAll('.color-picker').forEach(picker => {
+                    picker.addEventListener('input', updateColorFromPicker);
+                });
+                
+                document.querySelectorAll('.color-hex').forEach(input => {
+                    input.addEventListener('input', updateColorFromHex);
+                    input.addEventListener('change', updateColorFromHex);
+                });
+                
+                document.querySelectorAll('.remove-color').forEach(btn => {
+                    btn.addEventListener('click', removeColor);
+                });
+            }
+            
+            // Update gradient preview
+            function updateGradient() {
+                let gradientString;
+                
+                if (gradientType === 'linear') {
+                    gradientString = `linear-gradient(${gradientDirection}, ${gradientColors.join(', ')})`;
+                } else if (gradientType === 'radial') {
+                    gradientString = `radial-gradient(${gradientDirection}, ${gradientColors.join(', ')})`;
+                } else if (gradientType === 'conic') {
+                    gradientString = `conic-gradient(from ${gradientDirection}, ${gradientColors.join(', ')})`;
+                }
+                
+                gradientPreview.style.background = gradientString;
+                updateCssOutput(gradientString);
+            }
+            
+            // Update CSS output
+            function updateCssOutput(gradientString) {
+                const simpleCss = `background: ${gradientString};`;
+                const fullCss = `.gradient-example {
+    background: ${gradientString};
+    /* For better browser support */
+    background: -webkit-${gradientString};
+    background: -moz-${gradientString};
+    background: -o-${gradientString};
+}`;
+                
+                cssOutput.textContent = simpleCss;
+                cssOutput.dataset.fullCss = fullCss;
+            }
+            
+            // Update color from color picker
+            function updateColorFromPicker(e) {
+                const index = parseInt(e.target.dataset.index);
+                const hexInput = document.querySelector(`.color-hex[data-index="${index}"]`);
+                
+                gradientColors[index] = e.target.value;
+                if (hexInput) hexInput.value = e.target.value;
+                updateGradient();
+            }
+            
+            // Update color from hex input
+            function updateColorFromHex(e) {
+                const index = parseInt(e.target.dataset.index);
+                let value = e.target.value;
+                
+                // Ensure it starts with #
+                if (!value.startsWith('#')) {
+                    value = '#' + value;
+                }
+                
+                // Validate hex color
+                if (/^#[0-9A-F]{6}$/i.test(value)) {
+                    gradientColors[index] = value.toUpperCase();
+                    const colorPicker = document.querySelector(`.color-picker[data-index="${index}"]`);
+                    if (colorPicker) colorPicker.value = value;
+                    updateGradient();
+                }
+            }
+            
+            // Remove color
+            function removeColor(e) {
+                const index = parseInt(e.target.closest('.remove-color').dataset.index);
+                if (gradientColors.length > 2) {
+                    gradientColors.splice(index, 1);
+                    initializeColorPickers();
+                    updateGradient();
+                }
+            }
+            
+            // Add new color
+            function addNewColor() {
+                // Generate a random color
+                const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+                gradientColors.push(randomColor);
+                initializeColorPickers();
+                updateGradient();
+            }
+            
+            // Apply random gradient
+            function applyRandomGradient() {
+                // Generate 2-4 random colors
+                const numColors = Math.floor(Math.random() * 3) + 2;
+                gradientColors = [];
+                for (let i = 0; i < numColors; i++) {
+                    gradientColors.push('#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'));
+                }
+                
+                // Random type
+                const types = ['linear', 'radial', 'conic'];
+                gradientType = types[Math.floor(Math.random() * types.length)];
+                
+                // Update active type button
+                typeButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.type === gradientType) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Random direction for linear
+                if (gradientType === 'linear') {
+                    const directions = ['to right', 'to bottom', '45deg', '90deg', '135deg', '180deg'];
+                    gradientDirection = directions[Math.floor(Math.random() * directions.length)];
+                    directionSelect.value = gradientDirection;
+                }
+                
+                initializeColorPickers();
+                updateGradient();
+                showToast('Random gradient applied!');
+            }
+            
+            // Copy CSS to clipboard
+            function copyCss(fullCss = false) {
+                const text = fullCss ? cssOutput.dataset.fullCss : cssOutput.textContent;
+                
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(fullCss ? 'Full CSS copied!' : 'CSS copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    // Fallback method
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showToast('CSS copied to clipboard!');
+                });
+            }
+            
+            // Show toast notification
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Apply example gradient
+            function applyExample(e) {
+                const card = e.currentTarget;
+                const colors = card.dataset.colors.split(',');
+                const type = card.dataset.type;
+                const direction = card.dataset.direction;
+                
+                gradientColors = colors;
+                gradientType = type;
+                gradientDirection = direction;
+                
+                // Update type buttons
+                typeButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.type === type) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Update direction select
+                if (directionSelect) {
+                    directionSelect.value = direction;
+                }
+                
+                initializeColorPickers();
+                updateGradient();
+                showToast('Example gradient applied!');
+            }
+            
+            // Event Listeners
+            copyCssBtn.addEventListener('click', () => copyCss(false));
+            copyAllBtn.addEventListener('click', () => copyCss(false));
+            copyFullCssBtn.addEventListener('click', () => copyCss(true));
+            randomGradientBtn.addEventListener('click', applyRandomGradient);
+            addColorBtn.addEventListener('click', addNewColor);
+            
+            typeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    typeButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    gradientType = this.dataset.type;
+                    updateGradient();
+                });
+            });
+            
+            if (directionSelect) {
+                directionSelect.addEventListener('change', function() {
+                    gradientDirection = this.value;
+                    updateGradient();
+                });
+            }
+            
+            if (angleSlider && angleValue) {
+                angleSlider.addEventListener('input', function() {
+                    angleValue.textContent = this.value;
+                    gradientDirection = this.value + 'deg';
+                    updateGradient();
+                });
+            }
+            
+            exampleCards.forEach(card => {
+                card.addEventListener('click', applyExample);
+            });
+            
+            // Initialize
+            initializeColorPickers();
+            updateGradient();
+            
+            // Copy navbar functionality from main site
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navLinks.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                        navLinks.classList.remove('show');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
