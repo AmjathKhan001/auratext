@@ -10,14 +10,23 @@
     <meta property="og:title" content="AuraText - Glowing Text Effects Generator">
     <meta property="og:description" content="Create stunning glowing text effects in seconds. Free text effects generator for logos and designs.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://auratext.app">
-    <meta property="og:image" content="https://auratext.app/preview.png">
-    <link rel="canonical" href="https://auratext.app">
+    <meta property="og:url" content="https://auratext-six.vercel.app/">
+    <meta property="og:image" content="https://auratext-six.vercel.app/preview.png">
+    <link rel="canonical" href="https://auratext-six.vercel.app/">
+    
+    <!-- Load CSS first -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Bungee&family=Monoton&family=Rubik+Glitch&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
-    <!-- Google Analytics -->
+    
+    <!-- Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -25,6 +34,21 @@
         gtag('js', new Date());
         gtag('config', 'G-XXXXXXXXXX');
     </script>
+    
+    <!-- Prevent layout shift -->
+    <style>
+        /* Critical CSS to prevent FOUC */
+        body {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        body.loaded {
+            opacity: 1;
+        }
+        * {
+            box-sizing: border-box;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -37,7 +61,7 @@
             <div class="nav-links">
                 <a href="#home" class="active">Home</a>
                 <a href="#effects">Effects</a>
-                <a href="#tools">More Tools</a>
+                <a href="#tools">Tools</a>
                 <a href="blog.html">Blog</a>
                 <a href="#contact">Contact</a>
                 <span class="visitor-count">
@@ -45,7 +69,7 @@
                     <span id="visitor-counter">Loading...</span>
                 </span>
             </div>
-            <button class="menu-toggle">
+            <button class="menu-toggle" aria-label="Menu">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
@@ -66,12 +90,12 @@
             <!-- Text Input -->
             <div class="input-section">
                 <div class="input-group">
-                    <input type="text" id="text-input" placeholder="Enter your text here..." value="AuraText" maxlength="20">
+                    <input type="text" id="text-input" placeholder="Enter your text here..." value="AuraText" maxlength="20" aria-label="Text input">
                     <div class="input-actions">
-                        <button id="clear-btn" class="btn-secondary">
+                        <button id="clear-btn" class="btn-secondary" aria-label="Clear text">
                             <i class="fas fa-times"></i> Clear
                         </button>
-                        <button id="random-btn" class="btn-secondary">
+                        <button id="random-btn" class="btn-secondary" aria-label="Random text">
                             <i class="fas fa-random"></i> Random
                         </button>
                     </div>
@@ -81,20 +105,20 @@
                 <div class="color-picker">
                     <label>Text Color:</label>
                     <div class="color-options">
-                        <input type="color" id="text-color" value="#8a2be2">
+                        <input type="color" id="text-color" value="#8a2be2" aria-label="Choose text color">
                         <div class="color-swatches">
-                            <span class="color-swatch" style="background-color: #8a2be2;" data-color="#8a2be2"></span>
-                            <span class="color-swatch" style="background-color: #00ffff;" data-color="#00ffff"></span>
-                            <span class="color-swatch" style="background-color: #ff4a4a;" data-color="#ff4a4a"></span>
-                            <span class="color-swatch" style="background-color: #4aff6b;" data-color="#4aff6b"></span>
-                            <span class="color-swatch" style="background-color: #ffb74a;" data-color="#ffb74a"></span>
-                            <span class="color-swatch" style="background-color: #9d4aff;" data-color="#9d4aff"></span>
+                            <span class="color-swatch" style="background-color: #8a2be2;" data-color="#8a2be2" aria-label="Purple"></span>
+                            <span class="color-swatch" style="background-color: #00ffff;" data-color="#00ffff" aria-label="Cyan"></span>
+                            <span class="color-swatch" style="background-color: #ff4a4a;" data-color="#ff4a4a" aria-label="Red"></span>
+                            <span class="color-swatch" style="background-color: #4aff6b;" data-color="#4aff6b" aria-label="Green"></span>
+                            <span class="color-swatch" style="background-color: #ffb74a;" data-color="#ffb74a" aria-label="Orange"></span>
+                            <span class="color-swatch" style="background-color: #9d4aff;" data-color="#9d4aff" aria-label="Purple 2"></span>
                         </div>
                     </div>
                     
                     <div class="font-size-control">
                         <label>Font Size:</label>
-                        <input type="range" id="font-size" min="20" max="120" value="60">
+                        <input type="range" id="font-size" min="20" max="120" value="60" aria-label="Font size slider">
                         <span id="font-size-value">60px</span>
                     </div>
                 </div>
@@ -103,17 +127,17 @@
             <!-- Preview Section -->
             <div class="preview-section">
                 <div class="preview-container">
-                    <div id="text-preview" class="text-preview">
+                    <div id="text-preview" class="text-preview" aria-live="polite">
                         <span id="text-display">AuraText</span>
                     </div>
                     <div class="preview-actions">
-                        <button id="download-btn" class="btn-primary">
+                        <button id="download-btn" class="btn-primary" aria-label="Download as PNG">
                             <i class="fas fa-download"></i> Download PNG
                         </button>
-                        <button id="print-btn" class="btn-secondary">
+                        <button id="print-btn" class="btn-secondary" aria-label="Save as PDF">
                             <i class="fas fa-print"></i> Save as PDF
                         </button>
-                        <button id="copy-btn" class="btn-secondary">
+                        <button id="copy-btn" class="btn-secondary" aria-label="Copy CSS style">
                             <i class="fas fa-copy"></i> Copy CSS
                         </button>
                     </div>
@@ -233,19 +257,16 @@
             
             <div class="contact-info">
                 <div class="contact-item">
-                    <i class="fas fa-envelope"></i>
                     <h4>Email</h4>
                     <a href="mailto:contact@amjathkhan.com">contact@amjathkhan.com</a>
                 </div>
                 <div class="contact-item">
-                    <i class="fas fa-phone"></i>
                     <h4>Phone</h4>
                     <a href="tel:+919750816163">+91-9750816163</a>
                 </div>
                 <div class="contact-item">
-                    <i class="fas fa-globe"></i>
                     <h4>Website</h4>
-                    <a href="https://www.amjathkhan.com" target="_blank">www.amjathkhan.com</a>
+                    <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">www.amjathkhan.com</a>
                 </div>
             </div>
             
@@ -291,7 +312,7 @@
                 </div>
                 
                 <div class="copyright">
-                    <p>© 2024 AuraText Generator. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank">Amjath Khan</a>.</p>
+                    <p>© 2024 AuraText Generator. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
                     <p class="visitor-count-footer">
                         <i class="fas fa-users"></i> Visitors: <span id="footer-visitor-counter">Loading...</span>
                     </p>
@@ -301,13 +322,18 @@
     </footer>
 
     <!-- Toast Notification -->
-    <div id="toast" class="toast">
+    <div id="toast" class="toast" aria-live="assertive" role="alert" hidden>
         <span id="toast-message">Effect applied successfully!</span>
     </div>
 
     <!-- Scripts -->
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="script.js"></script>
+    
+    <!-- Add loading class after scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('loaded');
+        });
+    </script>
 </body>
 </html>
