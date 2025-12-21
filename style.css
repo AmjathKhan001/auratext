@@ -1873,3 +1873,18 @@ body {
     background: rgba(138, 43, 226, 0.5);
     border-left: 3px solid #8a2be2;
 }
+/* Ensure dropdown works on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Or if you're using click-to-toggle with JavaScript */
+.dropdown.active .dropdown-menu {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
