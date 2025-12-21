@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox Helper | AuraText Tools</title>
+    <meta name="description" content="Learn and experiment with CSS flexbox properties through interactive visual controls. Master flexbox layout with this visual playground.">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SPTDS5Z14Q"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-SPTDS5Z14Q');
+    </script>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6687860250561653" crossorigin="anonymous"></script>
+    
+    <!-- Flexbox-specific styles -->
+    <style>
+        .flexbox-page {
+            padding-top: 2rem;
+        }
+        
+        .flexbox-generator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .flexbox-generator {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .flexbox-playground {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .flexbox-container {
+            flex: 1;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(15, 12, 41, 0.8);
+            padding: 20px;
+            margin-bottom: 1rem;
+            overflow: auto;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .flex-item {
+            background: rgba(138, 43, 226, 0.3);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            min-width: 80px;
+            min-height: 80px;
+            padding: 10px;
+            transition: all 0.3s;
+        }
+        
+        .flex-item:hover {
+            background: rgba(138, 43, 226, 0.5);
+            transform: scale(1.05);
+        }
+        
+        .flexbox-controls {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 500px;
+            overflow-y: auto;
+        }
+        
+        .control-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .control-section:last-child {
+            border-bottom: none;
+        }
+        
+        .control-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .control-group {
+            margin-bottom: 1rem;
+        }
+        
+        .control-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .property-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .property-btn {
+            padding: 0.6rem 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .property-btn.active {
+            background: #8a2be2;
+            color: white;
+            border-color: #8a2be2;
+        }
+        
+        .property-btn:hover {
+            background: rgba(138, 43, 226, 0.3);
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .slider-container input[type="range"] {
+            flex: 1;
+        }
+        
+        .slider-container .value {
+            color: white;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        
+        .item-controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .item-control-group {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .item-control-group label {
+            color: white;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .item-slider {
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .flexbox-output {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .code-output {
+            background: #1a1a2e;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .code-output pre {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+        
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .example-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .example-card:hover {
+            transform: translateY(-3px);
+            border-color: #8a2be2;
+            background: rgba(138, 43, 226, 0.1);
+        }
+        
+        .example-preview {
+            height: 80px;
+            display: flex;
+            gap: 5px;
+            margin-bottom: 0.75rem;
+            border-radius: 6px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .example-preview div {
+            background: rgba(138, 43, 226, 0.5);
+            border-radius: 3px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .example-card h4 {
+            color: white;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .code-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+        
+        .code-tab {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .code-tab.active {
+            background: #8a2be2;
+            color: white;
+        }
+        
+        .code-content {
+            display: none;
+        }
+        
+        .code-content.active {
+            display: block;
+        }
+        
+        .visual-guide {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .axis-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .axis-label i {
+            color: #8a2be2;
+        }
+        
+        .property-explanation {
+            background: rgba(138, 43, 226, 0.1);
+            border-left: 3px solid #8a2be2;
+            padding: 0.75rem;
+            border-radius: 0 6px 6px 0;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+        
+        .flex-items-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .item-count-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .item-count-btn:hover {
+            background: rgba(138, 43, 226, 0.3);
+        }
+        
+        .item-count-display {
+            color: white;
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+        
+        .direction-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 1.5rem;
+            color: #8a2be2;
+        }
+        
+        .responsive-controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .responsive-btn {
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        .responsive-btn.active {
+            background: rgba(138, 43, 226, 0.3);
+            border-color: #8a2be2;
+            color: white;
+        }
+        
+        .responsive-btn:hover {
+            background: rgba(138, 43, 226, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-aura"></i>
+                <span>AuraText</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#effects">Effects</a>
+                <a href="index.html#text-styles">Text Styles</a>
+                
+                <!-- Our Tools Dropdown -->
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <i class="fas fa-star"></i> Our Tools 
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="index.html">AuraText Generator</a>
+                        <a href="gradient.html">CSS Gradient Generator</a>
+                        <a href="grid-generator.html">CSS Grid Generator</a>
+                        <a href="flexbox-helper.html">Flexbox Helper</a>
+                        <a href="box-shadow.html" class="coming-soon">Box Shadow Generator</a>
+                        <a href="css-animations.html" class="coming-soon">CSS Animations</a>
+                        <a href="color-palette.html" class="coming-soon">Color Palette</a>
+                    </div>
+                </div>
+                
+                <a href="index.html#tools">More Tools</a>
+                <a href="index.html#coming-soon">Coming Soon</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#contact">Contact</a>
+                <span class="visitor-count">
+                    <i class="fas fa-users"></i>
+                    <span id="visitor-counter">Loading...</span>
+                </span>
+            </div>
+            <button class="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Ads Banner -->
+    <div class="ads-banner">
+        <div class="container">
+            <a href="https://amzn.to/4p8ceG6" target="_blank" class="amazon-ad-btn">
+                <i class="fas fa-tag"></i>
+                <span>Clearence Sale Store Upto 70% All Day</span>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+            <a href="https://buymeacoffee.com/s.amjathkhan" target="_blank" class="coffee-btn">
+                <i class="fas fa-coffee"></i>
+                <span>Buy Me a Coffee</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container flexbox-page">
+        <header class="hero">
+            <h1>Flexbox Helper</h1>
+            <p class="subtitle">Learn and experiment with CSS flexbox properties through interactive visual controls</p>
+            <p>Master CSS Flexbox layout with this visual playground. Adjust properties in real-time and see immediate results.</p>
+        </header>
+
+        <div class="flexbox-generator">
+            <!-- Playground Column -->
+            <div class="preview-column">
+                <div class="flexbox-playground">
+                    <div class="flexbox-container" id="flexContainer">
+                        <!-- Flex items will be generated by JavaScript -->
+                    </div>
+                    <div class="visual-guide">
+                        <div class="axis-label">
+                            <i class="fas fa-arrows-alt-h"></i> Main Axis
+                        </div>
+                        <div class="axis-label">
+                            <i class="fas fa-arrows-alt-v"></i> Cross Axis
+                        </div>
+                    </div>
+                </div>
+                <div class="preview-actions" style="margin-top: 1.5rem;">
+                    <button id="copyFlexboxCss" class="btn-primary">
+                        <i class="fas fa-copy"></i> Copy Flexbox CSS
+                    </button>
+                    <button id="resetFlexbox" class="btn-secondary">
+                        <i class="fas fa-redo"></i> Reset Playground
+                    </button>
+                </div>
+            </div>
+
+            <!-- Controls Column -->
+            <div class="flexbox-controls">
+                <!-- Container Properties -->
+                <div class="control-section">
+                    <h3><i class="fas fa-box"></i> Container Properties</h3>
+                    
+                    <div class="control-group">
+                        <label>Flex Direction</label>
+                        <div class="property-buttons" id="directionButtons">
+                            <button class="property-btn active" data-value="row">row</button>
+                            <button class="property-btn" data-value="row-reverse">row-reverse</button>
+                            <button class="property-btn" data-value="column">column</button>
+                            <button class="property-btn" data-value="column-reverse">column-reverse</button>
+                        </div>
+                        <div class="direction-visual" id="directionVisual">
+                            <i class="fas fa-arrow-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Justify Content</label>
+                        <div class="property-buttons" id="justifyButtons">
+                            <button class="property-btn active" data-value="flex-start">flex-start</button>
+                            <button class="property-btn" data-value="center">center</button>
+                            <button class="property-btn" data-value="flex-end">flex-end</button>
+                            <button class="property-btn" data-value="space-between">space-between</button>
+                            <button class="property-btn" data-value="space-around">space-around</button>
+                            <button class="property-btn" data-value="space-evenly">space-evenly</button>
+                        </div>
+                        <div class="property-explanation">
+                            Aligns items along the main axis (horizontal for row, vertical for column)
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Align Items</label>
+                        <div class="property-buttons" id="alignItemsButtons">
+                            <button class="property-btn active" data-value="stretch">stretch</button>
+                            <button class="property-btn" data-value="flex-start">flex-start</button>
+                            <button class="property-btn" data-value="center">center</button>
+                            <button class="property-btn" data-value="flex-end">flex-end</button>
+                            <button class="property-btn" data-value="baseline">baseline</button>
+                        </div>
+                        <div class="property-explanation">
+                            Aligns items along the cross axis (vertical for row, horizontal for column)
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Flex Wrap</label>
+                        <div class="property-buttons" id="wrapButtons">
+                            <button class="property-btn active" data-value="nowrap">nowrap</button>
+                            <button class="property-btn" data-value="wrap">wrap</button>
+                            <button class="property-btn" data-value="wrap-reverse">wrap-reverse</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item Properties -->
+                <div class="control-section">
+                    <h3><i class="fas fa-cube"></i> Item Properties</h3>
+                    
+                    <div class="flex-items-control">
+                        <label>Number of Items:</label>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <button class="item-count-btn" id="decreaseItems">-</button>
+                            <span class="item-count-display" id="itemCount">3</span>
+                            <button class="item-count-btn" id="increaseItems">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="item-controls">
+                        <div class="item-control-group">
+                            <label>Item 1 Order: <span id="item1Order">0</span></label>
+                            <input type="range" class="item-slider" id="item1OrderSlider" min="-3" max="3" value="0">
+                        </div>
+                        
+                        <div class="item-control-group">
+                            <label>Item 1 Flex Grow: <span id="item1Grow">0</span></label>
+                            <input type="range" class="item-slider" id="item1GrowSlider" min="0" max="5" value="0">
+                        </div>
+                        
+                        <div class="item-control-group">
+                            <label>Item 2 Flex Shrink: <span id="item2Shrink">1</span></label>
+                            <input type="range" class="item-slider" id="item2ShrinkSlider" min="0" max="5" value="1">
+                        </div>
+                        
+                        <div class="item-control-group">
+                            <label>Item 3 Flex Basis: <span id="item3Basis">auto</span></label>
+                            <input type="range" class="item-slider" id="item3BasisSlider" min="0" max="200" value="100">
+                        </div>
+                    </div>
+                    
+                    <div class="control-group" style="margin-top: 1rem;">
+                        <label>Align Self (Item 2)</label>
+                        <div class="property-buttons" id="alignSelfButtons">
+                            <button class="property-btn" data-value="auto">auto</button>
+                            <button class="property-btn active" data-value="stretch">stretch</button>
+                            <button class="property-btn" data-value="flex-start">flex-start</button>
+                            <button class="property-btn" data-value="center">center</button>
+                            <button class="property-btn" data-value="flex-end">flex-end</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gap & Spacing -->
+                <div class="control-section">
+                    <h3><i class="fas fa-expand-alt"></i> Gap & Spacing</h3>
+                    
+                    <div class="control-group">
+                        <label>Gap: <span id="gapValue">10px</span></label>
+                        <div class="slider-container">
+                            <input type="range" id="gapSlider" min="0" max="50" value="10">
+                            <span class="value" id="gapDisplay">10px</span>
+                        </div>
+                    </div>
+                    
+                    <div class="responsive-controls">
+                        <button class="responsive-btn active" id="desktopView">
+                            <i class="fas fa-desktop"></i> Desktop
+                        </button>
+                        <button class="responsive-btn" id="mobileView">
+                            <i class="fas fa-mobile-alt"></i> Mobile
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSS Output -->
+        <div class="flexbox-output">
+            <div class="code-tabs">
+                <button class="code-tab active" data-tab="css">CSS Code</button>
+                <button class="code-tab" data-tab="html">HTML Structure</button>
+                <button class="code-tab" data-tab="full">Full Example</button>
+            </div>
+            
+            <div class="code-content active" id="cssTab">
+                <div class="code-output">
+                    <pre id="cssOutput">.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+
+.flex-item {
+    /* Default item styles */
+}
+
+.flex-item:nth-child(1) {
+    order: 0;
+    flex-grow: 0;
+}
+
+.flex-item:nth-child(2) {
+    flex-shrink: 1;
+    align-self: stretch;
+}
+
+.flex-item:nth-child(3) {
+    flex-basis: auto;
+}</pre>
+                </div>
+            </div>
+            
+            <div class="code-content" id="htmlTab">
+                <div class="code-output">
+                    <pre id="htmlOutput">&lt;div class="flex-container"&gt;
+    &lt;div class="flex-item"&gt;1&lt;/div&gt;
+    &lt;div class="flex-item"&gt;2&lt;/div&gt;
+    &lt;div class="flex-item"&gt;3&lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+            
+            <div class="code-content" id="fullTab">
+                <div class="code-output">
+                    <pre id="fullOutput">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Flexbox Layout&lt;/title&gt;
+    &lt;style&gt;
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: stretch;
+            flex-wrap: nowrap;
+            gap: 10px;
+            padding: 20px;
+            background: #1a1a2e;
+            border-radius: 10px;
+            min-height: 300px;
+        }
+        
+        .flex-item {
+            background: #8a2be2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 6px;
+            min-width: 80px;
+            min-height: 80px;
+            padding: 10px;
+        }
+        
+        .flex-item:nth-child(1) {
+            order: 0;
+            flex-grow: 0;
+        }
+        
+        .flex-item:nth-child(2) {
+            flex-shrink: 1;
+            align-self: stretch;
+        }
+        
+        .flex-item:nth-child(3) {
+            flex-basis: auto;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="flex-container"&gt;
+        &lt;div class="flex-item"&gt;1&lt;/div&gt;
+        &lt;div class="flex-item"&gt;2&lt;/div&gt;
+        &lt;div class="flex-item"&gt;3&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                </div>
+            </div>
+            
+            <div class="output-actions" style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button id="copyCssBtn" class="btn-primary">
+                    <i class="fas fa-copy"></i> Copy CSS
+                </button>
+                <button id="copyHtmlBtn" class="btn-secondary">
+                    <i class="fas fa-code"></i> Copy HTML
+                </button>
+                <button id="copyFullBtn" class="btn-secondary">
+                    <i class="fas fa-file-code"></i> Copy Full Code
+                </button>
+            </div>
+        </div>
+
+        <!-- Flexbox Examples -->
+        <section class="coming-soon-section" style="margin-top: 3rem;">
+            <h2>Flexbox Examples</h2>
+            <p class="section-subtitle">Click on any example to apply it to the playground</p>
+            
+            <div class="examples-grid" id="examplesGrid">
+                <!-- Examples will be loaded by JavaScript -->
+            </div>
+        </section>
+
+        <!-- How to Use -->
+        <section class="instructions">
+            <h2>How to Use the Flexbox Helper</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>Adjust Container Properties</h3>
+                    <p>Use the controls to change flex direction, justify content, align items, and flex wrap.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>Customize Items</h3>
+                    <p>Adjust individual item properties like order, flex-grow, flex-shrink, and align-self.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>Try Examples</h3>
+                    <p>Click on example layouts to see common flexbox patterns in action.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <h3>Copy & Learn</h3>
+                    <p>Copy the generated CSS code and use it in your projects while learning flexbox concepts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flexbox Cheat Sheet -->
+        <section class="tools-section" style="margin-top: 3rem;">
+            <div class="container">
+                <h2>Flexbox Cheat Sheet</h2>
+                <p class="section-subtitle">Quick reference for CSS Flexbox properties</p>
+                
+                <div class="tools-categories">
+                    <div class="tool-category">
+                        <h3><i class="fas fa-box"></i> Container Properties</h3>
+                        <div class="tool-links">
+                            <a href="#" class="cheat-item">
+                                <strong>display: flex</strong>
+                                <span>Creates a flex container</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>flex-direction</strong>
+                                <span>row | row-reverse | column | column-reverse</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>justify-content</strong>
+                                <span>Aligns items on main axis</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>align-items</strong>
+                                <span>Aligns items on cross axis</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>flex-wrap</strong>
+                                <span>nowrap | wrap | wrap-reverse</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-category">
+                        <h3><i class="fas fa-cube"></i> Item Properties</h3>
+                        <div class="tool-links">
+                            <a href="#" class="cheat-item">
+                                <strong>order</strong>
+                                <span>Controls display order (integer)</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>flex-grow</strong>
+                                <span>Ability to grow (number)</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>flex-shrink</strong>
+                                <span>Ability to shrink (number)</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>flex-basis</strong>
+                                <span>Initial size before growing/shrinking</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>align-self</strong>
+                                <span>Overrides align-items for single item</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-category">
+                        <h3><i class="fas fa-lightbulb"></i> Common Patterns</h3>
+                        <div class="tool-links">
+                            <a href="#" class="cheat-item">
+                                <strong>Centering</strong>
+                                <span>justify-content: center; align-items: center;</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>Equal Columns</strong>
+                                <span>flex: 1 on all items</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>Navigation Bar</strong>
+                                <span>flex-direction: row; justify-content: space-between;</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>Card Grid</strong>
+                                <span>flex-wrap: wrap; gap: 20px;</span>
+                            </a>
+                            <a href="#" class="cheat-item">
+                                <strong>Sticky Footer</strong>
+                                <span>flex-direction: column; min-height: 100vh;</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-aura"></i>
+                    <span>AuraText</span>
+                </div>
+                <p class="footer-tagline">Master CSS layout with interactive design tools.</p>
+                
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#effects">Effects</a>
+                    <a href="index.html#text-styles">Text Styles</a>
+                    <a href="gradient.html">Gradient Tool</a>
+                    <a href="grid-generator.html">Grid Generator</a>
+                    <a href="flexbox-helper.html">Flexbox Helper</a>
+                    <a href="index.html#coming-soon">More Tools</a>
+                    <a href="index.html#blog">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                
+                <div class="copyright">
+                    <p>© 2025 www.auratext.online. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-message">CSS copied to clipboard!</span>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Flexbox Helper JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Flexbox configuration
+            let flexConfig = {
+                // Container properties
+                direction: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'stretch',
+                flexWrap: 'nowrap',
+                gap: 10,
+                
+                // Item properties
+                itemCount: 3,
+                items: [
+                    { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto' },
+                    { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' },
+                    { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto' }
+                ],
+                
+                // Responsive mode
+                responsiveMode: 'desktop'
+            };
+            
+            // DOM Elements
+            const flexContainer = document.getElementById('flexContainer');
+            const directionButtons = document.getElementById('directionButtons');
+            const justifyButtons = document.getElementById('justifyButtons');
+            const alignItemsButtons = document.getElementById('alignItemsButtons');
+            const wrapButtons = document.getElementById('wrapButtons');
+            const alignSelfButtons = document.getElementById('alignSelfButtons');
+            const directionVisual = document.getElementById('directionVisual');
+            const itemCountDisplay = document.getElementById('itemCount');
+            const decreaseItemsBtn = document.getElementById('decreaseItems');
+            const increaseItemsBtn = document.getElementById('increaseItems');
+            const gapSlider = document.getElementById('gapSlider');
+            const gapValue = document.getElementById('gapValue');
+            const gapDisplay = document.getElementById('gapDisplay');
+            const item1OrderSlider = document.getElementById('item1OrderSlider');
+            const item1OrderDisplay = document.getElementById('item1Order');
+            const item1GrowSlider = document.getElementById('item1GrowSlider');
+            const item1GrowDisplay = document.getElementById('item1Grow');
+            const item2ShrinkSlider = document.getElementById('item2ShrinkSlider');
+            const item2ShrinkDisplay = document.getElementById('item2Shrink');
+            const item3BasisSlider = document.getElementById('item3BasisSlider');
+            const item3BasisDisplay = document.getElementById('item3Basis');
+            const desktopViewBtn = document.getElementById('desktopView');
+            const mobileViewBtn = document.getElementById('mobileView');
+            const cssOutput = document.getElementById('cssOutput');
+            const htmlOutput = document.getElementById('htmlOutput');
+            const fullOutput = document.getElementById('fullOutput');
+            const copyFlexboxCssBtn = document.getElementById('copyFlexboxCss');
+            const copyCssBtn = document.getElementById('copyCssBtn');
+            const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+            const copyFullBtn = document.getElementById('copyFullBtn');
+            const resetFlexboxBtn = document.getElementById('resetFlexbox');
+            const examplesGrid = document.getElementById('examplesGrid');
+            const codeTabs = document.querySelectorAll('.code-tab');
+            const codeContents = document.querySelectorAll('.code-content');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            // Initialize flexbox
+            function initFlexbox() {
+                generateFlexItems();
+                updateFlexboxStyles();
+                updateOutput();
+                loadExamples();
+                setupEventListeners();
+                updateDirectionVisual();
+            }
+            
+            // Generate flex items
+            function generateFlexItems() {
+                flexContainer.innerHTML = '';
+                
+                for (let i = 0; i < flexConfig.itemCount; i++) {
+                    const flexItem = document.createElement('div');
+                    flexItem.className = 'flex-item';
+                    flexItem.textContent = i + 1;
+                    flexItem.dataset.index = i;
+                    
+                    // Set item-specific styles
+                    const itemConfig = flexConfig.items[i] || { 
+                        order: 0, 
+                        flexGrow: 0, 
+                        flexShrink: 1, 
+                        flexBasis: 'auto', 
+                        alignSelf: 'auto' 
+                    };
+                    
+                    flexItem.style.order = itemConfig.order;
+                    flexItem.style.flexGrow = itemConfig.flexGrow;
+                    flexItem.style.flexShrink = itemConfig.flexShrink;
+                    flexItem.style.flexBasis = i === 2 ? `${itemConfig.flexBasis}px` : itemConfig.flexBasis;
+                    if (i === 1) {
+                        flexItem.style.alignSelf = itemConfig.alignSelf;
+                    }
+                    
+                    flexContainer.appendChild(flexItem);
+                }
+                
+                // Update display
+                itemCountDisplay.textContent = flexConfig.itemCount;
+            }
+            
+            // Update flexbox styles
+            function updateFlexboxStyles() {
+                // Container properties
+                flexContainer.style.flexDirection = flexConfig.direction;
+                flexContainer.style.justifyContent = flexConfig.justifyContent;
+                flexContainer.style.alignItems = flexConfig.alignItems;
+                flexContainer.style.flexWrap = flexConfig.flexWrap;
+                flexContainer.style.gap = `${flexConfig.gap}px`;
+                
+                // Update display values
+                gapValue.textContent = `${flexConfig.gap}px`;
+                gapDisplay.textContent = `${flexConfig.gap}px`;
+                
+                // Update item displays
+                item1OrderDisplay.textContent = flexConfig.items[0].order;
+                item1GrowDisplay.textContent = flexConfig.items[0].flexGrow;
+                item2ShrinkDisplay.textContent = flexConfig.items[1].flexShrink;
+                item3BasisDisplay.textContent = flexConfig.items[2].flexBasis === 'auto' ? 'auto' : `${flexConfig.items[2].flexBasis}px`;
+                
+                // Update sliders
+                item1OrderSlider.value = flexConfig.items[0].order;
+                item1GrowSlider.value = flexConfig.items[0].flexGrow;
+                item2ShrinkSlider.value = flexConfig.items[1].flexShrink;
+                item3BasisSlider.value = flexConfig.items[2].flexBasis === 'auto' ? 100 : flexConfig.items[2].flexBasis;
+                
+                // Update responsive mode
+                if (flexConfig.responsiveMode === 'mobile') {
+                    flexContainer.style.maxWidth = '400px';
+                    flexContainer.style.margin = '0 auto';
+                } else {
+                    flexContainer.style.maxWidth = 'none';
+                    flexContainer.style.margin = '0';
+                }
+            }
+            
+            // Update direction visual
+            function updateDirectionVisual() {
+                let icon = 'fa-arrow-right';
+                let rotation = 0;
+                
+                switch(flexConfig.direction) {
+                    case 'row':
+                        icon = 'fa-arrow-right';
+                        rotation = 0;
+                        break;
+                    case 'row-reverse':
+                        icon = 'fa-arrow-left';
+                        rotation = 0;
+                        break;
+                    case 'column':
+                        icon = 'fa-arrow-down';
+                        rotation = 0;
+                        break;
+                    case 'column-reverse':
+                        icon = 'fa-arrow-up';
+                        rotation = 0;
+                        break;
+                }
+                
+                directionVisual.innerHTML = `<i class="fas ${icon}" style="transform: rotate(${rotation}deg);"></i>`;
+            }
+            
+            // Update output code
+            function updateOutput() {
+                // CSS Output
+                const cssCode = `.flex-container {
+    display: flex;
+    flex-direction: ${flexConfig.direction};
+    justify-content: ${flexConfig.justifyContent};
+    align-items: ${flexConfig.alignItems};
+    flex-wrap: ${flexConfig.flexWrap};
+    gap: ${flexConfig.gap}px;
+}
+
+.flex-item {
+    /* Default item styles */
+}
+
+.flex-item:nth-child(1) {
+    order: ${flexConfig.items[0].order};
+    flex-grow: ${flexConfig.items[0].flexGrow};
+}
+
+.flex-item:nth-child(2) {
+    flex-shrink: ${flexConfig.items[1].flexShrink};
+    align-self: ${flexConfig.items[1].alignSelf};
+}
+
+.flex-item:nth-child(3) {
+    flex-basis: ${flexConfig.items[2].flexBasis === 'auto' ? 'auto' : flexConfig.items[2].flexBasis + 'px'};
+}`;
+                cssOutput.textContent = cssCode;
+                
+                // HTML Output
+                let htmlCode = '<div class="flex-container">\n';
+                for (let i = 1; i <= flexConfig.itemCount; i++) {
+                    htmlCode += `    <div class="flex-item">${i}</div>\n`;
+                }
+                htmlCode += '</div>';
+                htmlOutput.textContent = htmlCode;
+                
+                // Full Output
+                const fullCode = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox Layout</title>
+    <style>
+        .flex-container {
+            display: flex;
+            flex-direction: ${flexConfig.direction};
+            justify-content: ${flexConfig.justifyContent};
+            align-items: ${flexConfig.alignItems};
+            flex-wrap: ${flexConfig.flexWrap};
+            gap: ${flexConfig.gap}px;
+            padding: 20px;
+            background: #1a1a2e;
+            border-radius: 10px;
+            min-height: 300px;
+        }
+        
+        .flex-item {
+            background: #8a2be2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 6px;
+            min-width: 80px;
+            min-height: 80px;
+            padding: 10px;
+        }
+        
+        .flex-item:nth-child(1) {
+            order: ${flexConfig.items[0].order};
+            flex-grow: ${flexConfig.items[0].flexGrow};
+        }
+        
+        .flex-item:nth-child(2) {
+            flex-shrink: ${flexConfig.items[1].flexShrink};
+            align-self: ${flexConfig.items[1].alignSelf};
+        }
+        
+        .flex-item:nth-child(3) {
+            flex-basis: ${flexConfig.items[2].flexBasis === 'auto' ? 'auto' : flexConfig.items[2].flexBasis + 'px'};
+        }
+    </style>
+</head>
+<body>
+    <div class="flex-container">
+${Array.from({length: flexConfig.itemCount}, (_, i) => `        <div class="flex-item">${i + 1}</div>`).join('\n')}
+    </div>
+</body>
+</html>`;
+                fullOutput.textContent = fullCode;
+            }
+            
+            // Load examples
+            function loadExamples() {
+                const examples = [
+                    {
+                        name: 'Centered Layout',
+                        config: {
+                            direction: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexWrap: 'nowrap',
+                            gap: 20
+                        }
+                    },
+                    {
+                        name: 'Navigation Bar',
+                        config: {
+                            direction: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            flexWrap: 'nowrap',
+                            gap: 10
+                        }
+                    },
+                    {
+                        name: 'Card Grid',
+                        config: {
+                            direction: 'row',
+                            justifyContent: 'flex-start',
+                            alignItems: 'stretch',
+                            flexWrap: 'wrap',
+                            gap: 15
+                        }
+                    },
+                    {
+                        name: 'Sidebar Layout',
+                        config: {
+                            direction: 'column',
+                            justifyContent: 'flex-start',
+                            alignItems: 'stretch',
+                            flexWrap: 'nowrap',
+                            gap: 10
+                        }
+                    },
+                    {
+                        name: 'Equal Columns',
+                        config: {
+                            direction: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'stretch',
+                            flexWrap: 'nowrap',
+                            gap: 0,
+                            items: [
+                                { order: 0, flexGrow: 1, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' },
+                                { order: 0, flexGrow: 1, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' },
+                                { order: 0, flexGrow: 1, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' }
+                            ]
+                        }
+                    },
+                    {
+                        name: 'Vertical Center',
+                        config: {
+                            direction: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexWrap: 'nowrap',
+                            gap: 10
+                        }
+                    }
+                ];
+                
+                examplesGrid.innerHTML = '';
+                examples.forEach(example => {
+                    const exampleCard = document.createElement('div');
+                    exampleCard.className = 'example-card';
+                    exampleCard.dataset.example = JSON.stringify(example.config);
+                    
+                    // Create preview
+                    let previewHTML = '<div class="example-preview">';
+                    for (let i = 1; i <= 3; i++) {
+                        previewHTML += `<div>${i}</div>`;
+                    }
+                    previewHTML += '</div>';
+                    
+                    exampleCard.innerHTML = previewHTML + `<h4>${example.name}</h4>`;
+                    examplesGrid.appendChild(exampleCard);
+                });
+            }
+            
+            // Apply example
+            function applyExample(config) {
+                // Update container properties
+                flexConfig.direction = config.direction;
+                flexConfig.justifyContent = config.justifyContent;
+                flexConfig.alignItems = config.alignItems;
+                flexConfig.flexWrap = config.flexWrap;
+                flexConfig.gap = config.gap;
+                
+                // Update items if provided
+                if (config.items) {
+                    flexConfig.items = config.items;
+                }
+                
+                // Update buttons
+                updateActiveButtons('directionButtons', flexConfig.direction);
+                updateActiveButtons('justifyButtons', flexConfig.justifyContent);
+                updateActiveButtons('alignItemsButtons', flexConfig.alignItems);
+                updateActiveButtons('wrapButtons', flexConfig.flexWrap);
+                updateActiveButtons('alignSelfButtons', flexConfig.items[1].alignSelf);
+                
+                // Update sliders
+                gapSlider.value = flexConfig.gap;
+                
+                // Regenerate and update
+                generateFlexItems();
+                updateFlexboxStyles();
+                updateOutput();
+                updateDirectionVisual();
+                
+                showToast('Example applied!');
+            }
+            
+            // Update active buttons
+            function updateActiveButtons(containerId, value) {
+                const container = document.getElementById(containerId);
+                const buttons = container.querySelectorAll('.property-btn');
+                
+                buttons.forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.value === value) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+            
+            // Copy to clipboard
+            function copyToClipboard(text, message) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(message);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    // Fallback method
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showToast(message);
+                });
+            }
+            
+            // Show toast notification
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Reset flexbox to defaults
+            function resetFlexbox() {
+                flexConfig = {
+                    direction: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'stretch',
+                    flexWrap: 'nowrap',
+                    gap: 10,
+                    itemCount: 3,
+                    items: [
+                        { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto' },
+                        { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' },
+                        { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto' }
+                    ],
+                    responsiveMode: 'desktop'
+                };
+                
+                // Reset buttons
+                updateActiveButtons('directionButtons', 'row');
+                updateActiveButtons('justifyButtons', 'flex-start');
+                updateActiveButtons('alignItemsButtons', 'stretch');
+                updateActiveButtons('wrapButtons', 'nowrap');
+                updateActiveButtons('alignSelfButtons', 'stretch');
+                
+                // Reset responsive buttons
+                desktopViewBtn.classList.add('active');
+                mobileViewBtn.classList.remove('active');
+                
+                // Reset sliders
+                gapSlider.value = 10;
+                item1OrderSlider.value = 0;
+                item1GrowSlider.value = 0;
+                item2ShrinkSlider.value = 1;
+                item3BasisSlider.value = 100;
+                
+                generateFlexItems();
+                updateFlexboxStyles();
+                updateOutput();
+                updateDirectionVisual();
+                showToast('Flexbox playground reset!');
+            }
+            
+            // Setup event listeners
+            function setupEventListeners() {
+                // Property buttons
+                setupPropertyButtons(directionButtons, 'direction');
+                setupPropertyButtons(justifyButtons, 'justifyContent');
+                setupPropertyButtons(alignItemsButtons, 'alignItems');
+                setupPropertyButtons(wrapButtons, 'flexWrap');
+                setupPropertyButtons(alignSelfButtons, 'alignSelfItem');
+                
+                function setupPropertyButtons(container, property) {
+                    const buttons = container.querySelectorAll('.property-btn');
+                    buttons.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            // Remove active class from all buttons
+                            buttons.forEach(b => b.classList.remove('active'));
+                            // Add active class to clicked button
+                            this.classList.add('active');
+                            
+                            const value = this.dataset.value;
+                            
+                            if (property === 'alignSelfItem') {
+                                flexConfig.items[1].alignSelf = value;
+                            } else {
+                                flexConfig[property] = value;
+                            }
+                            
+                            updateFlexboxStyles();
+                            updateOutput();
+                            
+                            if (property === 'direction') {
+                                updateDirectionVisual();
+                            }
+                        });
+                    });
+                }
+                
+                // Item count buttons
+                decreaseItemsBtn.addEventListener('click', function() {
+                    if (flexConfig.itemCount > 1) {
+                        flexConfig.itemCount--;
+                        itemCountDisplay.textContent = flexConfig.itemCount;
+                        generateFlexItems();
+                        updateOutput();
+                    }
+                });
+                
+                increaseItemsBtn.addEventListener('click', function() {
+                    if (flexConfig.itemCount < 8) {
+                        flexConfig.itemCount++;
+                        itemCountDisplay.textContent = flexConfig.itemCount;
+                        
+                        // Add new item config if needed
+                        if (flexConfig.items.length < flexConfig.itemCount) {
+                            flexConfig.items.push({ 
+                                order: 0, 
+                                flexGrow: 0, 
+                                flexShrink: 1, 
+                                flexBasis: 'auto', 
+                                alignSelf: 'auto' 
+                            });
+                        }
+                        
+                        generateFlexItems();
+                        updateOutput();
+                    }
+                });
+                
+                // Gap slider
+                gapSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    flexConfig.gap = value;
+                    updateFlexboxStyles();
+                    updateOutput();
+                });
+                
+                // Item sliders
+                item1OrderSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    flexConfig.items[0].order = value;
+                    updateFlexboxStyles();
+                    updateOutput();
+                });
+                
+                item1GrowSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    flexConfig.items[0].flexGrow = value;
+                    updateFlexboxStyles();
+                    updateOutput();
+                });
+                
+                item2ShrinkSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    flexConfig.items[1].flexShrink = value;
+                    updateFlexboxStyles();
+                    updateOutput();
+                });
+                
+                item3BasisSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    flexConfig.items[2].flexBasis = value === 100 ? 'auto' : value;
+                    updateFlexboxStyles();
+                    updateOutput();
+                });
+                
+                // Responsive buttons
+                desktopViewBtn.addEventListener('click', function() {
+                    desktopViewBtn.classList.add('active');
+                    mobileViewBtn.classList.remove('active');
+                    flexConfig.responsiveMode = 'desktop';
+                    updateFlexboxStyles();
+                });
+                
+                mobileViewBtn.addEventListener('click', function() {
+                    mobileViewBtn.classList.add('active');
+                    desktopViewBtn.classList.remove('active');
+                    flexConfig.responsiveMode = 'mobile';
+                    updateFlexboxStyles();
+                });
+                
+                // Example cards
+                document.querySelectorAll('.example-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const config = JSON.parse(this.dataset.example);
+                        applyExample(config);
+                    });
+                });
+                
+                // Copy buttons
+                copyFlexboxCssBtn.addEventListener('click', () => {
+                    copyToClipboard(cssOutput.textContent, 'Flexbox CSS copied!');
+                });
+                
+                copyCssBtn.addEventListener('click', () => {
+                    copyToClipboard(cssOutput.textContent, 'CSS code copied!');
+                });
+                
+                copyHtmlBtn.addEventListener('click', () => {
+                    copyToClipboard(htmlOutput.textContent, 'HTML code copied!');
+                });
+                
+                copyFullBtn.addEventListener('click', () => {
+                    copyToClipboard(fullOutput.textContent, 'Full example copied!');
+                });
+                
+                // Reset button
+                resetFlexboxBtn.addEventListener('click', resetFlexbox);
+                
+                // Code tabs
+                codeTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        const tabName = this.dataset.tab;
+                        
+                        // Update active tab
+                        codeTabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Show corresponding content
+                        codeContents.forEach(content => {
+                            content.classList.remove('active');
+                            if (content.id === tabName + 'Tab') {
+                                content.classList.add('active');
+                            }
+                        });
+                    });
+                });
+            }
+            
+            // Initialize
+            initFlexbox();
+            
+            // Copy navbar functionality from main site
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navLinks.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                        navLinks.classList.remove('show');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
