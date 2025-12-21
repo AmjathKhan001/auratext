@@ -46,7 +46,7 @@
                 <a href="#effects">Effects</a>
                 <a href="#text-styles">Text Styles</a>
                 
-                <!-- Our Tools Dropdown -->
+                <!-- Our Tools Dropdown - FIXED -->
                 <div class="dropdown">
                     <a href="#" class="dropdown-toggle">Our Tools <i class="fas fa-chevron-down"></i></a>
                     <div class="dropdown-menu">
@@ -57,7 +57,7 @@
                         <a href="box-shadow.html">Box Shadow Generator</a>
                         <a href="animations-generator.html">CSS Animations Generator</a>
                         <a href="palette-generator.html">Color Palette Generator</a>
-                        <a href="color-picker.html">Color Picker Tool</a>
+                        <a href="#try-now" class="color-picker-tool">Color Picker Tool</a>
                     </div>
                 </div>
                 
@@ -338,18 +338,18 @@
         </div>
     </section>
 
-    <!-- Try Now Developer Tools Section -->
+    <!-- Try Now Developer Tools Section - IMPROVED -->
     <section class="try-now-section" id="try-now">
         <div class="container">
             <h2>Try Now - New Design Tools</h2>
-            <p class="section-subtitle">Exciting new tools we're working on. Try them now!</p>
+            <p class="section-subtitle">Exciting new tools we're working on. Try them now! (White text for better visibility)</p>
             
             <div class="try-now-grid">
                 <div class="try-now-card">
                     <div class="try-now-icon">
                         <i class="fas fa-fill-drip"></i>
                     </div>
-                    <h3>CSS Gradient</h3>
+                    <h3>CSS Gradient Generator</h3>
                     <p>Create beautiful gradient backgrounds for your websites with custom color stops and directions.</p>
                     <a href="gradient.html" class="try-now-btn">Try Now</a>
                 </div>
@@ -394,9 +394,21 @@
                     <div class="try-now-icon">
                         <i class="fas fa-palette"></i>
                     </div>
-                    <h3>Color Palette</h3>
+                    <h3>Color Palette Generator</h3>
                     <p>Discover beautiful color palettes for your design projects with harmony rules and export options.</p>
                     <a href="palette-generator.html" class="try-now-btn">Try Now</a>
+                </div>
+                
+                <!-- New Color Picker Tool -->
+                <div class="try-now-card">
+                    <div class="try-now-icon">
+                        <i class="fas fa-eye-dropper"></i>
+                    </div>
+                    <h3>Color Picker Tool</h3>
+                    <p>Interactive color picker with live preview, hex/RGB support, and copy to clipboard functionality.</p>
+                    <button class="try-now-btn color-picker-modal-btn">
+                        <i class="fas fa-play-circle"></i> Try Now
+                    </button>
                 </div>
             </div>
         </div>
@@ -559,6 +571,20 @@
             </div>
         </div>
     </footer>
+
+    <!-- Modal for Tools -->
+    <div id="toolModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-eye-dropper"></i> <span id="modalTitle">Color Picker</span></h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <p id="modalDescription">Pick, preview, and copy colors in different formats</p>
+            <div id="modalContent">
+                <!-- Tool content will be inserted here -->
+            </div>
+        </div>
+    </div>
 
     <!-- Toast Notification -->
     <div id="toast" class="toast">
