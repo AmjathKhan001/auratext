@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Box Shadow Generator | AuraText Tools</title>
+    <title>CSS Box Shadow Generator | AuraText Tools</title>
+    <meta name="description" content="Generate beautiful CSS box shadows with custom blur, spread, color, and inset options. Visual preview and code generation.">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SPTDS5Z14Q"></script>
     <script>
@@ -15,215 +21,753 @@
         gtag('js', new Date());
         gtag('config', 'G-SPTDS5Z14Q');
     </script>
+    
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6687860250561653" crossorigin="anonymous"></script>
+    
+    <!-- Box Shadow-specific styles -->
+    <style>
+        /* Page layout */
+        .tool-page {
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+        }
+        
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Box shadow generator layout */
+        .shadow-generator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 992px) {
+            .shadow-generator {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Preview section */
+        .preview-container {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+        
+        .shadow-preview {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .shadow-box {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+        
+        /* Controls */
+        .tool-controls {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group label {
+            display: block;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        /* Range sliders */
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .slider-value {
+            min-width: 60px;
+            text-align: center;
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: #8a2be2;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        
+        /* Color picker */
+        .color-picker-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .color-picker-input {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .color-hex-input {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: monospace;
+        }
+        
+        /* Toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+            margin-top: 0.5rem;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 30px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #8a2be2;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+        
+        /* Checkbox group */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .checkbox-item input {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 480px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        /* Code output */
+        .code-output {
+            background: #1a1a2e;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+            margin-top: 1rem;
+        }
+        
+        .code-output pre {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        /* Buttons */
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Examples grid */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .example-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .example-card:hover {
+            transform: translateY(-5px);
+            border-color: #8a2be2;
+        }
+        
+        .example-preview {
+            height: 100px;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .example-box {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+        }
+        
+        .example-card h4 {
+            color: white;
+            text-align: center;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        /* Instructions */
+        .instructions {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .instructions h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 1rem;
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Dropdown styles */
+        .nav-links .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-menu a:hover {
+            background: rgba(138, 43, 226, 0.3);
+        }
+        
+        .dropdown-menu a.active {
+            background: rgba(138, 43, 226, 0.5);
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
+        <div class="container">
             <a href="index.html" class="logo">
-                <i class="fas fa-code"></i>
-                <span>AuraText</span> Tools
+                <i class="fas fa-aura"></i>
+                <span>AuraText</span>
             </a>
-            <ul class="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                <li class="dropdown">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#effects">Effects</a>
+                <a href="index.html#text-styles">Text Styles</a>
+                
+                <!-- Our Tools Dropdown -->
+                <div class="dropdown">
                     <a href="#" class="dropdown-toggle active">Our Tools <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="index.html">AuraText Generator</a></li>
-                        <li><a href="gradient.html">CSS Gradient Generator</a></li>
-                        <li><a href="grid-generator.html">CSS Grid Generator</a></li>
-                        <li><a href="flexbox-helper.html">Flexbox Helper</a></li>
-                        <li><a href="box-shadow.html">Box Shadow Generator</a></li>
-                        <li><a href="animations-generator.html">CSS Animations Generator</a></li>
-                        <li><a href="palette-generator.html">Color Palette Generator</a></li>
-                        <li><a href="color-picker.html">Color Picker Tool</a></li>
-                    </ul>
-                </li>
-                <li><a href="#how-to-use">How to Use</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+                    <div class="dropdown-menu">
+                        <a href="index.html">AuraText Generator</a>
+                        <a href="gradient.html">CSS Gradient Generator</a>
+                        <a href="grid-generator.html">CSS Grid Generator</a>
+                        <a href="flexbox-helper.html">Flexbox Helper</a>
+                        <a href="box-shadow.html" class="active">Box Shadow Generator</a>
+                        <a href="animations-generator.html">CSS Animations Generator</a>
+                        <a href="palette-generator.html">Color Palette Generator</a>
+                        <a href="color-picker.html">Color Picker Tool</a>
+                    </div>
+                </div>
+                
+                <a href="index.html#tools">More Tools</a>
+                <a href="index.html#try-now">Try Now</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#contact">Contact</a>
+                <span class="visitor-count">
+                    <i class="fas fa-users"></i>
+                    <span id="visitor-counter">Loading...</span>
+                </span>
             </div>
+            <button class="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
+    <!-- Ads Banner -->
+    <div class="ads-banner">
+        <div class="container">
+            <a href="https://amzn.to/4p8ceG6" target="_blank" class="amazon-ad-btn">
+                <i class="fas fa-tag"></i>
+                <span>Clearence Sale Store Upto 70% All Day</span>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+            <a href="https://buymeacoffee.com/s.amjathkhan" target="_blank" class="coffee-btn">
+                <i class="fas fa-coffee"></i>
+                <span>Buy Me a Coffee</span>
+            </a>
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <main class="container">
-        <header class="tool-header">
-            <h1><i class="fas fa-layer-group"></i> Box Shadow Generator</h1>
-            <p class="subtitle">Create beautiful CSS box shadows with multiple layers and real-time preview</p>
+    <main class="container tool-page">
+        <header class="hero">
+            <h1>CSS Box Shadow Generator</h1>
+            <p class="subtitle">Create beautiful shadows for your elements</p>
+            <p>Generate CSS box shadows with custom offset, blur, spread, color, and inset options. Perfect for cards, buttons, and UI elements.</p>
         </header>
 
-        <div class="tool-layout">
-            <!-- Left Panel: Controls -->
-            <div class="controls-panel">
-                <div class="panel-header">
-                    <h3><i class="fas fa-sliders-h"></i> Shadow Controls</h3>
-                    <div class="panel-actions">
-                        <button id="addLayer" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i> Add Layer
-                        </button>
-                        <button id="resetAll" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-redo"></i> Reset
-                        </button>
+        <div class="shadow-generator">
+            <!-- Preview Column -->
+            <div class="preview-column">
+                <div class="preview-container">
+                    <h3><i class="fas fa-eye"></i> Shadow Preview</h3>
+                    <div class="shadow-preview" id="shadowPreview">
+                        <div class="shadow-box" id="shadowBox">
+                            Box Shadow
+                        </div>
                     </div>
-                </div>
-
-                <div class="layers-container" id="layersContainer">
-                    <!-- Layers will be dynamically added here -->
-                </div>
-
-                <!-- Presets -->
-                <div class="presets-section">
-                    <h4><i class="fas fa-star"></i> Shadow Presets</h4>
-                    <div class="presets-grid">
-                        <button class="preset-btn" data-preset="soft">Soft Shadow</button>
-                        <button class="preset-btn" data-preset="neomorphic">Neomorphic</button>
-                        <button class="preset-btn" data-preset="floating">Floating</button>
-                        <button class="preset-btn" data-preset="inset">Inset Shadow</button>
-                        <button class="preset-btn" data-preset="multiple">Multiple Layers</button>
-                        <button class="preset-btn" data-preset="glow">Glow Effect</button>
+                    <div class="action-buttons" style="margin-top: 1.5rem;">
+                        <button id="randomShadow" class="btn-secondary">
+                            <i class="fas fa-random"></i> Random Shadow
+                        </button>
+                        <button id="copyPreview" class="btn-secondary">
+                            <i class="fas fa-copy"></i> Copy CSS
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Panel: Preview & Output -->
-            <div class="preview-panel">
-                <!-- Preview Box -->
-                <div class="preview-section">
-                    <h3><i class="fas fa-eye"></i> Preview</h3>
-                    <div class="preview-area">
-                        <div class="preview-container">
-                            <div id="shadowPreview" class="preview-box">
-                                <div class="preview-content">
-                                    <i class="fas fa-box"></i>
-                                    <p>Box Shadow Preview</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="preview-options">
-                            <div class="option-group">
-                                <label for="previewBg">Background:</label>
-                                <select id="previewBg" class="form-select">
-                                    <option value="#0f0c29">Dark</option>
-                                    <option value="#ffffff">Light</option>
-                                    <option value="#302b63">Purple</option>
-                                    <option value="gradient">Gradient</option>
-                                </select>
-                            </div>
-                            <div class="option-group">
-                                <label for="previewShape">Box Type:</label>
-                                <select id="previewShape" class="form-select">
-                                    <option value="rectangle">Rectangle</option>
-                                    <option value="circle">Circle</option>
-                                    <option value="rounded">Rounded</option>
-                                </select>
-                            </div>
-                        </div>
+            <!-- Controls Column -->
+            <div class="tool-controls">
+                <!-- Horizontal Offset -->
+                <div class="control-group">
+                    <label for="offsetX">Horizontal Offset: <span id="offsetXValue">10px</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="offsetX" min="-50" max="50" value="10" class="slider">
+                        <span class="slider-value" id="offsetXDisplay">10px</span>
                     </div>
                 </div>
 
-                <!-- Generated CSS -->
-                <div class="output-section">
-                    <h3><i class="fas fa-code"></i> Generated CSS</h3>
-                    <div class="code-container">
-                        <pre id="cssOutput"><code class="css">box-shadow: none;</code></pre>
-                        <button id="copyCode" class="btn btn-primary copy-btn" title="Copy to clipboard">
-                            <i class="far fa-copy"></i> Copy CSS
-                        </button>
-                    </div>
-                    <div class="usage-tip">
-                        <i class="fas fa-info-circle"></i>
-                        <span>Add to your CSS: <code>.your-element { box-shadow: ... }</code></span>
+                <!-- Vertical Offset -->
+                <div class="control-group">
+                    <label for="offsetY">Vertical Offset: <span id="offsetYValue">10px</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="offsetY" min="-50" max="50" value="10" class="slider">
+                        <span class="slider-value" id="offsetYDisplay">10px</span>
                     </div>
                 </div>
 
-                <!-- Ad Space -->
-                <div class="ad-space">
-                    <!-- Google AdSense -->
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-XXXXXXXXXX"
-                         data-ad-slot="XXXXXXXXXX"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
+                <!-- Blur Radius -->
+                <div class="control-group">
+                    <label for="blurRadius">Blur Radius: <span id="blurValue">15px</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="blurRadius" min="0" max="100" value="15" class="slider">
+                        <span class="slider-value" id="blurDisplay">15px</span>
+                    </div>
+                </div>
+
+                <!-- Spread Radius -->
+                <div class="control-group">
+                    <label for="spreadRadius">Spread Radius: <span id="spreadValue">0px</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="spreadRadius" min="-50" max="50" value="0" class="slider">
+                        <span class="slider-value" id="spreadDisplay">0px</span>
+                    </div>
+                </div>
+
+                <!-- Shadow Color -->
+                <div class="control-group">
+                    <label>Shadow Color</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="shadowColor" class="color-picker-input" value="#000000">
+                        <input type="text" id="shadowColorHex" class="color-hex-input" value="#000000" maxlength="7">
+                    </div>
+                </div>
+
+                <!-- Opacity -->
+                <div class="control-group">
+                    <label for="shadowOpacity">Opacity: <span id="opacityValue">0.3</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="shadowOpacity" min="0" max="100" value="30" class="slider">
+                        <span class="slider-value" id="opacityDisplay">0.3</span>
+                    </div>
+                </div>
+
+                <!-- Inset Option -->
+                <div class="control-group">
+                    <label>Shadow Type</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="insetShadow">
+                            <span>Inset Shadow</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="multipleShadows">
+                            <span>Multiple Shadows</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Multiple Shadows Controls -->
+                <div class="control-group" id="multipleControls" style="display: none;">
+                    <label>Second Shadow</label>
+                    <div class="slider-container">
+                        <input type="range" id="offsetX2" min="-50" max="50" value="-5" class="slider">
+                        <span class="slider-value">X: -5px</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="offsetY2" min="-50" max="50" value="-5" class="slider">
+                        <span class="slider-value">Y: -5px</span>
+                    </div>
+                    <div class="slider-container">
+                        <input type="range" id="blurRadius2" min="0" max="100" value="10" class="slider">
+                        <span class="slider-value">Blur: 10px</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- How to Use Section -->
-        <section id="how-to-use" class="docs-section">
-            <h2><i class="fas fa-question-circle"></i> How to Use This Tool</h2>
-            <div class="docs-content">
-                <div class="docs-step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h4>Add Shadow Layers</h4>
-                        <p>Click "Add Layer" to create multiple shadow layers. Each layer can be individually customized.</p>
+        <!-- CSS Output -->
+        <div class="tool-controls" style="margin-top: 2rem;">
+            <h3><i class="fas fa-code"></i> CSS Code</h3>
+            <div class="code-output">
+                <pre id="cssOutput">box-shadow: 10px 10px 15px 0px rgba(0, 0, 0, 0.3);</pre>
+            </div>
+            <div class="action-buttons">
+                <button id="copyCss" class="btn-primary">
+                    <i class="fas fa-copy"></i> Copy CSS
+                </button>
+                <button id="copyFullCss" class="btn-secondary">
+                    <i class="fas fa-file-code"></i> Copy Full CSS
+                </button>
+                <button id="resetShadow" class="btn-secondary">
+                    <i class="fas fa-redo"></i> Reset Shadow
+                </button>
+            </div>
+        </div>
+
+        <!-- Examples Section -->
+        <section class="instructions">
+            <h2>Popular Shadow Styles</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: #ccc;">Click on any example to apply it</p>
+            
+            <div class="examples-grid">
+                <div class="example-card" data-x="10" data-y="10" data-blur="15" data-spread="0" data-color="#000000" data-opacity="30" data-inset="false">
+                    <div class="example-preview">
+                        <div class="example-box" style="box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);"></div>
                     </div>
+                    <h4>Soft Shadow</h4>
                 </div>
-                <div class="docs-step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h4>Adjust Properties</h4>
-                        <p>Use the sliders and inputs to control:
-                            <ul>
-                                <li><strong>Offset X/Y:</strong> Horizontal and vertical shadow position</li>
-                                <li><strong>Blur:</strong> How blurry the shadow appears</li>
-                                <li><strong>Spread:</strong> Shadow size expansion</li>
-                                <li><strong>Color:</strong> Shadow color with opacity control</li>
-                                <li><strong>Inset:</strong> Toggle between inner and outer shadow</li>
-                            </ul>
-                        </p>
+                
+                <div class="example-card" data-x="0" data-y="5" data-blur="15" data-spread="0" data-color="#000000" data-opacity="20" data-inset="false">
+                    <div class="example-preview">
+                        <div class="example-box" style="box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);"></div>
                     </div>
+                    <h4>Subtle Elevation</h4>
                 </div>
-                <div class="docs-step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h4>Use Presets</h4>
-                        <p>Try our pre-designed shadow presets for quick, beautiful effects.</p>
+                
+                <div class="example-card" data-x="0" data-y="0" data-blur="20" data-spread="5" data-color="#8a2be2" data-opacity="40" data-inset="false">
+                    <div class="example-preview">
+                        <div class="example-box" style="box-shadow: 0 0 20px 5px rgba(138, 43, 226, 0.4);"></div>
                     </div>
+                    <h4>Glow Effect</h4>
                 </div>
-                <div class="docs-step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h4>Copy & Use</h4>
-                        <p>Copy the generated CSS code and paste it into your project. The code updates in real-time as you make changes.</p>
+                
+                <div class="example-card" data-x="5" data-y="5" data-blur="0" data-spread="0" data-color="#000000" data-opacity="30" data-inset="false">
+                    <div class="example-preview">
+                        <div class="example-box" style="box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.3);"></div>
                     </div>
+                    <h4>Hard Shadow</h4>
+                </div>
+                
+                <div class="example-card" data-x="0" data-y="0" data-blur="10" data-spread="0" data-color="#000000" data-opacity="25" data-inset="true">
+                    <div class="example-preview">
+                        <div class="example-box" style="box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.25);"></div>
+                    </div>
+                    <h4>Inset Shadow</h4>
+                </div>
+                
+                <div class="example-card" data-x="10" data-y="10" data-blur="20" data-spread="-5" data-color="#000000" data-opacity="30" data-inset="false">
+                    <div class="example-preview">
+                        <div class="example-box" style="box-shadow: 10px 10px 20px -5px rgba(0, 0, 0, 0.3);"></div>
+                    </div>
+                    <h4>Spread Negative</h4>
+                </div>
+                
+                <div class="example-card" data-x="-5" data-y="-5" data-blur="15" data-spread="0" data-color="#4ecdc4" data-opacity="40" data-inset="false">
+                    <div class="example-preview">
+                        <div class="example-box" style="box-shadow: -5px -5px 15px rgba(78, 205, 196, 0.4);"></div>
+                    </div>
+                    <h4>Top-Left Glow</h4>
+                </div>
+                
+                <div class="example-card" data-x="0" data-y="20" data-blur="30" data-spread="-10" data-color="#000000" data-opacity="25" data-inset="false">
+                    <div class="example-preview">
+                        <div class="example-box" style="box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.25);"></div>
+                    </div>
+                    <h4>Floating Card</h4>
                 </div>
             </div>
         </section>
 
-        <!-- Features Grid -->
-        <section class="features-grid">
-            <h2><i class="fas fa-bolt"></i> Tool Features</h2>
-            <div class="features">
-                <div class="feature">
-                    <i class="fas fa-layer-group"></i>
-                    <h4>Multiple Layers</h4>
-                    <p>Create complex shadows with multiple layers for depth and dimension</p>
+        <!-- How to Use -->
+        <section class="instructions">
+            <h2>How to Use This Tool</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>Adjust Sliders</h3>
+                    <p>Use the sliders to control offset, blur, spread, and opacity of the shadow.</p>
                 </div>
-                <div class="feature">
-                    <i class="fas fa-sliders-h"></i>
-                    <h4>Real-time Preview</h4>
-                    <p>See changes instantly as you adjust the controls</p>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>Pick Color</h3>
+                    <p>Choose shadow color and adjust transparency for different effects.</p>
                 </div>
-                <div class="feature">
-                    <i class="fas fa-palette"></i>
-                    <h4>Color Control</h4>
-                    <p>Full RGBA color picker with opacity support</p>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>Try Options</h3>
+                    <p>Enable inset for inner shadows or multiple shadows for complex effects.</p>
                 </div>
-                <div class="feature">
-                    <i class="fas fa-copy"></i>
-                    <h4>One-Click Copy</h4>
-                    <p>Copy clean, production-ready CSS with a single click</p>
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <h3>Copy & Apply</h3>
+                    <p>Copy the CSS code and apply it to your buttons, cards, or UI elements.</p>
                 </div>
             </div>
         </section>
@@ -231,35 +775,478 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>AuraText Tools</h4>
-                <p>A collection of free web development tools for designers and developers.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-aura"></i>
+                    <span>AuraText</span>
+                </div>
+                <p class="footer-tagline">Create beautiful text effects and design tools for your projects.</p>
+                
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#effects">Effects</a>
+                    <a href="index.html#text-styles">Text Styles</a>
+                    <a href="gradient.html">Gradient Tool</a>
+                    <a href="grid-generator.html">Grid Generator</a>
+                    <a href="flexbox-helper.html">Flexbox Helper</a>
+                    <a href="box-shadow.html">Box Shadow Tool</a>
+                    <a href="index.html#coming-soon">More Tools</a>
+                    <a href="index.html#blog">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                
+                <div class="copyright">
+                    <p>© 2025 www.auratext.online. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
+                </div>
             </div>
-            <div class="footer-section">
-                <h4>Other Tools</h4>
-                <ul>
-                    <li><a href="gradient.html">CSS Gradient Generator</a></li>
-                    <li><a href="grid-generator.html">CSS Grid Generator</a></li>
-                    <li><a href="flexbox-helper.html">Flexbox Helper</a></li>
-                    <li><a href="box-shadow.html">Box Shadow Generator</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Color Tools</h4>
-                <ul>
-                    <li><a href="palette-generator.html">Color Palette Generator</a></li>
-                    <li><a href="gradient.html">CSS Gradient Generator</a></li>
-                    <li><a href="color-picker.html">Color Picker Tool</a></li>
-                </ul>
-        </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 www.auratext.online. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
-    <script src="box-shadow-script.js"></script>
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-message">CSS copied to clipboard!</span>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Box Shadow Generator JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Box Shadow Generator Loaded');
+            
+            // Shadow configuration
+            let shadowConfig = {
+                offsetX: 10,
+                offsetY: 10,
+                blurRadius: 15,
+                spreadRadius: 0,
+                color: '#000000',
+                opacity: 0.3,
+                inset: false,
+                multipleShadows: false,
+                // Second shadow for multiple
+                offsetX2: -5,
+                offsetY2: -5,
+                blurRadius2: 10
+            };
+            
+            // DOM Elements
+            const shadowBox = document.getElementById('shadowBox');
+            const cssOutput = document.getElementById('cssOutput');
+            const copyCssBtn = document.getElementById('copyCss');
+            const copyPreviewBtn = document.getElementById('copyPreview');
+            const copyFullCssBtn = document.getElementById('copyFullCss');
+            const resetShadowBtn = document.getElementById('resetShadow');
+            const randomShadowBtn = document.getElementById('randomShadow');
+            
+            // Sliders and inputs
+            const offsetXSlider = document.getElementById('offsetX');
+            const offsetXValue = document.getElementById('offsetXValue');
+            const offsetXDisplay = document.getElementById('offsetXDisplay');
+            
+            const offsetYSlider = document.getElementById('offsetY');
+            const offsetYValue = document.getElementById('offsetYValue');
+            const offsetYDisplay = document.getElementById('offsetYDisplay');
+            
+            const blurSlider = document.getElementById('blurRadius');
+            const blurValue = document.getElementById('blurValue');
+            const blurDisplay = document.getElementById('blurDisplay');
+            
+            const spreadSlider = document.getElementById('spreadRadius');
+            const spreadValue = document.getElementById('spreadValue');
+            const spreadDisplay = document.getElementById('spreadDisplay');
+            
+            const opacitySlider = document.getElementById('shadowOpacity');
+            const opacityValue = document.getElementById('opacityValue');
+            const opacityDisplay = document.getElementById('opacityDisplay');
+            
+            const colorPicker = document.getElementById('shadowColor');
+            const colorHexInput = document.getElementById('shadowColorHex');
+            const insetCheckbox = document.getElementById('insetShadow');
+            const multipleCheckbox = document.getElementById('multipleShadows');
+            const multipleControls = document.getElementById('multipleControls');
+            
+            // Second shadow controls
+            const offsetX2Slider = document.getElementById('offsetX2');
+            const offsetY2Slider = document.getElementById('offsetY2');
+            const blurRadius2Slider = document.getElementById('blurRadius2');
+            
+            const exampleCards = document.querySelectorAll('.example-card');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            // 1. Initialize shadow
+            function initializeShadow() {
+                updateShadowDisplay();
+                updateShadow();
+                updateCssOutput();
+            }
+            
+            // 2. Update display values
+            function updateShadowDisplay() {
+                offsetXValue.textContent = shadowConfig.offsetX + 'px';
+                offsetXDisplay.textContent = shadowConfig.offsetX + 'px';
+                if (offsetXSlider) offsetXSlider.value = shadowConfig.offsetX;
+                
+                offsetYValue.textContent = shadowConfig.offsetY + 'px';
+                offsetYDisplay.textContent = shadowConfig.offsetY + 'px';
+                if (offsetYSlider) offsetYSlider.value = shadowConfig.offsetY;
+                
+                blurValue.textContent = shadowConfig.blurRadius + 'px';
+                blurDisplay.textContent = shadowConfig.blurRadius + 'px';
+                if (blurSlider) blurSlider.value = shadowConfig.blurRadius;
+                
+                spreadValue.textContent = shadowConfig.spreadRadius + 'px';
+                spreadDisplay.textContent = shadowConfig.spreadRadius + 'px';
+                if (spreadSlider) spreadSlider.value = shadowConfig.spreadRadius;
+                
+                opacityValue.textContent = shadowConfig.opacity.toFixed(2);
+                opacityDisplay.textContent = shadowConfig.opacity.toFixed(2);
+                if (opacitySlider) opacitySlider.value = shadowConfig.opacity * 100;
+                
+                if (colorPicker) colorPicker.value = shadowConfig.color;
+                if (colorHexInput) colorHexInput.value = shadowConfig.color;
+                if (insetCheckbox) insetCheckbox.checked = shadowConfig.inset;
+                if (multipleCheckbox) multipleCheckbox.checked = shadowConfig.multipleShadows;
+                
+                // Second shadow controls
+                if (offsetX2Slider) offsetX2Slider.value = shadowConfig.offsetX2;
+                if (offsetY2Slider) offsetY2Slider.value = shadowConfig.offsetY2;
+                if (blurRadius2Slider) blurRadius2Slider.value = shadowConfig.blurRadius2;
+                
+                // Show/hide multiple controls
+                if (multipleControls) {
+                    multipleControls.style.display = shadowConfig.multipleShadows ? 'block' : 'none';
+                }
+            }
+            
+            // 3. Update shadow preview
+            function updateShadow() {
+                let shadowValue;
+                const colorWithOpacity = hexToRgba(shadowConfig.color, shadowConfig.opacity);
+                
+                if (shadowConfig.multipleShadows) {
+                    const color2WithOpacity = hexToRgba(shadowConfig.color, shadowConfig.opacity * 0.7);
+                    
+                    shadowValue = `${shadowConfig.inset ? 'inset ' : ''}${shadowConfig.offsetX}px ${shadowConfig.offsetY}px ${shadowConfig.blurRadius}px ${shadowConfig.spreadRadius}px ${colorWithOpacity}, 
+                    ${shadowConfig.offsetX2}px ${shadowConfig.offsetY2}px ${shadowConfig.blurRadius2}px 0px ${color2WithOpacity}`;
+                } else {
+                    shadowValue = `${shadowConfig.inset ? 'inset ' : ''}${shadowConfig.offsetX}px ${shadowConfig.offsetY}px ${shadowConfig.blurRadius}px ${shadowConfig.spreadRadius}px ${colorWithOpacity}`;
+                }
+                
+                if (shadowBox) {
+                    shadowBox.style.boxShadow = shadowValue;
+                }
+            }
+            
+            // 4. Convert hex to rgba
+            function hexToRgba(hex, opacity) {
+                // Remove # if present
+                hex = hex.replace('#', '');
+                
+                // Parse hex values
+                let r, g, b;
+                if (hex.length === 3) {
+                    r = parseInt(hex[0] + hex[0], 16);
+                    g = parseInt(hex[1] + hex[1], 16);
+                    b = parseInt(hex[2] + hex[2], 16);
+                } else {
+                    r = parseInt(hex.substring(0, 2), 16);
+                    g = parseInt(hex.substring(2, 4), 16);
+                    b = parseInt(hex.substring(4, 6), 16);
+                }
+                
+                return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+            }
+            
+            // 5. Update CSS output
+            function updateCssOutput() {
+                const colorWithOpacity = hexToRgba(shadowConfig.color, shadowConfig.opacity);
+                
+                let cssValue;
+                if (shadowConfig.multipleShadows) {
+                    const color2WithOpacity = hexToRgba(shadowConfig.color, shadowConfig.opacity * 0.7);
+                    cssValue = `box-shadow: ${shadowConfig.inset ? 'inset ' : ''}${shadowConfig.offsetX}px ${shadowConfig.offsetY}px ${shadowConfig.blurRadius}px ${shadowConfig.spreadRadius}px ${colorWithOpacity}, 
+    ${shadowConfig.offsetX2}px ${shadowConfig.offsetY2}px ${shadowConfig.blurRadius2}px 0px ${color2WithOpacity};`;
+                } else {
+                    cssValue = `box-shadow: ${shadowConfig.inset ? 'inset ' : ''}${shadowConfig.offsetX}px ${shadowConfig.offsetY}px ${shadowConfig.blurRadius}px ${shadowConfig.spreadRadius}px ${colorWithOpacity};`;
+                }
+                
+                const fullCss = `.shadow-element {
+    ${cssValue}
+    /* For better browser support */
+    -webkit-box-shadow: ${cssValue.substring(11)};
+    -moz-box-shadow: ${cssValue.substring(11)};
+}`;
+
+                cssOutput.textContent = cssValue;
+                cssOutput.dataset.fullCss = fullCss;
+            }
+            
+            // 6. Copy CSS to clipboard
+            function copyCss(fullCss = false) {
+                const text = fullCss ? cssOutput.dataset.fullCss : cssOutput.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(fullCss ? 'Full CSS copied!' : 'CSS copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showToast(fullCss ? 'Full CSS copied!' : 'CSS copied to clipboard!');
+                });
+            }
+            
+            // 7. Show toast notification
+            function showToast(message) {
+                if (toastMessage) toastMessage.textContent = message;
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }
+            }
+            
+            // 8. Apply random shadow
+            function applyRandomShadow() {
+                shadowConfig.offsetX = Math.floor(Math.random() * 41) - 20; // -20 to 20
+                shadowConfig.offsetY = Math.floor(Math.random() * 41) - 20;
+                shadowConfig.blurRadius = Math.floor(Math.random() * 51); // 0 to 50
+                shadowConfig.spreadRadius = Math.floor(Math.random() * 41) - 20;
+                shadowConfig.opacity = (Math.floor(Math.random() * 61) + 20) / 100; // 0.2 to 0.8
+                shadowConfig.inset = Math.random() > 0.8; // 20% chance
+                shadowConfig.multipleShadows = Math.random() > 0.7; // 30% chance
+                
+                // Random color
+                const colors = ['#000000', '#8a2be2', '#4ecdc4', '#ff6b6b', '#667eea', '#30cfd0', '#fa709a'];
+                shadowConfig.color = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Random second shadow if multiple
+                if (shadowConfig.multipleShadows) {
+                    shadowConfig.offsetX2 = Math.floor(Math.random() * 21) - 10;
+                    shadowConfig.offsetY2 = Math.floor(Math.random() * 21) - 10;
+                    shadowConfig.blurRadius2 = Math.floor(Math.random() * 31);
+                }
+                
+                updateShadowDisplay();
+                updateShadow();
+                updateCssOutput();
+                showToast('Random shadow applied!');
+            }
+            
+            // 9. Reset shadow
+            function resetShadow() {
+                shadowConfig = {
+                    offsetX: 10,
+                    offsetY: 10,
+                    blurRadius: 15,
+                    spreadRadius: 0,
+                    color: '#000000',
+                    opacity: 0.3,
+                    inset: false,
+                    multipleShadows: false,
+                    offsetX2: -5,
+                    offsetY2: -5,
+                    blurRadius2: 10
+                };
+                updateShadowDisplay();
+                updateShadow();
+                updateCssOutput();
+                showToast('Shadow reset to default!');
+            }
+            
+            // 10. Apply example
+            function applyExample(e) {
+                const card = e.currentTarget;
+                shadowConfig.offsetX = parseInt(card.dataset.x);
+                shadowConfig.offsetY = parseInt(card.dataset.y);
+                shadowConfig.blurRadius = parseInt(card.dataset.blur);
+                shadowConfig.spreadRadius = parseInt(card.dataset.spread);
+                shadowConfig.color = card.dataset.color;
+                shadowConfig.opacity = parseInt(card.dataset.opacity) / 100;
+                shadowConfig.inset = card.dataset.inset === 'true';
+                
+                updateShadowDisplay();
+                updateShadow();
+                updateCssOutput();
+                showToast('Example shadow applied!');
+            }
+            
+            // 11. Mobile menu functionality
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navLinks.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                        navLinks.classList.remove('show');
+                    }
+                });
+            }
+            
+            // 12. Dropdown functionality
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                    }
+                });
+            }
+            
+            // 13. Event Listeners
+            copyCssBtn.addEventListener('click', () => copyCss(false));
+            copyPreviewBtn.addEventListener('click', () => copyCss(false));
+            copyFullCssBtn.addEventListener('click', () => copyCss(true));
+            resetShadowBtn.addEventListener('click', resetShadow);
+            randomShadowBtn.addEventListener('click', applyRandomShadow);
+            
+            // Slider events
+            if (offsetXSlider) {
+                offsetXSlider.addEventListener('input', function() {
+                    shadowConfig.offsetX = parseInt(this.value);
+                    updateShadowDisplay();
+                    updateShadow();
+                    updateCssOutput();
+                });
+            }
+            
+            if (offsetYSlider) {
+                offsetYSlider.addEventListener('input', function() {
+                    shadowConfig.offsetY = parseInt(this.value);
+                    updateShadowDisplay();
+                    updateShadow();
+                    updateCssOutput();
+                });
+            }
+            
+            if (blurSlider) {
+                blurSlider.addEventListener('input', function() {
+                    shadowConfig.blurRadius = parseInt(this.value);
+                    updateShadowDisplay();
+                    updateShadow();
+                    updateCssOutput();
+                });
+            }
+            
+            if (spreadSlider) {
+                spreadSlider.addEventListener('input', function() {
+                    shadowConfig.spreadRadius = parseInt(this.value);
+                    updateShadowDisplay();
+                    updateShadow();
+                    updateCssOutput();
+                });
+            }
+            
+            if (opacitySlider) {
+                opacitySlider.addEventListener('input', function() {
+                    shadowConfig.opacity = parseInt(this.value) / 100;
+                    updateShadowDisplay();
+                    updateShadow();
+                    updateCssOutput();
+                });
+            }
+            
+            // Color picker events
+            if (colorPicker) {
+                colorPicker.addEventListener('input', function() {
+                    shadowConfig.color = this.value;
+                    if (colorHexInput) colorHexInput.value = this.value;
+                    updateShadow();
+                    updateCssOutput();
+                });
+            }
+            
+            if (colorHexInput) {
+                colorHexInput.addEventListener('input', function() {
+                    let value = this.value;
+                    if (!value.startsWith('#')) {
+                        value = '#' + value;
+                    }
+                    if (/^#[0-9A-F]{6}$/i.test(value)) {
+                        shadowConfig.color = value;
+                        if (colorPicker) colorPicker.value = value;
+                        updateShadow();
+                        updateCssOutput();
+                    }
+                });
+            }
+            
+            // Checkbox events
+            if (insetCheckbox) {
+                insetCheckbox.addEventListener('change', function() {
+                    shadowConfig.inset = this.checked;
+                    updateShadow();
+                    updateCssOutput();
+                });
+            }
+            
+            if (multipleCheckbox) {
+                multipleCheckbox.addEventListener('change', function() {
+                    shadowConfig.multipleShadows = this.checked;
+                    updateShadowDisplay();
+                    updateShadow();
+                    updateCssOutput();
+                });
+            }
+            
+            // Second shadow controls
+            if (offsetX2Slider) {
+                offsetX2Slider.addEventListener('input', function() {
+                    shadowConfig.offsetX2 = parseInt(this.value);
+                    if (shadowConfig.multipleShadows) {
+                        updateShadow();
+                        updateCssOutput();
+                    }
+                });
+            }
+            
+            if (offsetY2Slider) {
+                offsetY2Slider.addEventListener('input', function() {
+                    shadowConfig.offsetY2 = parseInt(this.value);
+                    if (shadowConfig.multipleShadows) {
+                        updateShadow();
+                        updateCssOutput();
+                    }
+                });
+            }
+            
+            if (blurRadius2Slider) {
+                blurRadius2Slider.addEventListener('input', function() {
+                    shadowConfig.blurRadius2 = parseInt(this.value);
+                    if (shadowConfig.multipleShadows) {
+                        updateShadow();
+                        updateCssOutput();
+                    }
+                });
+            }
+            
+            exampleCards.forEach(card => {
+                card.addEventListener('click', applyExample);
+            });
+            
+            // 14. Initialize
+            initializeShadow();
+            
+            console.log('Box Shadow Generator Ready');
+        });
+    </script>
 </body>
 </html>
