@@ -27,10 +27,35 @@
     
     <!-- Gradient-specific styles -->
     <style>
-        .gradient-page {
+        /* Page layout */
+        .tool-page {
             padding-top: 2rem;
+            padding-bottom: 3rem;
         }
         
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Gradient generator layout */
         .gradient-generator {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -44,6 +69,7 @@
             }
         }
         
+        /* Gradient preview */
         .gradient-preview {
             height: 300px;
             border-radius: 15px;
@@ -52,7 +78,19 @@
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
         }
         
-        .gradient-controls {
+        .preview-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 480px) {
+            .preview-actions {
+                flex-direction: column;
+            }
+        }
+        
+        /* Controls */
+        .tool-controls {
             background: rgba(255, 255, 255, 0.05);
             padding: 1.5rem;
             border-radius: 15px;
@@ -70,6 +108,7 @@
             font-weight: 600;
         }
         
+        /* Color pickers */
         .color-pickers {
             display: flex;
             gap: 1rem;
@@ -124,6 +163,7 @@
             background: rgba(255, 107, 107, 0.4);
         }
         
+        /* Type buttons */
         .type-buttons {
             display: flex;
             gap: 0.5rem;
@@ -150,6 +190,7 @@
             background: rgba(138, 43, 226, 0.3);
         }
         
+        /* Form controls */
         .form-control {
             width: 100%;
             padding: 0.75rem;
@@ -165,6 +206,12 @@
             color: white;
         }
         
+        /* Angle control */
+        .angle-control {
+            margin-top: 1rem;
+        }
+        
+        /* Output section */
         .gradient-output {
             background: rgba(0, 0, 0, 0.3);
             padding: 1.5rem;
@@ -190,10 +237,13 @@
             word-wrap: break-word;
         }
         
-        .gradient-examples {
-            margin-top: 3rem;
+        .output-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
         }
         
+        /* Examples section */
         .examples-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -227,6 +277,144 @@
             font-size: 0.9rem;
             margin: 0;
         }
+        
+        /* Instructions */
+        .instructions {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .instructions h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 1rem;
+        }
+        
+        /* Buttons */
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Dropdown styles */
+        .nav-links .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-menu a:hover {
+            background: rgba(138, 43, 226, 0.3);
+        }
+        
+        .dropdown-menu a.active {
+            background: rgba(138, 43, 226, 0.5);
+        }
     </style>
 </head>
 <body>
@@ -243,17 +431,17 @@
                 <a href="index.html#text-styles">Text Styles</a>
                 
                 <!-- Our Tools Dropdown -->
-                <li class="dropdown">
+                <div class="dropdown">
                     <a href="#" class="dropdown-toggle active">Our Tools <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="index.html">AuraText Generator</a></li>
-                        <li><a href="gradient.html">CSS Gradient Generator</a></li>
-                        <li><a href="grid-generator.html">CSS Grid Generator</a></li>
-                        <li><a href="flexbox-helper.html">Flexbox Helper</a></li>
-                        <li><a href="box-shadow.html">Box Shadow Generator</a></li>
-                        <li><a href="animations-generator.html">CSS Animations Generator</a></li>
-                        <li><a href="palette-generator.html">Color Palette Generator</a></li>
-                        <li><a href="color-picker.html">Color Picker Tool</a></li>
+                    <div class="dropdown-menu">
+                        <a href="index.html">AuraText Generator</a>
+                        <a href="gradient.html" class="active">CSS Gradient Generator</a>
+                        <a href="grid-generator.html">CSS Grid Generator</a>
+                        <a href="flexbox-helper.html">Flexbox Helper</a>
+                        <a href="box-shadow.html">Box Shadow Generator</a>
+                        <a href="animations-generator.html">CSS Animations Generator</a>
+                        <a href="palette-generator.html">Color Palette Generator</a>
+                        <a href="color-picker.html">Color Picker Tool</a>
                     </div>
                 </div>
                 
@@ -288,7 +476,7 @@
     </div>
 
     <!-- Main Content -->
-    <main class="container gradient-page">
+    <main class="container tool-page">
         <header class="hero">
             <h1>CSS Gradient Generator</h1>
             <p class="subtitle">Create beautiful gradient backgrounds for your websites</p>
@@ -310,7 +498,7 @@
             </div>
 
             <!-- Controls Column -->
-            <div class="gradient-controls">
+            <div class="tool-controls">
                 <!-- Color Controls -->
                 <div class="control-group">
                     <label>Colors</label>
@@ -349,7 +537,7 @@
                         <option value="ellipse">Radial Ellipse</option>
                     </select>
                     
-                    <div class="angle-control" style="margin-top: 1rem;">
+                    <div class="angle-control">
                         <label>Custom Angle: <span id="angleValue">90</span>°</label>
                         <input type="range" id="angle" min="0" max="360" value="90" style="width: 100%;">
                     </div>
@@ -363,7 +551,7 @@
             <div class="code-output">
                 <pre id="cssOutput">background: linear-gradient(to right, #ff6b6b, #4ecdc4);</pre>
             </div>
-            <div class="output-actions" style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <div class="output-actions">
                 <button id="copyAll" class="btn-primary">
                     <i class="fas fa-copy"></i> Copy Code
                 </button>
@@ -374,9 +562,9 @@
         </div>
 
         <!-- Examples Section -->
-        <section class="gradient-examples">
+        <section class="instructions">
             <h2>Popular Gradient Examples</h2>
-            <p class="section-subtitle">Click on any example to apply it</p>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: #ccc;">Click on any example to apply it</p>
             
             <div class="examples-grid">
                 <div class="example-card" data-colors="#ff6b6b,#4ecdc4" data-type="linear" data-direction="to right">
@@ -476,8 +664,10 @@
 
     <!-- JavaScript -->
     <script>
-        // Gradient Generator JavaScript
+        // Gradient Generator JavaScript - SIMPLE VERSION
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Gradient Generator Loaded');
+            
             // Initialize gradient data
             let gradientColors = ['#ff6b6b', '#4ecdc4'];
             let gradientType = 'linear';
@@ -500,9 +690,10 @@
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
             
-            // Initialize color pickers
+            // 1. Initialize color pickers
             function initializeColorPickers() {
                 colorPickers.innerHTML = '';
+                
                 gradientColors.forEach((color, index) => {
                     const colorPicker = document.createElement('div');
                     colorPicker.className = 'color-picker-item';
@@ -510,13 +701,18 @@
                         <div class="color-input-group">
                             <input type="color" class="color-picker" value="${color}" data-index="${index}">
                             <input type="text" class="color-hex" value="${color}" data-index="${index}" maxlength="7">
-                            ${gradientColors.length > 2 ? `<button class="remove-color" data-index="${index}"><i class="fas fa-times"></i></button>` : ''}
+                            ${gradientColors.length > 2 ? 
+                                `<button class="remove-color" data-index="${index}">
+                                    <i class="fas fa-times"></i>
+                                </button>` 
+                                : ''
+                            }
                         </div>
                     `;
                     colorPickers.appendChild(colorPicker);
                 });
                 
-                // Add event listeners for new color pickers
+                // Add event listeners
                 document.querySelectorAll('.color-picker').forEach(picker => {
                     picker.addEventListener('input', updateColorFromPicker);
                 });
@@ -531,7 +727,7 @@
                 });
             }
             
-            // Update gradient preview
+            // 2. Update gradient preview
             function updateGradient() {
                 let gradientString;
                 
@@ -547,7 +743,7 @@
                 updateCssOutput(gradientString);
             }
             
-            // Update CSS output
+            // 3. Update CSS output
             function updateCssOutput(gradientString) {
                 const simpleCss = `background: ${gradientString};`;
                 const fullCss = `.gradient-example {
@@ -562,7 +758,7 @@
                 cssOutput.dataset.fullCss = fullCss;
             }
             
-            // Update color from color picker
+            // 4. Update color from color picker
             function updateColorFromPicker(e) {
                 const index = parseInt(e.target.dataset.index);
                 const hexInput = document.querySelector(`.color-hex[data-index="${index}"]`);
@@ -572,18 +768,18 @@
                 updateGradient();
             }
             
-            // Update color from hex input
+            // 5. Update color from hex input
             function updateColorFromHex(e) {
                 const index = parseInt(e.target.dataset.index);
-                let value = e.target.value;
+                let value = e.target.value.trim();
                 
                 // Ensure it starts with #
                 if (!value.startsWith('#')) {
                     value = '#' + value;
                 }
                 
-                // Validate hex color
-                if (/^#[0-9A-F]{6}$/i.test(value)) {
+                // Simple validation
+                if (value.length === 7 && /^#[0-9A-F]{6}$/i.test(value)) {
                     gradientColors[index] = value.toUpperCase();
                     const colorPicker = document.querySelector(`.color-picker[data-index="${index}"]`);
                     if (colorPicker) colorPicker.value = value;
@@ -591,7 +787,7 @@
                 }
             }
             
-            // Remove color
+            // 6. Remove color
             function removeColor(e) {
                 const index = parseInt(e.target.closest('.remove-color').dataset.index);
                 if (gradientColors.length > 2) {
@@ -601,20 +797,20 @@
                 }
             }
             
-            // Add new color
+            // 7. Add new color
             function addNewColor() {
-                // Generate a random color
                 const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
                 gradientColors.push(randomColor);
                 initializeColorPickers();
                 updateGradient();
             }
             
-            // Apply random gradient
+            // 8. Apply random gradient
             function applyRandomGradient() {
-                // Generate 2-4 random colors
+                // 2-4 random colors
                 const numColors = Math.floor(Math.random() * 3) + 2;
                 gradientColors = [];
+                
                 for (let i = 0; i < numColors; i++) {
                     gradientColors.push('#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0'));
                 }
@@ -635,7 +831,7 @@
                 if (gradientType === 'linear') {
                     const directions = ['to right', 'to bottom', '45deg', '90deg', '135deg', '180deg'];
                     gradientDirection = directions[Math.floor(Math.random() * directions.length)];
-                    directionSelect.value = gradientDirection;
+                    if (directionSelect) directionSelect.value = gradientDirection;
                 }
                 
                 initializeColorPickers();
@@ -643,7 +839,7 @@
                 showToast('Random gradient applied!');
             }
             
-            // Copy CSS to clipboard
+            // 9. Copy CSS to clipboard
             function copyCss(fullCss = false) {
                 const text = fullCss ? cssOutput.dataset.fullCss : cssOutput.textContent;
                 
@@ -651,7 +847,7 @@
                     showToast(fullCss ? 'Full CSS copied!' : 'CSS copied to clipboard!');
                 }).catch(err => {
                     console.error('Failed to copy: ', err);
-                    // Fallback method
+                    // Fallback
                     const textArea = document.createElement('textarea');
                     textArea.value = text;
                     document.body.appendChild(textArea);
@@ -662,17 +858,18 @@
                 });
             }
             
-            // Show toast notification
+            // 10. Show toast notification
             function showToast(message) {
-                toastMessage.textContent = message;
-                toast.classList.add('show');
-                
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
+                if (toastMessage) toastMessage.textContent = message;
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }
             }
             
-            // Apply example gradient
+            // 11. Apply example gradient
             function applyExample(e) {
                 const card = e.currentTarget;
                 const colors = card.dataset.colors.split(',');
@@ -701,7 +898,42 @@
                 showToast('Example gradient applied!');
             }
             
-            // Event Listeners
+            // 12. Mobile menu functionality
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navLinks.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                        navLinks.classList.remove('show');
+                    }
+                });
+            }
+            
+            // 13. Dropdown functionality
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                    }
+                });
+            }
+            
+            // 14. Event Listeners
             copyCssBtn.addEventListener('click', () => copyCss(false));
             copyAllBtn.addEventListener('click', () => copyCss(false));
             copyFullCssBtn.addEventListener('click', () => copyCss(true));
@@ -736,26 +968,11 @@
                 card.addEventListener('click', applyExample);
             });
             
-            // Initialize
+            // 15. Initialize
             initializeColorPickers();
             updateGradient();
             
-            // Copy navbar functionality from main site
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            
-            if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    navLinks.classList.toggle('show');
-                });
-                
-                document.addEventListener('click', (e) => {
-                    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
-                        navLinks.classList.remove('show');
-                    }
-                });
-            }
+            console.log('Gradient Generator Ready');
         });
     </script>
 </body>
