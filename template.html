@@ -1,1 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOOL_NAME | AuraText Tools</title>
+    <meta name="description" content="TOOL_DESCRIPTION">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SPTDS5Z14Q"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-SPTDS5Z14Q');
+    </script>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googletagmanager.com/pagead/js/adsbygoogle.js?client=ca-pub-6687860250561653" crossorigin="anonymous"></script>
+    
+    <!-- Page-specific styles -->
+    <style>
+        /* TOOL_SPECIFIC_STYLES */
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-aura"></i>
+                <span>AuraText</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#effects">Effects</a>
+                <a href="index.html#text-styles">Text Styles</a>
+                
+                <!-- Our Tools Dropdown -->
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle">Our Tools <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-menu">
+                        <a href="index.html">AuraText Generator</a>
+                        <a href="gradient.html" class="active">CSS Gradient Generator</a>
+                        <a href="grid-generator.html">CSS Grid Generator</a>
+                        <a href="flexbox-helper.html">Flexbox Helper</a>
+                        <a href="box-shadow.html">Box Shadow Generator</a>
+                        <a href="animations-generator.html">CSS Animations Generator</a>
+                        <a href="palette-generator.html">Color Palette Generator</a>
+                        <a href="color-picker.html">Color Picker Tool</a>
+                    </div>
+                </div>
+                
+                <a href="index.html#tools">More Tools</a>
+                <a href="index.html#try-now">Try Now</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#contact">Contact</a>
+                <span class="visitor-count">
+                    <i class="fas fa-users"></i>
+                    <span id="visitor-counter">Loading...</span>
+                </span>
+            </div>
+            <button class="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
 
+    <!-- Ads Banner -->
+    <div class="ads-banner">
+        <div class="container">
+            <a href="https://amzn.to/4p8ceG6" target="_blank" class="amazon-ad-btn">
+                <i class="fas fa-tag"></i>
+                <span>Clearence Sale Store Upto 70% All Day</span>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+            <a href="https://buymeacoffee.com/s.amjathkhan" target="_blank" class="coffee-btn">
+                <i class="fas fa-coffee"></i>
+                <span>Buy Me a Coffee</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container tool-page">
+        <header class="hero">
+            <h1>TOOL_TITLE</h1>
+            <p class="subtitle">TOOL_SUBTITLE</p>
+            <p>TOOL_DESCRIPTION_DETAILED</p>
+        </header>
+
+        <!-- TOOL_SPECIFIC_CONTENT -->
+        
+        <!-- How to Use -->
+        <section class="instructions">
+            <h2>How to Use This Tool</h2>
+            <div class="steps">
+                <!-- TOOL_SPECIFIC_STEPS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-aura"></i>
+                    <span>AuraText</span>
+                </div>
+                <p class="footer-tagline">Create beautiful text effects and design tools for your projects.</p>
+                
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#effects">Effects</a>
+                    <a href="index.html#text-styles">Text Styles</a>
+                    <a href="gradient.html">Gradient Tool</a>
+                    <a href="index.html#coming-soon">More Tools</a>
+                    <a href="index.html#blog">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                
+                <div class="copyright">
+                    <p>© 2024 AuraText Tools. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-message">Copied to clipboard!</span>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Shared navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navLinks.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                        navLinks.classList.remove('show');
+                    }
+                });
+            }
+            
+            // Dropdown functionality
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                    }
+                });
+            }
+            
+            // Toast notification function
+            window.showToast = function(message, duration = 3000) {
+                const toast = document.getElementById('toast');
+                const toastMessage = document.getElementById('toast-message');
+                
+                if (toast && toastMessage) {
+                    toastMessage.textContent = message;
+                    toast.classList.add('show');
+                    
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, duration);
+                }
+            };
+            
+            // Copy to clipboard helper
+            window.copyToClipboard = function(text, successMessage = 'Copied to clipboard!') {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(successMessage);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    // Fallback method
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showToast(successMessage);
+                });
+            };
+            
+            // TOOL_SPECIFIC_JAVASCRIPT
+        });
+    </script>
+</body>
+</html>
