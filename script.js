@@ -599,3 +599,40 @@ if (document.readyState === 'loading') {
 } else {
     init();
 }
+// Dropdown menu functionality for mobile
+function setupDropdownMenu() {
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    // For desktop - hover works automatically via CSS
+    
+    // For mobile - toggle on click
+    if (window.innerWidth <= 768) {
+        dropdowns.forEach(dropdown => {
+            const dropbtn = dropdown.querySelector('.dropbtn');
+            
+            dropbtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Close other dropdowns
+                dropdowns.forEach(other => {
+                    if (other !== dropdown) {
+                        other.classList.remove('active');
+                    }
+                });
+                
+                // Toggle current dropdown
+                dropdown.classList.toggle('active');
+            });
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dropdown')) {
+                dropdowns.forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+    }
+}
