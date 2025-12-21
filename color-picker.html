@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Picker Tool | AuraText Tools</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SPTDS5Z14Q"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-SPTDS5Z14Q');
+    </script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6687860250561653" crossorigin="anonymous"></script>
+    <style>
+        /* Color Picker Specific Styles */
+        .color-picker-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        @media (max-width: 992px) {
+            .color-picker-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .picker-main-section {
+            background: linear-gradient(145deg, #1a1740, #151235);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .picker-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .picker-area {
+            background: #0f0c29;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid rgba(138, 43, 226, 0.2);
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #colorCanvas {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            cursor: crosshair;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .picker-controls {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        
+        .picker-preview {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+        
+        .picker-sliders {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .slider-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .slider-group label {
+            min-width: 100px;
+            color: #b5b3cc;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .slider-group input[type="range"] {
+            flex: 1;
+        }
+        
+        .slider-value {
+            min-width: 50px;
+            text-align: right;
+            font-family: 'Roboto Mono', monospace;
+            color: #fff;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .hue-gradient {
+            background: linear-gradient(to right, 
+                #ff0000, #ff8000, #ffff00, #80ff00, 
+                #00ff00, #00ff80, #00ffff, #0080ff, 
+                #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
+        }
+        
+        .picker-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn-primary {
+            background: linear-gradient(145deg, #8a2be2, #6a1bb8);
+            color: white;
+            flex: 1;
+        }
+        
+        .action-btn-primary:hover {
+            background: linear-gradient(145deg, #6a1bb8, #8a2be2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        .action-btn-secondary {
+            background: rgba(138, 43, 226, 0.1);
+            color: #8a2be2;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+        }
+        
+        .action-btn-secondary:hover {
+            background: rgba(138, 43, 226, 0.2);
+            border-color: #8a2be2;
+        }
+        
+        .color-values-section {
+            background: linear-gradient(145deg, #1a1740, #151235);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        .color-values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .value-card {
+            background: rgba(21, 18, 53, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .value-card:hover {
+            border-color: #8a2be2;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.1);
+        }
+        
+        .value-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+        }
+        
+        .value-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .value-title i {
+            color: #8a2be2;
+        }
+        
+        .copy-value-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #b5b3cc;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-value-btn:hover {
+            background: rgba(138, 43, 226, 0.3);
+            color: #fff;
+        }
+        
+        .value-content {
+            font-family: 'Roboto Mono', monospace;
+            color: #fff;
+            font-size: 16px;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+        
+        .color-history-section {
+            background: linear-gradient(145deg, #1a1740, #151235);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+        }
+        
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .history-color {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .history-color:hover {
+            transform: scale(1.1);
+            border-color: #8a2be2;
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.3);
+        }
+        
+        .history-color:hover::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .picker-features-section {
+            background: linear-gradient(145deg, #1a1740, #151235);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .feature-card {
+            background: rgba(21, 18, 53, 0.8);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            border-color: #8a2be2;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, #8a2be2, #6a1bb8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+            color: white;
+        }
+        
+        .feature-card h4 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .feature-card p {
+            color: #b5b3cc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .picker-tools-section {
+            background: linear-gradient(145deg, #1a1740, #151235);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-top: 30px;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .tool-btn {
+            background: rgba(21, 18, 53, 0.8);
+            border: 2px solid rgba(138, 43, 226, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .tool-btn:hover {
+            border-color: #8a2be2;
+            transform: translateY(-3px);
+            background: rgba(138, 43, 226, 0.1);
+        }
+        
+        .tool-btn i {
+            font-size: 32px;
+            color: #8a2be2;
+        }
+        
+        .tool-btn span {
+            color: #fff;
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        /* Color Format Options */
+        .format-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .format-btn {
+            background: rgba(21, 18, 53, 0.8);
+            border: 2px solid transparent;
+            border-radius: 8px;
+            padding: 12px;
+            color: #fff;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .format-btn:hover {
+            background: rgba(138, 43, 226, 0.1);
+        }
+        
+        .format-btn.active {
+            background: rgba(138, 43, 226, 0.2);
+            border-color: #8a2be2;
+            color: #8a2be2;
+            font-weight: 600;
+        }
+        
+        .zoom-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(21, 18, 53, 0.9);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+        
+        .zoom-btn {
+            background: rgba(138, 43, 226, 0.2);
+            border: none;
+            color: #fff;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .zoom-btn:hover {
+            background: rgba(138, 43, 226, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .magnifier {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 3px solid #8a2be2;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 100;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            display: none;
+        }
+        
+        .magnifier-preview {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .color-pixel {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #8a2be2;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .picker-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .picker-preview {
+                align-self: center;
+            }
+            
+            .history-grid {
+                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            }
+            
+            .history-color {
+                width: 60px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-code"></i>
+                <span>AuraText</span> Tools
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle active">Our Tools <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html">AuraText Generator</a></li>
+                        <li><a href="gradient.html">CSS Gradient Generator</a></li>
+                        <li><a href="grid-generator.html">CSS Grid Generator</a></li>
+                        <li><a href="flexbox-helper.html">Flexbox Helper</a></li>
+                        <li><a href="box-shadow.html">Box Shadow Generator</a></li>
+                        <li><a href="animations-generator.html">CSS Animations Generator</a></li>
+                        <li><a href="palette-generator.html">Color Palette Generator</a></li>
+                        <li><a href="color-picker.html" class="active">Color Picker Tool</a></li>
+                    </ul>
+                </li>
+                <li><a href="#how-to-use">How to Use</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <header class="tool-header">
+            <h1><i class="fas fa-eye-dropper"></i> Advanced Color Picker Tool</h1>
+            <p class="subtitle">Pick, analyze, and convert colors from anywhere with precision pixel selection</p>
+        </header>
+
+        <div class="color-picker-layout">
+            <!-- Left Column: Color Picker & Controls -->
+            <div class="left-column">
+                <!-- Main Picker Section -->
+                <div class="picker-main-section">
+                    <h3><i class="fas fa-crosshairs"></i> Color Picker</h3>
+                    <p class="subtitle">Click or drag on the canvas to pick colors. Use the magnifier for pixel-perfect selection.</p>
+                    
+                    <div class="picker-container">
+                        <div class="picker-area">
+                            <div class="zoom-controls">
+                                <button class="zoom-btn" id="zoomIn" title="Zoom In">
+                                    <i class="fas fa-search-plus"></i>
+                                </button>
+                                <button class="zoom-btn" id="zoomOut" title="Zoom Out">
+                                    <i class="fas fa-search-minus"></i>
+                                </button>
+                                <button class="zoom-btn" id="resetZoom" title="Reset Zoom">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                            
+                            <canvas id="colorCanvas"></canvas>
+                            
+                            <div class="magnifier" id="magnifier">
+                                <canvas class="magnifier-preview" id="magnifierPreview"></canvas>
+                            </div>
+                            <div class="color-pixel" id="colorPixel"></div>
+                            
+                            <div class="picker-controls">
+                                <div class="picker-preview" id="currentColor"></div>
+                                
+                                <div class="picker-sliders">
+                                    <div class="slider-group">
+                                        <label for="huePicker">Hue:</label>
+                                        <input type="range" id="huePicker" class="range-slider hue-gradient" min="0" max="360" value="271">
+                                        <span class="slider-value" id="hueValue">271°</span>
+                                    </div>
+                                    <div class="slider-group">
+                                        <label for="saturationPicker">Saturation:</label>
+                                        <input type="range" id="saturationPicker" class="range-slider" min="0" max="100" value="76">
+                                        <span class="slider-value" id="saturationValue">76%</span>
+                                    </div>
+                                    <div class="slider-group">
+                                        <label for="lightnessPicker">Lightness:</label>
+                                        <input type="range" id="lightnessPicker" class="range-slider" min="0" max="100" value="53">
+                                        <span class="slider-value" id="lightnessValue">53%</span>
+                                    </div>
+                                    <div class="slider-group">
+                                        <label for="alphaPicker">Alpha:</label>
+                                        <input type="range" id="alphaPicker" class="range-slider" min="0" max="100" value="100">
+                                        <span class="slider-value" id="alphaValue">100%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="picker-actions">
+                                <button class="action-btn action-btn-primary" id="pickScreenColor">
+                                    <i class="fas fa-desktop"></i>
+                                    Pick from Screen
+                                </button>
+                                <button class="action-btn action-btn-secondary" id="uploadImage">
+                                    <i class="fas fa-image"></i>
+                                    Upload Image
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Color History -->
+                <div class="color-history-section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-history"></i> Color History</h3>
+                        <button class="btn btn-secondary btn-sm" id="clearHistory">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                    </div>
+                    <p class="subtitle">Recently picked colors. Click to select again.</p>
+                    
+                    <div class="history-grid" id="colorHistory">
+                        <!-- Color history items will be added dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Color Values & Tools -->
+            <div class="right-column">
+                <!-- Color Values Display -->
+                <div class="color-values-section">
+                    <h3><i class="fas fa-vial"></i> Color Values</h3>
+                    <p class="subtitle">Multiple color format representations</p>
+                    
+                    <div class="format-options">
+                        <button class="format-btn active" data-format="hex">HEX</button>
+                        <button class="format-btn" data-format="rgb">RGB</button>
+                        <button class="format-btn" data-format="hsl">HSL</button>
+                        <button class="format-btn" data-format="hsv">HSV</button>
+                        <button class="format-btn" data-format="cmyk">CMYK</button>
+                        <button class="format-btn" data-format="rgba">RGBA</button>
+                        <button class="format-btn" data-format="hsla">HSLA</button>
+                    </div>
+                    
+                    <div class="color-values-grid" id="colorValues">
+                        <!-- Color value cards will be added dynamically -->
+                    </div>
+                </div>
+
+                <!-- Picker Tools -->
+                <div class="picker-tools-section">
+                    <h3><i class="fas fa-tools"></i> Quick Tools</h3>
+                    <p class="subtitle">Useful color manipulation tools</p>
+                    
+                    <div class="tools-grid">
+                        <div class="tool-btn" id="complementaryTool">
+                            <i class="fas fa-exchange-alt"></i>
+                            <span>Complementary</span>
+                        </div>
+                        <div class="tool-btn" id="analogousTool">
+                            <i class="fas fa-sliders-h"></i>
+                            <span>Analogous</span>
+                        </div>
+                        <div class="tool-btn" id="lighterTool">
+                            <i class="fas fa-sun"></i>
+                            <span>Lighten</span>
+                        </div>
+                        <div class="tool-btn" id="darkerTool">
+                            <i class="fas fa-moon"></i>
+                            <span>Darken</span>
+                        </div>
+                        <div class="tool-btn" id="saturateTool">
+                            <i class="fas fa-tint"></i>
+                            <span>Saturate</span>
+                        </div>
+                        <div class="tool-btn" id="desaturateTool">
+                            <i class="fas fa-tint-slash"></i>
+                            <span>Desaturate</span>
+                        </div>
+                        <div class="tool-btn" id="randomTool">
+                            <i class="fas fa-random"></i>
+                            <span>Random</span>
+                        </div>
+                        <div class="tool-btn" id="addToPaletteTool">
+                            <i class="fas fa-palette"></i>
+                            <span>Save to Palette</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features -->
+                <div class="picker-features-section">
+                    <h3><i class="fas fa-star"></i> Tool Features</h3>
+                    <p class="subtitle">Everything you need for professional color work</p>
+                    
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-crosshairs"></i>
+                            </div>
+                            <h4>Pixel-Precise</h4>
+                            <p>Magnifier tool for exact pixel color selection with zoom controls</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-desktop"></i>
+                            </div>
+                            <h4>Screen Picker</h4>
+                            <p>Pick colors from anywhere on your screen using browser EyeDropper API</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <h4>Multiple Formats</h4>
+                            <p>Convert between HEX, RGB, HSL, HSV, CMYK, RGBA, and HSLA instantly</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <h4>Color History</h4>
+                            <p>Track and reuse recently picked colors with one-click selection</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ad Space -->
+                <div class="ad-space">
+                    <!-- Google AdSense -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-XXXXXXXXXX"
+                         data-ad-slot="XXXXXXXXXX"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Use Section -->
+        <section id="how-to-use" class="docs-section">
+            <h2><i class="fas fa-question-circle"></i> How to Use This Tool</h2>
+            <div class="docs-content">
+                <div class="docs-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Pick Colors from Canvas</h4>
+                        <p>Click anywhere on the color canvas to select a color. Use the magnifier (hover over canvas) for pixel-perfect selection. Zoom in/out for better precision.</p>
+                    </div>
+                </div>
+                <div class="docs-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Use Screen Color Picker</h4>
+                        <p>Click "Pick from Screen" to use your browser's EyeDropper API. Pick colors from any application, website, or image on your screen.</p>
+                    </div>
+                </div>
+                <div class="docs-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Adjust with Sliders</h4>
+                        <p>Fine-tune colors using Hue, Saturation, Lightness, and Alpha sliders. Watch the color update in real-time across all formats.</p>
+                    </div>
+                </div>
+                <div class="docs-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>View All Color Formats</h4>
+                        <p>Switch between HEX, RGB, HSL, HSV, CMYK, RGBA, and HSLA formats. Click the copy button next to any value to copy to clipboard.</p>
+                    </div>
+                </div>
+                <div class="docs-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Use Quick Tools</h4>
+                        <p>Generate complementary colors, create lighter/darker variants, adjust saturation, or get random colors with one click.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Grid -->
+        <section class="features-grid">
+            <h2><i class="fas fa-bolt"></i> Advanced Features</h2>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-search-plus"></i>
+                    <h4>Magnifier Tool</h4>
+                    <p>Zoom in 8x for pixel-perfect color selection with crosshair guidance</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-palette"></i>
+                    <h4>Color History</h4>
+                    <p>Automatic tracking of 24 recently picked colors with visual preview</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-exchange-alt"></i>
+                    <h4>7 Color Formats</h4>
+                    <p>Real-time conversion between all major color models and formats</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-magic"></i>
+                    <h4>Quick Tools</h4>
+                    <p>One-click color manipulation: complementary, lighter, darker, saturated</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-image"></i>
+                    <h4>Image Upload</h4>
+                    <p>Upload images to pick colors directly from your own graphics</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-clipboard"></i>
+                    <h4>Smart Copy</h4>
+                    <p>Copy any color format with one click, including with/without # prefix</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-sliders-h"></i>
+                    <h4>Fine Controls</h4>
+                    <p>Precise HSL sliders with visual feedback and keyboard shortcuts</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-save"></i>
+                    <h4>Integration</h4>
+                    <p>Save directly to Color Palette Generator or export for your projects</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>AuraText Tools</h4>
+                <p>A collection of free web development tools for designers and developers.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Color Tools</h4>
+                <ul>
+                    <li><a href="palette-generator.html">Color Palette Generator</a></li>
+                    <li><a href="gradient.html">CSS Gradient Generator</a></li>
+                    <li><a href="color-picker.html" class="active">Color Picker Tool</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>All Tools</h4>
+                <ul>
+                    <li><a href="index.html">AuraText Generator</a></li>
+                    <li><a href="grid-generator.html">CSS Grid Generator</a></li>
+                    <li><a href="flexbox-helper.html">Flexbox Helper</a></li>
+                    <li><a href="box-shadow.html">Box Shadow Generator</a></li>
+                    <li><a href="animations-generator.html">CSS Animations Generator</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 www.auratext.online. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Hidden file input for image upload -->
+    <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+
+    <script src="script.js"></script>
+    <script src="color-picker-script.js"></script>
+</body>
+</html>
