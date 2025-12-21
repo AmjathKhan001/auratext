@@ -1586,3 +1586,25 @@ body {
         grid-template-columns: 1fr;
     }
 }
+/* Fix light text issues */
+.try-now-section {
+    color: #ffffff;
+}
+
+.try-now-section * {
+    color: inherit;
+}
+
+.try-now-card {
+    color: #ffffff;
+}
+
+.try-now-card h3 {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.try-now-card p {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
+}
