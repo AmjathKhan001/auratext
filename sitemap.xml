@@ -1,33 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://auratext.app/</loc>
-    <lastmod>2024-03-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://auratext.app/blog.html</loc>
-    <lastmod>2024-03-15</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://auratext.app/privacy.html</loc>
-    <lastmod>2024-03-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://auratext.app/terms.html</loc>
-    <lastmod>2024-03-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://auratext.app/affiliate.html</loc>
-    <lastmod>2024-03-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+    
+    <!-- Main Tools -->
+    <url>
+        <loc>https://auratext.online/index.html</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    
+    <!-- CSS Gradient Generator -->
+    <url>
+        <loc>https://auratext.online/gradient.html</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- CSS Grid Generator -->
+    <url>
+        <loc>https://auratext.online/grid-generator.html</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Flexbox Helper -->
+    <url>
+        <loc>https://auratext.online/flexbox-helper.html</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Box Shadow Generator -->
+    <url>
+        <loc>https://auratext.online/box-shadow.html</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- CSS Animations Generator -->
+    <url>
+        <loc>https://auratext.online/animations-generator.html</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Color Palette Generator -->
+    <url>
+        <loc>https://auratext.online/palette-generator.html</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Color Picker Tool -->
+    <url>
+        <loc>https://auratext.online/color-picker.html</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Resources & Documentation -->
+    <url>
+        <loc>https://auratext.online/style.css</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <!-- JavaScript Files -->
+    <url>
+        <loc>https://auratext.online/script.js</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <url>
+        <loc>https://auratext.online/box-shadow-script.js</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <url>
+        <loc>https://auratext.online/animations-script.js</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <url>
+        <loc>https://auratext.online/palette-script.js</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
+    <url>
+        <loc>https://auratext.online/color-picker-script.js</loc>
+        <lastmod>2025-12-21</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    
 </urlset>
