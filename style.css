@@ -1961,3 +1961,11 @@ input:checked + .toggle-slider:before {
     color: #666;
     text-decoration: none;
 }
+.btn-success {
+    background: linear-gradient(145deg, #2ecc71, #27ae60);
+    border-color: #27ae60;
+}
+
+.btn-success:hover {
+    background: linear-gradient(145deg, #27ae60, #219653);
+}
