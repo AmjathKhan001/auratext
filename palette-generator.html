@@ -3,10 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Palette Generator | AuraText Tools</title>
+    <title>CSS Animations Generator | AuraText Tools</title>
+    <meta name="description" content="Create CSS animations with keyframes, timing functions, and visual previews. Generate animation code for your projects.">
+    
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-SPTDS5Z14Q"></script>
     <script>
@@ -15,979 +21,809 @@
         gtag('js', new Date());
         gtag('config', 'G-SPTDS5Z14Q');
     </script>
+    
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6687860250561653" crossorigin="anonymous"></script>
+    
+    <!-- Animations-specific styles -->
     <style>
-        /* Color Palette Specific Styles */
-        .palette-layout {
+        /* Page layout */
+        .tool-page {
+            padding-top: 2rem;
+            padding-bottom: 3rem;
+        }
+        
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Animations generator layout */
+        .animations-generator {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
+            gap: 2rem;
+            margin: 2rem 0;
         }
         
         @media (max-width: 992px) {
-            .palette-layout {
+            .animations-generator {
                 grid-template-columns: 1fr;
             }
         }
         
-        .color-picker-section {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
-        }
-        
-        .color-inputs {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 20px;
-            align-items: end;
-        }
-        
-        .color-input-group {
+        /* Preview section */
+        .preview-container {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
         }
         
-        .color-input-group label {
-            color: #b5b3cc;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .color-preview-large {
+        .animation-preview {
             width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+        }
+        
+        .animated-element {
+            width: 80px;
             height: 80px;
-            border-radius: 12px;
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 15px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            animation: previewAnimation 2s infinite;
         }
         
-        .color-preview-large:hover {
-            border-color: #8a2be2;
-            transform: translateY(-2px);
+        .animation-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         
-        .color-values {
+        /* Controls */
+        .tool-controls {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group label {
+            display: block;
+            color: white;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        /* Property groups */
+        .property-group {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-top: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.75rem;
+            margin-top: 0.5rem;
         }
         
-        .color-value-item {
-            background: rgba(21, 18, 53, 0.8);
-            padding: 10px;
+        .property-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
+            padding: 0.75rem;
             text-align: center;
-            border: 1px solid rgba(138, 43, 226, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
         }
         
-        .color-value-label {
-            font-size: 12px;
-            color: #b5b3cc;
-            margin-bottom: 5px;
+        .property-option:hover {
+            background: rgba(138, 43, 226, 0.2);
         }
         
-        .color-value {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 13px;
-            color: #fff;
-            word-break: break-all;
+        .property-option.active {
+            background: #8a2be2;
+            color: white;
+            border-color: #8a2be2;
         }
         
-        /* Palette Display */
-        .palette-display {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
+        /* Range sliders */
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
         }
         
-        .palette-header {
+        .slider-value {
+            min-width: 60px;
+            text-align: center;
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            background: #8a2be2;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        
+        /* Form controls */
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            margin-top: 0.5rem;
+        }
+        
+        .form-control option {
+            background: #1a1a2e;
+            color: white;
+        }
+        
+        /* Keyframes editor */
+        .keyframes-editor {
+            margin-top: 1rem;
+        }
+        
+        .keyframe-points {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(138, 43, 226, 0.2);
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #aaa;
         }
         
-        .palette-actions {
+        .keyframe-slider {
+            margin-top: 0.5rem;
+        }
+        
+        /* Action buttons */
+        .action-buttons {
             display: flex;
-            gap: 10px;
-        }
-        
-        .palette-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-        
-        @media (max-width: 768px) {
-            .palette-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
         }
         
         @media (max-width: 480px) {
-            .palette-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .action-buttons {
+                flex-direction: column;
             }
         }
         
-        .color-card {
-            background: rgba(21, 18, 53, 0.8);
-            border-radius: 12px;
-            overflow: hidden;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
+        /* Code output */
+        .code-output {
+            background: #1a1a2e;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+            margin-top: 1rem;
         }
         
-        .color-card:hover {
+        .code-output pre {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        /* Buttons */
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Examples grid */
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .example-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .example-card:hover {
             transform: translateY(-5px);
             border-color: #8a2be2;
-            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
         }
         
-        .color-card.active {
-            border-color: #8a2be2;
-            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.3);
-        }
-        
-        .color-swatch {
-            height: 120px;
-            width: 100%;
+        .example-preview {
+            height: 100px;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            position: relative;
-            transition: all 0.3s ease;
+            overflow: hidden;
         }
         
-        .color-swatch:hover {
-            filter: brightness(1.1);
+        .example-animation {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
         }
         
-        .color-swatch i {
-            font-size: 24px;
+        .example-card h4 {
             color: white;
-            opacity: 0.8;
-            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem;
+            margin: 0;
         }
         
-        .color-swatch:hover i {
-            opacity: 1;
-            transform: scale(1.2);
+        /* Instructions */
+        .instructions {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .color-info {
-            padding: 15px;
+        .instructions h2 {
+            text-align: center;
+            margin-bottom: 2rem;
         }
         
-        .color-hex {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 14px;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
         }
         
-        .copy-hex {
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            color: #fff;
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            cursor: pointer;
+        .step {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            transition: all 0.2s ease;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 1rem;
         }
         
-        .copy-hex:hover {
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Dropdown styles */
+        .nav-links .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-menu a:hover {
             background: rgba(138, 43, 226, 0.3);
         }
         
-        .color-values-small {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            color: #b5b3cc;
-        }
-        
-        /* Harmony Controls */
-        .harmony-controls {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
-        }
-        
-        .harmony-types {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .harmony-btn {
-            background: rgba(21, 18, 53, 0.8);
-            border: 2px solid transparent;
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .harmony-btn:hover {
-            border-color: rgba(138, 43, 226, 0.5);
-            transform: translateY(-3px);
-        }
-        
-        .harmony-btn.active {
-            border-color: #8a2be2;
-            background: rgba(138, 43, 226, 0.1);
-        }
-        
-        .harmony-btn i {
-            font-size: 24px;
-            color: #8a2be2;
-        }
-        
-        .harmony-btn span {
-            color: #fff;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        .harmony-btn small {
-            color: #b5b3cc;
-            font-size: 12px;
-        }
-        
-        /* Color Wheel */
-        .color-wheel-container {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .color-wheel {
-            width: 300px;
-            height: 300px;
-            margin: 20px auto;
-            position: relative;
-            border-radius: 50%;
-            overflow: hidden;
-        }
-        
-        .wheel-canvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .wheel-marker {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: white;
-            border: 3px solid #8a2be2;
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-            z-index: 10;
-        }
-        
-        /* Accessibility Section */
-        .accessibility-section {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin-bottom: 30px;
-        }
-        
-        .contrast-ratios {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .contrast-item {
-            background: rgba(21, 18, 53, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid rgba(138, 43, 226, 0.2);
-        }
-        
-        .contrast-preview {
-            display: flex;
-            height: 80px;
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .contrast-color {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            color: white;
-        }
-        
-        .contrast-info {
-            text-align: center;
-        }
-        
-        .contrast-ratio {
-            font-size: 24px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        
-        .contrast-rating {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .rating-aaa {
-            background: #27ae60;
-            color: white;
-        }
-        
-        .rating-aa {
-            background: #f39c12;
-            color: white;
-        }
-        
-        .rating-fail {
-            background: #e74c3c;
-            color: white;
-        }
-        
-        /* Export Options */
-        .export-section {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin-bottom: 40px;
-        }
-        
-        .export-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .export-format {
-            background: rgba(21, 18, 53, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        
-        .export-format:hover {
-            border-color: #8a2be2;
-            transform: translateY(-3px);
-        }
-        
-        .export-format i {
-            font-size: 32px;
-            color: #8a2be2;
-            margin-bottom: 15px;
-        }
-        
-        .export-format h4 {
-            color: #fff;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        
-        .export-format p {
-            color: #b5b3cc;
-            font-size: 13px;
-            margin-bottom: 15px;
-        }
-        
-        /* Color Psychology */
-        .psychology-section {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin-bottom: 40px;
-        }
-        
-        .psychology-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .psychology-card {
-            background: rgba(21, 18, 53, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #8a2be2;
-        }
-        
-        .psychology-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .psychology-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-        }
-        
-        .psychology-title {
-            color: #fff;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        
-        .psychology-content {
-            color: #b5b3cc;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        
-        /* Saved Palettes */
-        .saved-palettes {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin-bottom: 40px;
-        }
-        
-        .saved-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .saved-item {
-            background: rgba(21, 18, 53, 0.8);
-            border-radius: 10px;
-            overflow: hidden;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .saved-item:hover {
-            border-color: #8a2be2;
-            transform: translateY(-5px);
-        }
-        
-        .saved-colors {
-            display: flex;
-            height: 60px;
-        }
-        
-        .saved-color {
-            flex: 1;
-        }
-        
-        .saved-info {
-            padding: 15px;
-        }
-        
-        .saved-name {
-            color: #fff;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-        
-        .saved-meta {
-            display: flex;
-            justify-content: space-between;
-            color: #b5b3cc;
-            font-size: 12px;
-        }
-        
-        /* Form Inputs */
-        .form-input {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(21, 18, 53, 0.8);
-            border: 2px solid rgba(138, 43, 226, 0.2);
-            border-radius: 8px;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #8a2be2;
-            box-shadow: 0 0 0 3px rgba(138, 43, 226, 0.1);
-        }
-        
-        .form-select {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(21, 18, 53, 0.8);
-            border: 2px solid rgba(138, 43, 226, 0.2);
-            border-radius: 8px;
-            color: #fff;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .form-select:focus {
-            outline: none;
-            border-color: #8a2be2;
-        }
-        
-        .color-sliders {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 15px;
-        }
-        
-        .slider-group {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .slider-group label {
-            min-width: 100px;
-            color: #b5b3cc;
-            font-size: 14px;
-        }
-        
-        .slider-group input[type="range"] {
-            flex: 1;
-        }
-        
-        .slider-group span {
-            min-width: 50px;
-            text-align: right;
-            font-family: 'Roboto Mono', monospace;
-            color: #fff;
-            font-size: 14px;
-        }
-        
-        .hue-slider {
-            background: linear-gradient(to right, 
-                #ff0000, #ff8000, #ffff00, #80ff00, 
-                #00ff00, #00ff80, #00ffff, #0080ff, 
-                #0000ff, #8000ff, #ff00ff, #ff0080, #ff0000);
+        .dropdown-menu a.active {
+            background: rgba(138, 43, 226, 0.5);
         }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-container">
+        <div class="container">
             <a href="index.html" class="logo">
-                <i class="fas fa-code"></i>
-                <span>AuraText</span> Tools
+                <i class="fas fa-aura"></i>
+                <span>AuraText</span>
             </a>
-            <ul class="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                <li class="dropdown">
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#effects">Effects</a>
+                <a href="index.html#text-styles">Text Styles</a>
+                
+                <!-- Our Tools Dropdown -->
+                <div class="dropdown">
                     <a href="#" class="dropdown-toggle active">Our Tools <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="index.html">AuraText Generator</a></li>
-                        <li><a href="gradient.html">CSS Gradient Generator</a></li>
-                        <li><a href="grid-generator.html">CSS Grid Generator</a></li>
-                        <li><a href="flexbox-helper.html">Flexbox Helper</a></li>
-                        <li><a href="box-shadow.html">Box Shadow Generator</a></li>
-                        <li><a href="animations-generator.html">CSS Animations Generator</a></li>
-                        <li><a href="palette-generator.html">Color Palette Generator</a></li>
-                        <li><a href="color-picker.html">Color Picker Tool</a></li>
-                    </ul>
-                </li>
-                <li><a href="#how-to-use">How to Use</a></li>
-            </ul>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
+                    <div class="dropdown-menu">
+                        <a href="index.html">AuraText Generator</a>
+                        <a href="gradient.html">CSS Gradient Generator</a>
+                        <a href="grid-generator.html">CSS Grid Generator</a>
+                        <a href="flexbox-helper.html">Flexbox Helper</a>
+                        <a href="box-shadow.html">Box Shadow Generator</a>
+                        <a href="animations-generator.html" class="active">CSS Animations Generator</a>
+                        <a href="palette-generator.html">Color Palette Generator</a>
+                        <a href="color-picker.html">Color Picker Tool</a>
+                    </div>
+                </div>
+                
+                <a href="index.html#tools">More Tools</a>
+                <a href="index.html#try-now">Try Now</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#contact">Contact</a>
+                <span class="visitor-count">
+                    <i class="fas fa-users"></i>
+                    <span id="visitor-counter">Loading...</span>
+                </span>
             </div>
+            <button class="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
+    <!-- Ads Banner -->
+    <div class="ads-banner">
+        <div class="container">
+            <a href="https://amzn.to/4p8ceG6" target="_blank" class="amazon-ad-btn">
+                <i class="fas fa-tag"></i>
+                <span>Clearence Sale Store Upto 70% All Day</span>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+            <a href="https://buymeacoffee.com/s.amjathkhan" target="_blank" class="coffee-btn">
+                <i class="fas fa-coffee"></i>
+                <span>Buy Me a Coffee</span>
+            </a>
+        </div>
+    </div>
+
     <!-- Main Content -->
-    <main class="container">
-        <header class="tool-header">
-            <h1><i class="fas fa-palette"></i> Color Palette Generator</h1>
-            <p class="subtitle">Create beautiful color schemes with harmony rules, accessibility checking, and export options</p>
+    <main class="container tool-page">
+        <header class="hero">
+            <h1>CSS Animations Generator</h1>
+            <p class="subtitle">Create smooth CSS animations with keyframes</p>
+            <p>Generate CSS animations with custom properties, timing functions, and visual preview. Perfect for buttons, loaders, and UI interactions.</p>
         </header>
 
-        <div class="palette-layout">
-            <!-- Left Column: Controls & Picker -->
-            <div class="left-column">
-                <!-- Color Picker -->
-                <div class="color-picker-section">
-                    <h3><i class="fas fa-eye-dropper"></i> Color Picker</h3>
-                    <div class="color-preview-large" id="colorPreview" title="Click to pick color from screen"></div>
-                    
-                    <div class="color-inputs">
-                        <div class="color-input-group">
-                            <label for="colorHex">Hex Color</label>
-                            <input type="text" id="colorHex" class="form-input" value="#8a2be2" maxlength="7">
+        <div class="animations-generator">
+            <!-- Preview Column -->
+            <div class="preview-column">
+                <div class="preview-container">
+                    <h3><i class="fas fa-eye"></i> Animation Preview</h3>
+                    <div class="animation-preview" id="animationPreview">
+                        <div class="animated-element" id="animatedElement">
+                            <i class="fas fa-star"></i>
                         </div>
-                        <button id="randomColor" class="btn btn-primary">
+                    </div>
+                    
+                    <div class="animation-controls">
+                        <button id="playAnimation" class="btn-primary">
+                            <i class="fas fa-play"></i> Play
+                        </button>
+                        <button id="pauseAnimation" class="btn-secondary">
+                            <i class="fas fa-pause"></i> Pause
+                        </button>
+                        <button id="stopAnimation" class="btn-secondary">
+                            <i class="fas fa-stop"></i> Stop
+                        </button>
+                        <button id="randomAnimation" class="btn-secondary">
                             <i class="fas fa-random"></i> Random
                         </button>
                     </div>
-                    
-                    <div class="color-values">
-                        <div class="color-value-item">
-                            <div class="color-value-label">RGB</div>
-                            <div class="color-value" id="rgbValue">138, 43, 226</div>
-                        </div>
-                        <div class="color-value-item">
-                            <div class="color-value-label">HSL</div>
-                            <div class="color-value" id="hslValue">271°, 76%, 53%</div>
-                        </div>
-                        <div class="color-value-item">
-                            <div class="color-value-label">CMYK</div>
-                            <div class="color-value" id="cmykValue">39, 81, 0, 11</div>
-                        </div>
-                        <div class="color-value-item">
-                            <div class="color-value-label">HSV</div>
-                            <div class="color-value" id="hsvValue">271°, 81%, 89%</div>
-                        </div>
-                    </div>
-                    
-                    <div class="color-sliders">
-                        <div class="slider-group">
-                            <label>Hue:</label>
-                            <input type="range" id="hueSlider" class="range-slider hue-slider" min="0" max="360" value="271">
-                            <span id="hueValue">271°</span>
-                        </div>
-                        <div class="slider-group">
-                            <label>Saturation:</label>
-                            <input type="range" id="saturationSlider" class="range-slider" min="0" max="100" value="76">
-                            <span id="saturationValue">76%</span>
-                        </div>
-                        <div class="slider-group">
-                            <label>Lightness:</label>
-                            <input type="range" id="lightnessSlider" class="range-slider" min="0" max="100" value="53">
-                            <span id="lightnessValue">53%</span>
-                        </div>
-                        <div class="slider-group">
-                            <label>Alpha:</label>
-                            <input type="range" id="alphaSlider" class="range-slider" min="0" max="100" value="100">
-                            <span id="alphaValue">100%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Harmony Controls -->
-                <div class="harmony-controls">
-                    <h3><i class="fas fa-magic"></i> Color Harmony</h3>
-                    <p class="subtitle">Select a harmony rule to generate complementary colors</p>
-                    
-                    <div class="harmony-types">
-                        <div class="harmony-btn active" data-harmony="complementary">
-                            <i class="fas fa-exchange-alt"></i>
-                            <span>Complementary</span>
-                            <small>Opposite colors</small>
-                        </div>
-                        <div class="harmony-btn" data-harmony="analogous">
-                            <i class="fas fa-sliders-h"></i>
-                            <span>Analogous</span>
-                            <small>Adjacent colors</small>
-                        </div>
-                        <div class="harmony-btn" data-harmony="triadic">
-                            <i class="fas fa-play"></i>
-                            <span>Triadic</span>
-                            <small>Three equal parts</small>
-                        </div>
-                        <div class="harmony-btn" data-harmony="tetradic">
-                            <i class="fas fa-square"></i>
-                            <span>Tetradic</span>
-                            <small>Four colors</small>
-                        </div>
-                        <div class="harmony-btn" data-harmony="monochromatic">
-                            <i class="fas fa-circle"></i>
-                            <span>Monochromatic</span>
-                            <small>Shades & tints</small>
-                        </div>
-                        <div class="harmony-btn" data-harmony="split-complementary">
-                            <i class="fas fa-code-branch"></i>
-                            <span>Split Complementary</span>
-                            <small>Base + adjacent</small>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Color Wheel -->
-                <div class="color-wheel-container">
-                    <h3><i class="fas fa-circle"></i> Color Wheel</h3>
-                    <p class="subtitle">Click or drag to select colors directly from the wheel</p>
-                    
-                    <div class="color-wheel" id="colorWheel">
-                        <canvas class="wheel-canvas" id="wheelCanvas"></canvas>
-                        <div class="wheel-marker" id="wheelMarker"></div>
-                    </div>
-                    
-                    <div style="margin-top: 20px;">
-                        <button id="addToPalette" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Add to Palette
-                        </button>
-                        <button id="clearPalette" class="btn btn-secondary">
-                            <i class="fas fa-trash"></i> Clear Palette
-                        </button>
-                    </div>
                 </div>
             </div>
 
-            <!-- Right Column: Palette & Preview -->
-            <div class="right-column">
-                <!-- Palette Display -->
-                <div class="palette-display">
-                    <div class="palette-header">
-                        <h3><i class="fas fa-layer-group"></i> Current Palette</h3>
-                        <div class="palette-actions">
-                            <button id="savePalette" class="btn btn-primary btn-sm">
-                                <i class="fas fa-save"></i> Save
-                            </button>
-                            <button id="exportPalette" class="btn btn-secondary btn-sm">
-                                <i class="fas fa-download"></i> Export
-                            </button>
+            <!-- Controls Column -->
+            <div class="tool-controls">
+                <!-- Animation Type -->
+                <div class="control-group">
+                    <label>Animation Type</label>
+                    <div class="property-group">
+                        <div class="property-option active" data-type="move">
+                            <i class="fas fa-arrows-alt"></i> Move
                         </div>
-                    </div>
-                    
-                    <div class="palette-grid" id="paletteGrid">
-                        <!-- Color cards will be added dynamically -->
-                    </div>
-                    
-                    <div>
-                        <h4>Palette Name</h4>
-                        <input type="text" id="paletteName" class="form-input" value="My Color Palette" placeholder="Enter palette name">
+                        <div class="property-option" data-type="rotate">
+                            <i class="fas fa-sync-alt"></i> Rotate
+                        </div>
+                        <div class="property-option" data-type="scale">
+                            <i class="fas fa-expand-alt"></i> Scale
+                        </div>
+                        <div class="property-option" data-type="bounce">
+                            <i class="fas fa-basketball-ball"></i> Bounce
+                        </div>
+                        <div class="property-option" data-type="fade">
+                            <i class="fas fa-eye-slash"></i> Fade
+                        </div>
+                        <div class="property-option" data-type="color">
+                            <i class="fas fa-palette"></i> Color
+                        </div>
                     </div>
                 </div>
 
-                <!-- Accessibility Checker -->
-                <div class="accessibility-section">
-                    <h3><i class="fas fa-universal-access"></i> Accessibility Checker</h3>
-                    <p class="subtitle">WCAG 2.1 compliance for text contrast ratios</p>
-                    
-                    <div class="contrast-ratios" id="contrastRatios">
-                        <!-- Contrast items will be added dynamically -->
-                    </div>
-                    
-                    <div class="usage-tip" style="margin-top: 20px;">
-                        <i class="fas fa-info-circle"></i>
-                        <span>WCAG requires <strong>4.5:1</strong> for normal text and <strong>3:1</strong> for large text (AA level)</span>
+                <!-- Animation Properties -->
+                <div class="control-group">
+                    <label for="duration">Duration: <span id="durationValue">2s</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="duration" min="0.5" max="5" step="0.5" value="2" class="slider">
+                        <span class="slider-value" id="durationDisplay">2s</span>
                     </div>
                 </div>
 
-                <!-- Export Options -->
-                <div class="export-section">
-                    <h3><i class="fas fa-file-export"></i> Export Options</h3>
-                    <p class="subtitle">Export your palette in various formats</p>
-                    
-                    <div class="export-options">
-                        <div class="export-format" data-format="css">
-                            <i class="fab fa-css3-alt"></i>
-                            <h4>CSS Variables</h4>
-                            <p>Modern CSS custom properties</p>
-                            <button class="btn btn-primary btn-sm export-btn" data-format="css">
-                                Export CSS
-                            </button>
+                <div class="control-group">
+                    <label for="delay">Delay: <span id="delayValue">0s</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="delay" min="0" max="3" step="0.5" value="0" class="slider">
+                        <span class="slider-value" id="delayDisplay">0s</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="iteration">Iteration Count: <span id="iterationValue">infinite</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="iteration" min="1" max="10" value="0" class="slider">
+                        <span class="slider-value" id="iterationDisplay">infinite</span>
+                    </div>
+                </div>
+
+                <!-- Timing Function -->
+                <div class="control-group">
+                    <label>Timing Function</label>
+                    <div class="property-group">
+                        <div class="property-option active" data-timing="ease">
+                            ease
                         </div>
-                        <div class="export-format" data-format="scss">
-                            <i class="fab fa-sass"></i>
-                            <h4>SCSS Variables</h4>
-                            <p>Sass/SCSS variables</p>
-                            <button class="btn btn-primary btn-sm export-btn" data-format="scss">
-                                Export SCSS
-                            </button>
+                        <div class="property-option" data-timing="linear">
+                            linear
                         </div>
-                        <div class="export-format" data-format="json">
-                            <i class="fas fa-code"></i>
-                            <h4>JSON</h4>
-                            <p>Structured data format</p>
-                            <button class="btn btn-primary btn-sm export-btn" data-format="json">
-                                Export JSON
-                            </button>
+                        <div class="property-option" data-timing="ease-in">
+                            ease-in
                         </div>
-                        <div class="export-format" data-format="tailwind">
-                            <i class="fas fa-wind"></i>
-                            <h4>Tailwind CSS</h4>
-                            <p>Tailwind config format</p>
-                            <button class="btn btn-primary btn-sm export-btn" data-format="tailwind">
-                                Export Tailwind
-                            </button>
+                        <div class="property-option" data-timing="ease-out">
+                            ease-out
+                        </div>
+                        <div class="property-option" data-timing="ease-in-out">
+                            ease-in-out
+                        </div>
+                        <div class="property-option" data-timing="cubic-bezier">
+                            cubic-bezier
                         </div>
                     </div>
+                </div>
+
+                <!-- Direction -->
+                <div class="control-group">
+                    <label for="direction">Direction</label>
+                    <select id="direction" class="form-control">
+                        <option value="normal">Normal</option>
+                        <option value="reverse">Reverse</option>
+                        <option value="alternate">Alternate</option>
+                        <option value="alternate-reverse">Alternate Reverse</option>
+                    </select>
+                </div>
+
+                <!-- Fill Mode -->
+                <div class="control-group">
+                    <label for="fillMode">Fill Mode</label>
+                    <select id="fillMode" class="form-control">
+                        <option value="none">None</option>
+                        <option value="forwards">Forwards</option>
+                        <option value="backwards">Backwards</option>
+                        <option value="both">Both</option>
+                    </select>
                 </div>
             </div>
         </div>
 
-        <!-- Color Psychology -->
-        <div class="psychology-section">
-            <h3><i class="fas fa-brain"></i> Color Psychology</h3>
-            <p class="subtitle">Understanding the meaning and effects of colors</p>
+        <!-- CSS Output -->
+        <div class="tool-controls" style="margin-top: 2rem;">
+            <h3><i class="fas fa-code"></i> CSS Code</h3>
+            <div class="code-output">
+                <pre id="cssOutput">@keyframes moveAnimation {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(100px); }
+    100% { transform: translateX(0); }
+}
+
+.animated-element {
+    animation: moveAnimation 2s ease infinite;
+    animation-delay: 0s;
+    animation-direction: normal;
+    animation-fill-mode: none;
+}</pre>
+            </div>
+            <div class="action-buttons">
+                <button id="copyCss" class="btn-primary">
+                    <i class="fas fa-copy"></i> Copy CSS
+                </button>
+                <button id="copyKeyframes" class="btn-secondary">
+                    <i class="fas fa-code"></i> Copy Keyframes Only
+                </button>
+                <button id="resetAnimation" class="btn-secondary">
+                    <i class="fas fa-redo"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <!-- Examples Section -->
+        <section class="instructions">
+            <h2>Common Animation Examples</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: #ccc;">Click on any example to apply it</p>
             
-            <div class="psychology-grid" id="psychologyGrid">
-                <!-- Psychology cards will be added dynamically -->
-            </div>
-        </div>
-
-        <!-- Saved Palettes -->
-        <div class="saved-palettes">
-            <h3><i class="fas fa-bookmark"></i> Saved Palettes</h3>
-            <p class="subtitle">Your previously saved color schemes</p>
-            
-            <div class="saved-grid" id="savedGrid">
-                <!-- Saved palettes will be added dynamically -->
-            </div>
-        </div>
-
-        <!-- How to Use Section -->
-        <section id="how-to-use" class="docs-section">
-            <h2><i class="fas fa-question-circle"></i> How to Use This Tool</h2>
-            <div class="docs-content">
-                <div class="docs-step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <h4>Pick Your Base Color</h4>
-                        <p>Use the color picker, enter hex values, adjust sliders, or click on the color wheel to select your base color. The tool shows RGB, HSL, CMYK, and HSV values in real-time.</p>
+            <div class="examples-grid">
+                <div class="example-card" data-type="bounce" data-duration="1" data-timing="ease" data-iteration="infinite">
+                    <div class="example-preview">
+                        <div class="example-animation" style="animation: bounceExample 1s ease infinite;"></div>
+                        <style>
+                            @keyframes bounceExample {
+                                0%, 100% { transform: translateY(0); }
+                                50% { transform: translateY(-20px); }
+                            }
+                        </style>
                     </div>
+                    <h4>Bounce</h4>
                 </div>
-                <div class="docs-step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <h4>Generate Color Harmony</h4>
-                        <p>Select a harmony rule (Complementary, Analogous, Triadic, etc.) to automatically generate a cohesive color palette based on color theory principles.</p>
+                
+                <div class="example-card" data-type="rotate" data-duration="2" data-timing="linear" data-iteration="infinite">
+                    <div class="example-preview">
+                        <div class="example-animation" style="animation: rotateExample 2s linear infinite;"></div>
+                        <style>
+                            @keyframes rotateExample {
+                                0% { transform: rotate(0deg); }
+                                100% { transform: rotate(360deg); }
+                            }
+                        </style>
                     </div>
+                    <h4>Rotate</h4>
                 </div>
-                <div class="docs-step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <h4>Check Accessibility</h4>
-                        <p>Review WCAG 2.1 compliance for text contrast ratios. The tool automatically checks all color combinations in your palette and provides ratings (AAA, AA, Fail).</p>
+                
+                <div class="example-card" data-type="scale" data-duration="1.5" data-timing="ease-in-out" data-iteration="infinite">
+                    <div class="example-preview">
+                        <div class="example-animation" style="animation: scaleExample 1.5s ease-in-out infinite alternate;"></div>
+                        <style>
+                            @keyframes scaleExample {
+                                0% { transform: scale(1); }
+                                100% { transform: scale(1.3); }
+                            }
+                        </style>
                     </div>
+                    <h4>Pulse</h4>
                 </div>
-                <div class="docs-step">
-                    <div class="step-number">4</div>
-                    <div class="step-content">
-                        <h4>Customize Your Palette</h4>
-                        <p>Add or remove colors, adjust individual colors, rename your palette, and save your favorite combinations for future reference.</p>
+                
+                <div class="example-card" data-type="move" data-duration="3" data-timing="ease" data-iteration="infinite">
+                    <div class="example-preview">
+                        <div class="example-animation" style="animation: moveExample 3s ease infinite;"></div>
+                        <style>
+                            @keyframes moveExample {
+                                0%, 100% { transform: translateX(-30px); }
+                                50% { transform: translateX(30px); }
+                            }
+                        </style>
                     </div>
+                    <h4>Slide</h4>
                 </div>
-                <div class="docs-step">
-                    <div class="step-number">5</div>
-                    <div class="step-content">
-                        <h4>Export and Use</h4>
-                        <p>Export your palette in various formats including CSS variables, SCSS variables, JSON, and Tailwind CSS configuration for easy integration into your projects.</p>
+                
+                <div class="example-card" data-type="fade" data-duration="2" data-timing="ease-in-out" data-iteration="infinite">
+                    <div class="example-preview">
+                        <div class="example-animation" style="animation: fadeExample 2s ease-in-out infinite alternate;"></div>
+                        <style>
+                            @keyframes fadeExample {
+                                0% { opacity: 0.3; }
+                                100% { opacity: 1; }
+                            }
+                        </style>
                     </div>
+                    <h4>Fade In/Out</h4>
+                </div>
+                
+                <div class="example-card" data-type="color" data-duration="2" data-timing="linear" data-iteration="infinite">
+                    <div class="example-preview">
+                        <div class="example-animation" style="animation: colorExample 2s linear infinite alternate;"></div>
+                        <style>
+                            @keyframes colorExample {
+                                0% { background: linear-gradient(45deg, #8a2be2, #4ecdc4); }
+                                100% { background: linear-gradient(45deg, #ff6b6b, #667eea); }
+                            }
+                        </style>
+                    </div>
+                    <h4>Color Change</h4>
+                </div>
+                
+                <div class="example-card" data-type="move" data-duration="1" data-timing="cubic-bezier" data-iteration="infinite">
+                    <div class="example-preview">
+                        <div class="example-animation" style="animation: shakeExample 1s ease infinite;"></div>
+                        <style>
+                            @keyframes shakeExample {
+                                0%, 100% { transform: translateX(0); }
+                                25% { transform: translateX(-5px); }
+                                75% { transform: translateX(5px); }
+                            }
+                        </style>
+                    </div>
+                    <h4>Shake</h4>
+                </div>
+                
+                <div class="example-card" data-type="bounce" data-duration="0.8" data-timing="ease-out" data-iteration="5">
+                    <div class="example-preview">
+                        <div class="example-animation" style="animation: jumpExample 0.8s ease-out 5;"></div>
+                        <style>
+                            @keyframes jumpExample {
+                                0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+                                40% { transform: translateY(-15px); }
+                                60% { transform: translateY(-7px); }
+                            }
+                        </style>
+                    </div>
+                    <h4>Jump</h4>
                 </div>
             </div>
         </section>
 
-        <!-- Features Grid -->
-        <section class="features-grid">
-            <h2><i class="fas fa-bolt"></i> Tool Features</h2>
-            <div class="features">
-                <div class="feature">
-                    <i class="fas fa-palette"></i>
-                    <h4>Multiple Color Models</h4>
-                    <p>Hex, RGB, HSL, CMYK, HSV color values with real-time conversion</p>
+        <!-- How to Use -->
+        <section class="instructions">
+            <h2>How to Use This Tool</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>Choose Animation Type</h3>
+                    <p>Select the type of animation you want to create (move, rotate, scale, etc.).</p>
                 </div>
-                <div class="feature">
-                    <i class="fas fa-magic"></i>
-                    <h4>Color Harmony Rules</h4>
-                    <p>6 harmony rules based on color theory principles</p>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>Adjust Properties</h3>
+                    <p>Set duration, delay, iteration count, and timing function for your animation.</p>
                 </div>
-                <div class="feature">
-                    <i class="fas fa-universal-access"></i>
-                    <h4>Accessibility Checking</h4>
-                    <p>WCAG 2.1 compliance with contrast ratio analysis</p>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>Preview & Control</h3>
+                    <p>Use play, pause, and stop buttons to control the animation preview.</p>
                 </div>
-                <div class="feature">
-                    <i class="fas fa-brain"></i>
-                    <h4>Color Psychology</h4>
-                    <p>Understand the meaning and effects of colors</p>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-file-export"></i>
-                    <h4>Multiple Export Formats</h4>
-                    <p>CSS, SCSS, JSON, Tailwind, and more</p>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-save"></i>
-                    <h4>Save & Organize</h4>
-                    <p>Save palettes locally for future reference</p>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-eye-dropper"></i>
-                    <h4>Interactive Color Wheel</h4>
-                    <p>Visual color selection with drag and drop</p>
-                </div>
-                <div class="feature">
-                    <i class="fas fa-random"></i>
-                    <h4>Random Generation</h4>
-                    <p>Generate random palettes for inspiration</p>
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <h3>Copy & Implement</h3>
+                    <p>Copy the generated CSS code and use it in your web projects.</p>
                 </div>
             </div>
         </section>
@@ -995,57 +831,474 @@
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>AuraText Tools</h4>
-                <p>A collection of free web development tools for designers and developers.</p>
-            </div>
-            <div class="footer-section">
-                <h4>All Tools</h4>
-                <ul>
-                    <li><a href="index.html">AuraText Generator</a></li>
-                    <li><a href="gradient.html">CSS Gradient Generator</a></li>
-                    <li><a href="grid-generator.html">CSS Grid Generator</a></li>
-                    <li><a href="flexbox-helper.html">Flexbox Helper</a></li>
-                    <li><a href="box-shadow.html">Box Shadow Generator</a></li>
-                    <li><a href="animations-generator.html">CSS Animations Generator</a></li>
-                    <li><a href="palette-generator.html">Color Palette Generator</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h4>Resources</h4>
-                <ul>
-                    <li><a href="#how-to-use">How to Use</a></li>
-                    <li><a href="#">Color Theory Guide</a></li>
-                    <li><a href="#">Web Accessibility</a></li>
-                    <li><a href="#">Design Resources</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 www.auratext.online. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <!-- Export Modal -->
-    <div class="modal" id="exportModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-download"></i> Export Palette</h3>
-                <button class="modal-close">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="code-container">
-                    <pre id="exportCode"><code class="css">// Your exported code will appear here</code></pre>
-                    <button id="copyExport" class="btn btn-primary copy-btn">
-                        <i class="far fa-copy"></i> Copy Code
-                    </button>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-aura"></i>
+                    <span>AuraText</span>
+                </div>
+                <p class="footer-tagline">Create beautiful text effects and design tools for your projects.</p>
+                
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#effects">Effects</a>
+                    <a href="index.html#text-styles">Text Styles</a>
+                    <a href="gradient.html">Gradient Tool</a>
+                    <a href="grid-generator.html">Grid Generator</a>
+                    <a href="flexbox-helper.html">Flexbox Helper</a>
+                    <a href="box-shadow.html">Box Shadow Tool</a>
+                    <a href="animations-generator.html">Animations Generator</a>
+                    <a href="index.html#coming-soon">More Tools</a>
+                    <a href="index.html#blog">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                
+                <div class="copyright">
+                    <p>© 2025 www.auratext.online. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
                 </div>
             </div>
         </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-message">CSS copied to clipboard!</span>
     </div>
 
-    <script src="script.js"></script>
-    <script src="palette-script.js"></script>
+    <!-- JavaScript -->
+    <script>
+        // CSS Animations Generator JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Animations Generator Loaded');
+            
+            // Animation configuration
+            let animationConfig = {
+                type: 'move',
+                duration: 2,
+                delay: 0,
+                iteration: 0, // 0 means infinite
+                timing: 'ease',
+                direction: 'normal',
+                fillMode: 'none',
+                isPlaying: true
+            };
+            
+            // DOM Elements
+            const animatedElement = document.getElementById('animatedElement');
+            const cssOutput = document.getElementById('cssOutput');
+            const copyCssBtn = document.getElementById('copyCss');
+            const copyKeyframesBtn = document.getElementById('copyKeyframes');
+            const resetAnimationBtn = document.getElementById('resetAnimation');
+            const playAnimationBtn = document.getElementById('playAnimation');
+            const pauseAnimationBtn = document.getElementById('pauseAnimation');
+            const stopAnimationBtn = document.getElementById('stopAnimation');
+            const randomAnimationBtn = document.getElementById('randomAnimation');
+            
+            // Sliders and inputs
+            const durationSlider = document.getElementById('duration');
+            const durationValue = document.getElementById('durationValue');
+            const durationDisplay = document.getElementById('durationDisplay');
+            
+            const delaySlider = document.getElementById('delay');
+            const delayValue = document.getElementById('delayValue');
+            const delayDisplay = document.getElementById('delayDisplay');
+            
+            const iterationSlider = document.getElementById('iteration');
+            const iterationValue = document.getElementById('iterationValue');
+            const iterationDisplay = document.getElementById('iterationDisplay');
+            
+            const directionSelect = document.getElementById('direction');
+            const fillModeSelect = document.getElementById('fillMode');
+            
+            // Property options
+            const typeOptions = document.querySelectorAll('[data-type]');
+            const timingOptions = document.querySelectorAll('[data-timing]');
+            const exampleCards = document.querySelectorAll('.example-card');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            // 1. Initialize animation
+            function initializeAnimation() {
+                updateAnimationDisplay();
+                updateAnimation();
+                updateCssOutput();
+            }
+            
+            // 2. Update display values
+            function updateAnimationDisplay() {
+                durationValue.textContent = animationConfig.duration + 's';
+                durationDisplay.textContent = animationConfig.duration + 's';
+                if (durationSlider) durationSlider.value = animationConfig.duration;
+                
+                delayValue.textContent = animationConfig.delay + 's';
+                delayDisplay.textContent = animationConfig.delay + 's';
+                if (delaySlider) delaySlider.value = animationConfig.delay;
+                
+                const iterationText = animationConfig.iteration === 0 ? 'infinite' : animationConfig.iteration;
+                iterationValue.textContent = iterationText;
+                iterationDisplay.textContent = iterationText;
+                if (iterationSlider) iterationSlider.value = animationConfig.iteration;
+                
+                if (directionSelect) directionSelect.value = animationConfig.direction;
+                if (fillModeSelect) fillModeSelect.value = animationConfig.fillMode;
+                
+                // Update active type buttons
+                typeOptions.forEach(option => {
+                    if (option.dataset.type === animationConfig.type) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+                
+                // Update active timing buttons
+                timingOptions.forEach(option => {
+                    if (option.dataset.timing === animationConfig.timing) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 3. Update animation preview
+            function updateAnimation() {
+                if (!animatedElement) return;
+                
+                // Generate keyframes based on type
+                let keyframes = '';
+                let animationName = '';
+                
+                switch (animationConfig.type) {
+                    case 'move':
+                        animationName = 'moveAnimation';
+                        keyframes = `
+    @keyframes moveAnimation {
+        0% { transform: translateX(0); }
+        50% { transform: translateX(100px); }
+        100% { transform: translateX(0); }
+    }`;
+                        break;
+                        
+                    case 'rotate':
+                        animationName = 'rotateAnimation';
+                        keyframes = `
+    @keyframes rotateAnimation {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }`;
+                        break;
+                        
+                    case 'scale':
+                        animationName = 'scaleAnimation';
+                        keyframes = `
+    @keyframes scaleAnimation {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.3); }
+        100% { transform: scale(1); }
+    }`;
+                        break;
+                        
+                    case 'bounce':
+                        animationName = 'bounceAnimation';
+                        keyframes = `
+    @keyframes bounceAnimation {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-50px); }
+    }`;
+                        break;
+                        
+                    case 'fade':
+                        animationName = 'fadeAnimation';
+                        keyframes = `
+    @keyframes fadeAnimation {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }`;
+                        break;
+                        
+                    case 'color':
+                        animationName = 'colorAnimation';
+                        keyframes = `
+    @keyframes colorAnimation {
+        0% { background: linear-gradient(45deg, #8a2be2, #4ecdc4); }
+        50% { background: linear-gradient(45deg, #ff6b6b, #667eea); }
+        100% { background: linear-gradient(45deg, #8a2be2, #4ecdc4); }
+    }`;
+                        break;
+                }
+                
+                // Remove existing keyframes
+                const existingStyle = document.getElementById('dynamicKeyframes');
+                if (existingStyle) {
+                    existingStyle.remove();
+                }
+                
+                // Add new keyframes
+                const style = document.createElement('style');
+                style.id = 'dynamicKeyframes';
+                style.textContent = keyframes;
+                document.head.appendChild(style);
+                
+                // Apply animation to element
+                const iterationCount = animationConfig.iteration === 0 ? 'infinite' : animationConfig.iteration;
+                
+                animatedElement.style.animation = `${animationName} ${animationConfig.duration}s ${animationConfig.timing} ${iterationCount} ${animationConfig.direction} ${animationConfig.fillMode}`;
+                animatedElement.style.animationDelay = animationConfig.delay + 's';
+                animatedElement.style.animationPlayState = animationConfig.isPlaying ? 'running' : 'paused';
+                
+                // Store for CSS output
+                animatedElement.dataset.animationName = animationName;
+                animatedElement.dataset.keyframes = keyframes;
+            }
+            
+            // 4. Update CSS output
+            function updateCssOutput() {
+                const iterationCount = animationConfig.iteration === 0 ? 'infinite' : animationConfig.iteration;
+                
+                const css = `${animatedElement.dataset.keyframes}
+
+.animated-element {
+    animation: ${animatedElement.dataset.animationName} ${animationConfig.duration}s ${animationConfig.timing} ${iterationCount};
+    animation-delay: ${animationConfig.delay}s;
+    animation-direction: ${animationConfig.direction};
+    animation-fill-mode: ${animationConfig.fillMode};
+}`;
+
+                cssOutput.textContent = css;
+                cssOutput.dataset.keyframes = animatedElement.dataset.keyframes;
+            }
+            
+            // 5. Copy CSS to clipboard
+            function copyCss(keyframesOnly = false) {
+                const text = keyframesOnly ? cssOutput.dataset.keyframes : cssOutput.textContent;
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(keyframesOnly ? 'Keyframes copied!' : 'CSS copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showToast(keyframesOnly ? 'Keyframes copied!' : 'CSS copied to clipboard!');
+                });
+            }
+            
+            // 6. Show toast notification
+            function showToast(message) {
+                if (toastMessage) toastMessage.textContent = message;
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }
+            }
+            
+            // 7. Play animation
+            function playAnimation() {
+                animationConfig.isPlaying = true;
+                if (animatedElement) {
+                    animatedElement.style.animationPlayState = 'running';
+                }
+                showToast('Animation playing');
+            }
+            
+            // 8. Pause animation
+            function pauseAnimation() {
+                animationConfig.isPlaying = false;
+                if (animatedElement) {
+                    animatedElement.style.animationPlayState = 'paused';
+                }
+                showToast('Animation paused');
+            }
+            
+            // 9. Stop animation
+            function stopAnimation() {
+                if (animatedElement) {
+                    animatedElement.style.animation = 'none';
+                    setTimeout(() => {
+                        updateAnimation();
+                    }, 10);
+                }
+                showToast('Animation stopped');
+            }
+            
+            // 10. Apply random animation
+            function applyRandomAnimation() {
+                const types = ['move', 'rotate', 'scale', 'bounce', 'fade', 'color'];
+                const timings = ['ease', 'linear', 'ease-in', 'ease-out', 'ease-in-out'];
+                const directions = ['normal', 'reverse', 'alternate', 'alternate-reverse'];
+                const fillModes = ['none', 'forwards', 'backwards', 'both'];
+                
+                animationConfig.type = types[Math.floor(Math.random() * types.length)];
+                animationConfig.duration = (Math.floor(Math.random() * 40) + 10) / 10; // 1.0 to 5.0
+                animationConfig.delay = Math.floor(Math.random() * 20) / 10; // 0.0 to 2.0
+                animationConfig.iteration = Math.random() > 0.5 ? 0 : Math.floor(Math.random() * 5) + 1;
+                animationConfig.timing = timings[Math.floor(Math.random() * timings.length)];
+                animationConfig.direction = directions[Math.floor(Math.random() * directions.length)];
+                animationConfig.fillMode = fillModes[Math.floor(Math.random() * fillModes.length)];
+                animationConfig.isPlaying = true;
+                
+                updateAnimationDisplay();
+                updateAnimation();
+                updateCssOutput();
+                showToast('Random animation applied!');
+            }
+            
+            // 11. Reset animation
+            function resetAnimation() {
+                animationConfig = {
+                    type: 'move',
+                    duration: 2,
+                    delay: 0,
+                    iteration: 0,
+                    timing: 'ease',
+                    direction: 'normal',
+                    fillMode: 'none',
+                    isPlaying: true
+                };
+                updateAnimationDisplay();
+                updateAnimation();
+                updateCssOutput();
+                showToast('Animation reset to default!');
+            }
+            
+            // 12. Apply example
+            function applyExample(e) {
+                const card = e.currentTarget;
+                animationConfig.type = card.dataset.type;
+                animationConfig.duration = parseFloat(card.dataset.duration);
+                animationConfig.timing = card.dataset.timing;
+                animationConfig.iteration = card.dataset.iteration === 'infinite' ? 0 : parseInt(card.dataset.iteration);
+                animationConfig.isPlaying = true;
+                
+                updateAnimationDisplay();
+                updateAnimation();
+                updateCssOutput();
+                showToast('Example animation applied!');
+            }
+            
+            // 13. Mobile menu functionality
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navLinks.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                        navLinks.classList.remove('show');
+                    }
+                });
+            }
+            
+            // 14. Dropdown functionality
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                    }
+                });
+            }
+            
+            // 15. Event Listeners
+            copyCssBtn.addEventListener('click', () => copyCss(false));
+            copyKeyframesBtn.addEventListener('click', () => copyCss(true));
+            resetAnimationBtn.addEventListener('click', resetAnimation);
+            playAnimationBtn.addEventListener('click', playAnimation);
+            pauseAnimationBtn.addEventListener('click', pauseAnimation);
+            stopAnimationBtn.addEventListener('click', stopAnimation);
+            randomAnimationBtn.addEventListener('click', applyRandomAnimation);
+            
+            // Type option clicks
+            typeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    animationConfig.type = this.dataset.type;
+                    updateAnimationDisplay();
+                    updateAnimation();
+                    updateCssOutput();
+                });
+            });
+            
+            // Timing option clicks
+            timingOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    animationConfig.timing = this.dataset.timing;
+                    updateAnimationDisplay();
+                    updateAnimation();
+                    updateCssOutput();
+                });
+            });
+            
+            // Slider events
+            if (durationSlider) {
+                durationSlider.addEventListener('input', function() {
+                    animationConfig.duration = parseFloat(this.value);
+                    updateAnimationDisplay();
+                    updateAnimation();
+                    updateCssOutput();
+                });
+            }
+            
+            if (delaySlider) {
+                delaySlider.addEventListener('input', function() {
+                    animationConfig.delay = parseFloat(this.value);
+                    updateAnimationDisplay();
+                    updateAnimation();
+                    updateCssOutput();
+                });
+            }
+            
+            if (iterationSlider) {
+                iterationSlider.addEventListener('input', function() {
+                    animationConfig.iteration = parseInt(this.value);
+                    updateAnimationDisplay();
+                    updateAnimation();
+                    updateCssOutput();
+                });
+            }
+            
+            // Select events
+            if (directionSelect) {
+                directionSelect.addEventListener('change', function() {
+                    animationConfig.direction = this.value;
+                    updateAnimation();
+                    updateCssOutput();
+                });
+            }
+            
+            if (fillModeSelect) {
+                fillModeSelect.addEventListener('change', function() {
+                    animationConfig.fillMode = this.value;
+                    updateAnimation();
+                    updateCssOutput();
+                });
+            }
+            
+            exampleCards.forEach(card => {
+                card.addEventListener('click', applyExample);
+            });
+            
+            // 16. Initialize
+            initializeAnimation();
+            
+            console.log('Animations Generator Ready');
+        });
+    </script>
 </body>
 </html>
