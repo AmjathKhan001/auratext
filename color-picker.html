@@ -490,7 +490,7 @@
             opacity: 1;
         }
         
-        /* Dropdown styles */
+        /* Dropdown styles for navigation */
         .nav-links .dropdown {
             position: relative;
             display: inline-block;
@@ -506,10 +506,12 @@
             padding: 0.5rem 0;
             min-width: 200px;
             display: none;
-            z-index: 100;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
         }
         
-        .dropdown-menu.show {
+        .dropdown.active .dropdown-menu,
+        .dropdown:hover .dropdown-menu {
             display: block;
         }
         
@@ -527,6 +529,12 @@
         
         .dropdown-menu a.active {
             background: rgba(138, 43, 226, 0.5);
+        }
+        
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
     </style>
 </head>
@@ -888,7 +896,6 @@
             
             // Library colors
             const libraryColors = document.querySelectorAll('.library-color');
-            const harmonyColors = document.querySelectorAll('.harmony-color');
             
             // Toast
             const toast = document.getElementById('toast');
@@ -1336,37 +1343,52 @@ Name: ${currentColor.name}`;
                 showToast('Color reset to default!');
             }
             
-            // 24. Mobile menu functionality
+            // 24. Navigation dropdown functionality
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                
+                if (toggle && menu) {
+                    // Click to toggle
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropdown.classList.toggle('active');
+                    });
+                    
+                    // Close when clicking outside
+                    document.addEventListener('click', function(e) {
+                        if (!dropdown.contains(e.target)) {
+                            dropdown.classList.remove('active');
+                        }
+                    });
+                    
+                    // Also close when a menu item is clicked
+                    const menuItems = menu.querySelectorAll('a');
+                    menuItems.forEach(item => {
+                        item.addEventListener('click', function() {
+                            dropdown.classList.remove('active');
+                        });
+                    });
+                }
+            });
+            
+            // 25. Mobile menu functionality
             const menuToggle = document.querySelector('.menu-toggle');
             const navLinks = document.querySelector('.nav-links');
             
             if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', (e) => {
+                menuToggle.addEventListener('click', function(e) {
                     e.stopPropagation();
                     navLinks.classList.toggle('show');
                 });
                 
-                document.addEventListener('click', (e) => {
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(e) {
                     if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
                         navLinks.classList.remove('show');
-                    }
-                });
-            }
-            
-            // 25. Dropdown functionality
-            const dropdownToggle = document.querySelector('.dropdown-toggle');
-            const dropdownMenu = document.querySelector('.dropdown-menu');
-            
-            if (dropdownToggle && dropdownMenu) {
-                dropdownToggle.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dropdownMenu.classList.toggle('show');
-                });
-                
-                document.addEventListener('click', (e) => {
-                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                        dropdownMenu.classList.remove('show');
                     }
                 });
             }
@@ -1451,8 +1473,23 @@ Name: ${currentColor.name}`;
                 });
             });
             
-            // 27. Initialize
+            // 27. Visitor counter simulation
+            function updateVisitorCount() {
+                const visitorCounter = document.getElementById('visitor-counter');
+                
+                if (visitorCounter) {
+                    const randomCount = Math.floor(Math.random() * 9000) + 1000;
+                    const formattedCount = randomCount.toLocaleString();
+                    visitorCounter.textContent = formattedCount;
+                }
+            }
+            
+            // 28. Initialize
             initializeColorPicker();
+            updateVisitorCount();
+            
+            // Update visitor count every 30 seconds (optional)
+            setInterval(updateVisitorCount, 30000);
             
             console.log('Color Picker Tool Ready');
         });
