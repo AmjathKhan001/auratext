@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexbox Helper | AuraText Tools</title>
-    <meta name="description" content="Learn and experiment with CSS flexbox properties through interactive visual controls. Master flexbox layout with this visual playground.">
+    <title>CSS Flexbox Helper | AuraText Tools</title>
+    <meta name="description" content="Visual Flexbox helper to understand and generate CSS Flexbox layouts with interactive examples.">
     
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
@@ -27,59 +27,97 @@
     
     <!-- Flexbox-specific styles -->
     <style>
-        .flexbox-page {
+        /* Page layout */
+        .tool-page {
             padding-top: 2rem;
+            padding-bottom: 3rem;
         }
         
-        .flexbox-generator {
+        /* Hero section */
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 1.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Flexbox helper layout */
+        .flexbox-helper {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
             margin: 2rem 0;
         }
         
-        @media (max-width: 768px) {
-            .flexbox-generator {
+        @media (max-width: 992px) {
+            .flexbox-helper {
                 grid-template-columns: 1fr;
             }
         }
         
-        .flexbox-playground {
-            background: rgba(0, 0, 0, 0.3);
+        /* Flexbox preview */
+        .flexbox-preview-container {
+            background: rgba(255, 255, 255, 0.03);
             padding: 1.5rem;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            height: 500px;
-            display: flex;
-            flex-direction: column;
         }
         
-        .flexbox-container {
-            flex: 1;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
+        .flexbox-preview {
+            width: 100%;
+            height: 300px;
+            background: #1a1a2e;
             border-radius: 10px;
-            background: rgba(15, 12, 41, 0.8);
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            position: relative;
             padding: 20px;
-            margin-bottom: 1rem;
-            overflow: auto;
-            display: flex;
-            gap: 10px;
         }
         
+        /* Flex container */
+        .flex-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: all 0.3s;
+        }
+        
+        /* Flex items */
         .flex-item {
             background: rgba(138, 43, 226, 0.3);
-            border: 1px solid rgba(138, 43, 226, 0.5);
-            border-radius: 6px;
+            border: 2px solid rgba(138, 43, 226, 0.6);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
             font-size: 1.2rem;
-            min-width: 80px;
-            min-height: 80px;
-            padding: 10px;
+            min-width: 60px;
+            min-height: 60px;
+            margin: 5px;
             transition: all 0.3s;
+            position: relative;
         }
         
         .flex-item:hover {
@@ -87,77 +125,66 @@
             transform: scale(1.05);
         }
         
-        .flexbox-controls {
+        .item-label {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        /* Controls */
+        .tool-controls {
             background: rgba(255, 255, 255, 0.05);
             padding: 1.5rem;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            height: 500px;
-            overflow-y: auto;
-        }
-        
-        .control-section {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .control-section:last-child {
-            border-bottom: none;
-        }
-        
-        .control-section h3 {
-            color: white;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
         
         .control-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         
         .control-group label {
             display: block;
-            color: rgba(255, 255, 255, 0.9);
+            color: white;
             margin-bottom: 0.5rem;
             font-weight: 600;
-            font-size: 0.95rem;
         }
         
-        .property-buttons {
+        /* Property groups */
+        .property-group {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
         }
         
-        .property-btn {
-            padding: 0.6rem 0.5rem;
+        .property-option {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 0.85rem;
-            text-align: center;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            color: rgba(255, 255, 255, 0.8);
         }
         
-        .property-btn.active {
+        .property-option:hover {
+            background: rgba(138, 43, 226, 0.2);
+        }
+        
+        .property-option.active {
             background: #8a2be2;
             color: white;
             border-color: #8a2be2;
         }
         
-        .property-btn:hover {
-            background: rgba(138, 43, 226, 0.3);
-        }
-        
+        /* Range sliders */
         .slider-container {
             display: flex;
             align-items: center;
@@ -165,59 +192,88 @@
             margin-top: 0.5rem;
         }
         
-        .slider-container input[type="range"] {
-            flex: 1;
-        }
-        
-        .slider-container .value {
-            color: white;
-            font-weight: 600;
+        .slider-value {
             min-width: 40px;
             text-align: center;
-            font-size: 0.9rem;
+            font-family: monospace;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
         }
         
-        .item-controls {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .item-control-group {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .item-control-group label {
-            color: white;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        
-        .item-slider {
+        input[type="range"] {
+            -webkit-appearance: none;
             width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            outline: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #8a2be2;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        /* Input groups */
+        .input-group {
+            display: flex;
+            gap: 0.5rem;
             margin-top: 0.5rem;
         }
         
-        .flexbox-output {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-top: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .input-group input {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: monospace;
         }
         
+        /* Form controls */
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            margin-top: 0.5rem;
+        }
+        
+        .form-control option {
+            background: #1a1a2e;
+            color: white;
+        }
+        
+        /* Action buttons */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 480px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+        
+        /* Code output */
         .code-output {
             background: #1a1a2e;
-            padding: 1rem;
+            padding: 1.5rem;
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             overflow-x: auto;
-            margin-bottom: 1rem;
+            margin-top: 1rem;
         }
         
         .code-output pre {
@@ -227,14 +283,48 @@
             margin: 0;
             white-space: pre-wrap;
             word-wrap: break-word;
-            line-height: 1.5;
         }
         
+        /* Buttons */
+        .btn-primary, .btn-secondary {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Examples grid */
         .examples-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1rem;
-            margin-top: 1rem;
+            margin-top: 1.5rem;
         }
         
         .example-card {
@@ -244,176 +334,158 @@
             cursor: pointer;
             transition: all 0.3s;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
         }
         
         .example-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px);
             border-color: #8a2be2;
-            background: rgba(138, 43, 226, 0.1);
         }
         
         .example-preview {
-            height: 80px;
-            display: flex;
-            gap: 5px;
+            height: 100px;
+            border-radius: 8px;
             margin-bottom: 0.75rem;
-            border-radius: 6px;
+            background: #1a1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 5px;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .example-preview div {
-            background: rgba(138, 43, 226, 0.5);
-            border-radius: 3px;
-            width: 30px;
-            height: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 0.8rem;
-            font-weight: bold;
+            padding: 10px;
         }
         
         .example-card h4 {
             color: white;
+            text-align: center;
             font-size: 0.9rem;
             margin: 0;
         }
         
-        .code-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 0.5rem;
+        /* Visual guides */
+        .visual-guides {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .code-tab {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: none;
-            border-radius: 6px;
-            color: rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-            transition: all 0.3s;
+        .guide-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
             font-size: 0.9rem;
         }
         
-        .code-tab.active {
-            background: #8a2be2;
-            color: white;
+        .guide-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
         }
         
-        .code-content {
-            display: none;
+        /* Instructions */
+        .instructions {
+            margin-top: 4rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .code-content.active {
-            display: block;
-        }
-        
-        .visual-guide {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 0.5rem;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 6px;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.7);
-        }
-        
-        .axis-label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .axis-label i {
-            color: #8a2be2;
-        }
-        
-        .property-explanation {
-            background: rgba(138, 43, 226, 0.1);
-            border-left: 3px solid #8a2be2;
-            padding: 0.75rem;
-            border-radius: 0 6px 6px 0;
-            margin-top: 0.5rem;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.4;
-        }
-        
-        .flex-items-control {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .item-count-btn {
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .item-count-btn:hover {
-            background: rgba(138, 43, 226, 0.3);
-        }
-        
-        .item-count-display {
-            color: white;
-            font-weight: 600;
-            min-width: 30px;
+        .instructions h2 {
             text-align: center;
+            margin-bottom: 2rem;
         }
         
-        .direction-visual {
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .step {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            font-size: 1.5rem;
-            color: #8a2be2;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 0 auto 1rem;
         }
         
-        .responsive-controls {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .responsive-btn {
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: rgba(255, 255, 255, 0.8);
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-        
-        .responsive-btn.active {
-            background: rgba(138, 43, 226, 0.3);
-            border-color: #8a2be2;
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.9);
             color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
-        .responsive-btn:hover {
-            background: rgba(138, 43, 226, 0.2);
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        /* Dropdown styles */
+        .nav-links .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem 0;
+            min-width: 200px;
+            display: none;
+            z-index: 100;
+        }
+        
+        .dropdown-menu.show {
+            display: block;
+        }
+        
+        .dropdown-menu a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .dropdown-menu a:hover {
+            background: rgba(138, 43, 226, 0.3);
+        }
+        
+        .dropdown-menu a.active {
+            background: rgba(138, 43, 226, 0.5);
         }
     </style>
 </head>
@@ -431,17 +503,17 @@
                 <a href="index.html#text-styles">Text Styles</a>
                 
                 <!-- Our Tools Dropdown -->
-                <li class="dropdown">
+                <div class="dropdown">
                     <a href="#" class="dropdown-toggle active">Our Tools <i class="fas fa-chevron-down"></i></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="index.html">AuraText Generator</a></li>
-                        <li><a href="gradient.html">CSS Gradient Generator</a></li>
-                        <li><a href="grid-generator.html">CSS Grid Generator</a></li>
-                        <li><a href="flexbox-helper.html">Flexbox Helper</a></li>
-                        <li><a href="box-shadow.html">Box Shadow Generator</a></li>
-                        <li><a href="animations-generator.html">CSS Animations Generator</a></li>
-                        <li><a href="palette-generator.html">Color Palette Generator</a></li>
-                        <li><a href="color-picker.html">Color Picker Tool</a></li>
+                    <div class="dropdown-menu">
+                        <a href="index.html">AuraText Generator</a>
+                        <a href="gradient.html">CSS Gradient Generator</a>
+                        <a href="grid-generator.html">CSS Grid Generator</a>
+                        <a href="flexbox-helper.html" class="active">Flexbox Helper</a>
+                        <a href="box-shadow.html">Box Shadow Generator</a>
+                        <a href="animations-generator.html">CSS Animations Generator</a>
+                        <a href="palette-generator.html">Color Palette Generator</a>
+                        <a href="color-picker.html">Color Picker Tool</a>
                     </div>
                 </div>
                 
@@ -476,179 +548,158 @@
     </div>
 
     <!-- Main Content -->
-    <main class="container flexbox-page">
+    <main class="container tool-page">
         <header class="hero">
-            <h1>Flexbox Helper</h1>
-            <p class="subtitle">Learn and experiment with CSS flexbox properties through interactive visual controls</p>
-            <p>Master CSS Flexbox layout with this visual playground. Adjust properties in real-time and see immediate results.</p>
+            <h1>CSS Flexbox Helper</h1>
+            <p class="subtitle">Visual tool to learn and generate CSS Flexbox layouts</p>
+            <p>Interactive Flexbox playground to understand flex properties with live preview and code generation.</p>
         </header>
 
-        <div class="flexbox-generator">
-            <!-- Playground Column -->
+        <div class="flexbox-helper">
+            <!-- Preview Column -->
             <div class="preview-column">
-                <div class="flexbox-playground">
-                    <div class="flexbox-container" id="flexContainer">
-                        <!-- Flex items will be generated by JavaScript -->
-                    </div>
-                    <div class="visual-guide">
-                        <div class="axis-label">
-                            <i class="fas fa-arrows-alt-h"></i> Main Axis
-                        </div>
-                        <div class="axis-label">
-                            <i class="fas fa-arrows-alt-v"></i> Cross Axis
+                <div class="flexbox-preview-container">
+                    <h3><i class="fas fa-eye"></i> Flexbox Preview</h3>
+                    <div class="flexbox-preview">
+                        <div class="flex-container" id="flexContainer">
+                            <!-- Flex items will be generated here -->
                         </div>
                     </div>
-                </div>
-                <div class="preview-actions" style="margin-top: 1.5rem;">
-                    <button id="copyFlexboxCss" class="btn-primary">
-                        <i class="fas fa-copy"></i> Copy Flexbox CSS
-                    </button>
-                    <button id="resetFlexbox" class="btn-secondary">
-                        <i class="fas fa-redo"></i> Reset Playground
-                    </button>
+                    
+                    <div class="visual-guides">
+                        <div class="guide-item">
+                            <div class="guide-color" style="background: rgba(138, 43, 226, 0.3);"></div>
+                            <span>Flex Container</span>
+                        </div>
+                        <div class="guide-item">
+                            <div class="guide-color" style="background: rgba(138, 43, 226, 0.6);"></div>
+                            <span>Flex Items</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button id="addItem" class="btn-secondary">
+                            <i class="fas fa-plus"></i> Add Item
+                        </button>
+                        <button id="removeItem" class="btn-secondary">
+                            <i class="fas fa-minus"></i> Remove Item
+                        </button>
+                        <button id="randomFlex" class="btn-secondary">
+                            <i class="fas fa-random"></i> Random Layout
+                        </button>
+                    </div>
                 </div>
             </div>
 
             <!-- Controls Column -->
-            <div class="flexbox-controls">
-                <!-- Container Properties -->
-                <div class="control-section">
-                    <h3><i class="fas fa-box"></i> Container Properties</h3>
-                    
-                    <div class="control-group">
-                        <label>Flex Direction</label>
-                        <div class="property-buttons" id="directionButtons">
-                            <button class="property-btn active" data-value="row">row</button>
-                            <button class="property-btn" data-value="row-reverse">row-reverse</button>
-                            <button class="property-btn" data-value="column">column</button>
-                            <button class="property-btn" data-value="column-reverse">column-reverse</button>
+            <div class="tool-controls">
+                <!-- Flex Direction -->
+                <div class="control-group">
+                    <label>Flex Direction</label>
+                    <div class="property-group">
+                        <div class="property-option active" data-property="flexDirection" data-value="row">
+                            <i class="fas fa-arrow-right"></i> Row
                         </div>
-                        <div class="direction-visual" id="directionVisual">
-                            <i class="fas fa-arrow-right"></i>
+                        <div class="property-option" data-property="flexDirection" data-value="row-reverse">
+                            <i class="fas fa-arrow-left"></i> Row Reverse
                         </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <label>Justify Content</label>
-                        <div class="property-buttons" id="justifyButtons">
-                            <button class="property-btn active" data-value="flex-start">flex-start</button>
-                            <button class="property-btn" data-value="center">center</button>
-                            <button class="property-btn" data-value="flex-end">flex-end</button>
-                            <button class="property-btn" data-value="space-between">space-between</button>
-                            <button class="property-btn" data-value="space-around">space-around</button>
-                            <button class="property-btn" data-value="space-evenly">space-evenly</button>
+                        <div class="property-option" data-property="flexDirection" data-value="column">
+                            <i class="fas fa-arrow-down"></i> Column
                         </div>
-                        <div class="property-explanation">
-                            Aligns items along the main axis (horizontal for row, vertical for column)
-                        </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <label>Align Items</label>
-                        <div class="property-buttons" id="alignItemsButtons">
-                            <button class="property-btn active" data-value="stretch">stretch</button>
-                            <button class="property-btn" data-value="flex-start">flex-start</button>
-                            <button class="property-btn" data-value="center">center</button>
-                            <button class="property-btn" data-value="flex-end">flex-end</button>
-                            <button class="property-btn" data-value="baseline">baseline</button>
-                        </div>
-                        <div class="property-explanation">
-                            Aligns items along the cross axis (vertical for row, horizontal for column)
-                        </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <label>Flex Wrap</label>
-                        <div class="property-buttons" id="wrapButtons">
-                            <button class="property-btn active" data-value="nowrap">nowrap</button>
-                            <button class="property-btn" data-value="wrap">wrap</button>
-                            <button class="property-btn" data-value="wrap-reverse">wrap-reverse</button>
+                        <div class="property-option" data-property="flexDirection" data-value="column-reverse">
+                            <i class="fas fa-arrow-up"></i> Column Reverse
                         </div>
                     </div>
                 </div>
 
-                <!-- Item Properties -->
-                <div class="control-section">
-                    <h3><i class="fas fa-cube"></i> Item Properties</h3>
-                    
-                    <div class="flex-items-control">
-                        <label>Number of Items:</label>
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <button class="item-count-btn" id="decreaseItems">-</button>
-                            <span class="item-count-display" id="itemCount">3</span>
-                            <button class="item-count-btn" id="increaseItems">+</button>
+                <!-- Justify Content -->
+                <div class="control-group">
+                    <label>Justify Content</label>
+                    <div class="property-group">
+                        <div class="property-option active" data-property="justifyContent" data-value="flex-start">
+                            <i class="fas fa-align-left"></i> Flex Start
                         </div>
-                    </div>
-                    
-                    <div class="item-controls">
-                        <div class="item-control-group">
-                            <label>Item 1 Order: <span id="item1Order">0</span></label>
-                            <input type="range" class="item-slider" id="item1OrderSlider" min="-3" max="3" value="0">
+                        <div class="property-option" data-property="justifyContent" data-value="center">
+                            <i class="fas fa-align-center"></i> Center
                         </div>
-                        
-                        <div class="item-control-group">
-                            <label>Item 1 Flex Grow: <span id="item1Grow">0</span></label>
-                            <input type="range" class="item-slider" id="item1GrowSlider" min="0" max="5" value="0">
+                        <div class="property-option" data-property="justifyContent" data-value="flex-end">
+                            <i class="fas fa-align-right"></i> Flex End
                         </div>
-                        
-                        <div class="item-control-group">
-                            <label>Item 2 Flex Shrink: <span id="item2Shrink">1</span></label>
-                            <input type="range" class="item-slider" id="item2ShrinkSlider" min="0" max="5" value="1">
+                        <div class="property-option" data-property="justifyContent" data-value="space-between">
+                            <i class="fas fa-arrows-alt-h"></i> Space Between
                         </div>
-                        
-                        <div class="item-control-group">
-                            <label>Item 3 Flex Basis: <span id="item3Basis">auto</span></label>
-                            <input type="range" class="item-slider" id="item3BasisSlider" min="0" max="200" value="100">
+                        <div class="property-option" data-property="justifyContent" data-value="space-around">
+                            <i class="fas fa-expand-arrows-alt"></i> Space Around
                         </div>
-                    </div>
-                    
-                    <div class="control-group" style="margin-top: 1rem;">
-                        <label>Align Self (Item 2)</label>
-                        <div class="property-buttons" id="alignSelfButtons">
-                            <button class="property-btn" data-value="auto">auto</button>
-                            <button class="property-btn active" data-value="stretch">stretch</button>
-                            <button class="property-btn" data-value="flex-start">flex-start</button>
-                            <button class="property-btn" data-value="center">center</button>
-                            <button class="property-btn" data-value="flex-end">flex-end</button>
+                        <div class="property-option" data-property="justifyContent" data-value="space-evenly">
+                            <i class="fas fa-arrows-alt"></i> Space Evenly
                         </div>
                     </div>
                 </div>
 
-                <!-- Gap & Spacing -->
-                <div class="control-section">
-                    <h3><i class="fas fa-expand-alt"></i> Gap & Spacing</h3>
-                    
-                    <div class="control-group">
-                        <label>Gap: <span id="gapValue">10px</span></label>
-                        <div class="slider-container">
-                            <input type="range" id="gapSlider" min="0" max="50" value="10">
-                            <span class="value" id="gapDisplay">10px</span>
+                <!-- Align Items -->
+                <div class="control-group">
+                    <label>Align Items</label>
+                    <div class="property-group">
+                        <div class="property-option active" data-property="alignItems" data-value="stretch">
+                            <i class="fas fa-arrows-alt-v"></i> Stretch
+                        </div>
+                        <div class="property-option" data-property="alignItems" data-value="flex-start">
+                            <i class="fas fa-long-arrow-alt-up"></i> Flex Start
+                        </div>
+                        <div class="property-option" data-property="alignItems" data-value="center">
+                            <i class="fas fa-minus"></i> Center
+                        </div>
+                        <div class="property-option" data-property="alignItems" data-value="flex-end">
+                            <i class="fas fa-long-arrow-alt-down"></i> Flex End
+                        </div>
+                        <div class="property-option" data-property="alignItems" data-value="baseline">
+                            <i class="fas fa-text-height"></i> Baseline
                         </div>
                     </div>
-                    
-                    <div class="responsive-controls">
-                        <button class="responsive-btn active" id="desktopView">
-                            <i class="fas fa-desktop"></i> Desktop
-                        </button>
-                        <button class="responsive-btn" id="mobileView">
-                            <i class="fas fa-mobile-alt"></i> Mobile
-                        </button>
+                </div>
+
+                <!-- Flex Wrap -->
+                <div class="control-group">
+                    <label>Flex Wrap</label>
+                    <div class="property-group">
+                        <div class="property-option active" data-property="flexWrap" data-value="nowrap">
+                            <i class="fas fa-compress"></i> No Wrap
+                        </div>
+                        <div class="property-option" data-property="flexWrap" data-value="wrap">
+                            <i class="fas fa-expand"></i> Wrap
+                        </div>
+                        <div class="property-option" data-property="flexWrap" data-value="wrap-reverse">
+                            <i class="fas fa-retweet"></i> Wrap Reverse
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gap Control -->
+                <div class="control-group">
+                    <label for="gap">Gap: <span id="gapValue">10px</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="gap" min="0" max="40" value="10" class="slider">
+                        <span class="slider-value" id="gapDisplay">10px</span>
+                    </div>
+                </div>
+
+                <!-- Items Count -->
+                <div class="control-group">
+                    <label for="itemCount">Number of Items: <span id="itemCountValue">4</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="itemCount" min="1" max="8" value="4" class="slider">
+                        <span class="slider-value" id="itemCountDisplay">4</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- CSS Output -->
-        <div class="flexbox-output">
-            <div class="code-tabs">
-                <button class="code-tab active" data-tab="css">CSS Code</button>
-                <button class="code-tab" data-tab="html">HTML Structure</button>
-                <button class="code-tab" data-tab="full">Full Example</button>
-            </div>
-            
-            <div class="code-content active" id="cssTab">
-                <div class="code-output">
-                    <pre id="cssOutput">.flex-container {
+        <div class="tool-controls" style="margin-top: 2rem;">
+            <h3><i class="fas fa-code"></i> CSS Code</h3>
+            <div class="code-output">
+                <pre id="cssOutput">.flex-container {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -658,230 +709,102 @@
 }
 
 .flex-item {
-    /* Default item styles */
-}
-
-.flex-item:nth-child(1) {
-    order: 0;
-    flex-grow: 0;
-}
-
-.flex-item:nth-child(2) {
-    flex-shrink: 1;
-    align-self: stretch;
-}
-
-.flex-item:nth-child(3) {
-    flex-basis: auto;
+    /* Individual item styles */
+    flex: 1;
 }</pre>
-                </div>
             </div>
-            
-            <div class="code-content" id="htmlTab">
-                <div class="code-output">
-                    <pre id="htmlOutput">&lt;div class="flex-container"&gt;
-    &lt;div class="flex-item"&gt;1&lt;/div&gt;
-    &lt;div class="flex-item"&gt;2&lt;/div&gt;
-    &lt;div class="flex-item"&gt;3&lt;/div&gt;
-&lt;/div&gt;</pre>
-                </div>
-            </div>
-            
-            <div class="code-content" id="fullTab">
-                <div class="code-output">
-                    <pre id="fullOutput">&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;Flexbox Layout&lt;/title&gt;
-    &lt;style&gt;
-        .flex-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: stretch;
-            flex-wrap: nowrap;
-            gap: 10px;
-            padding: 20px;
-            background: #1a1a2e;
-            border-radius: 10px;
-            min-height: 300px;
-        }
-        
-        .flex-item {
-            background: #8a2be2;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            border-radius: 6px;
-            min-width: 80px;
-            min-height: 80px;
-            padding: 10px;
-        }
-        
-        .flex-item:nth-child(1) {
-            order: 0;
-            flex-grow: 0;
-        }
-        
-        .flex-item:nth-child(2) {
-            flex-shrink: 1;
-            align-self: stretch;
-        }
-        
-        .flex-item:nth-child(3) {
-            flex-basis: auto;
-        }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-    &lt;div class="flex-container"&gt;
-        &lt;div class="flex-item"&gt;1&lt;/div&gt;
-        &lt;div class="flex-item"&gt;2&lt;/div&gt;
-        &lt;div class="flex-item"&gt;3&lt;/div&gt;
-    &lt;/div&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre>
-                </div>
-            </div>
-            
-            <div class="output-actions" style="display: flex; gap: 1rem; margin-top: 1rem;">
-                <button id="copyCssBtn" class="btn-primary">
+            <div class="action-buttons">
+                <button id="copyCss" class="btn-primary">
                     <i class="fas fa-copy"></i> Copy CSS
                 </button>
-                <button id="copyHtmlBtn" class="btn-secondary">
+                <button id="copyHtml" class="btn-secondary">
                     <i class="fas fa-code"></i> Copy HTML
                 </button>
-                <button id="copyFullBtn" class="btn-secondary">
-                    <i class="fas fa-file-code"></i> Copy Full Code
+                <button id="resetFlex" class="btn-secondary">
+                    <i class="fas fa-redo"></i> Reset Flexbox
                 </button>
             </div>
         </div>
 
-        <!-- Flexbox Examples -->
-        <section class="coming-soon-section" style="margin-top: 3rem;">
-            <h2>Flexbox Examples</h2>
-            <p class="section-subtitle">Click on any example to apply it to the playground</p>
+        <!-- Examples Section -->
+        <section class="instructions">
+            <h2>Common Flexbox Layouts</h2>
+            <p style="text-align: center; margin-bottom: 1.5rem; color: #ccc;">Click on any example to apply it</p>
             
-            <div class="examples-grid" id="examplesGrid">
-                <!-- Examples will be loaded by JavaScript -->
+            <div class="examples-grid">
+                <div class="example-card" data-direction="row" data-justify="center" data-align="center" data-wrap="nowrap" data-gap="10" data-count="4">
+                    <div class="example-preview">
+                        <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 10px; width: 100%; height: 100%;">
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 40px; height: 40px; border-radius: 6px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 40px; height: 40px; border-radius: 6px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 40px; height: 40px; border-radius: 6px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 40px; height: 40px; border-radius: 6px;"></div>
+                        </div>
+                    </div>
+                    <h4>Centered Items</h4>
+                </div>
+                
+                <div class="example-card" data-direction="row" data-justify="space-between" data-align="center" data-wrap="nowrap" data-gap="15" data-count="3">
+                    <div class="example-preview">
+                        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 15px; width: 100%; height: 100%;">
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 40px; height: 40px; border-radius: 6px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 40px; height: 40px; border-radius: 6px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 40px; height: 40px; border-radius: 6px;"></div>
+                        </div>
+                    </div>
+                    <h4>Space Between</h4>
+                </div>
+                
+                <div class="example-card" data-direction="column" data-justify="center" data-align="center" data-wrap="nowrap" data-gap="8" data-count="5">
+                    <div class="example-preview">
+                        <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; width: 100%; height: 100%;">
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 60px; height: 15px; border-radius: 4px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 60px; height: 15px; border-radius: 4px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 60px; height: 15px; border-radius: 4px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 60px; height: 15px; border-radius: 4px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 60px; height: 15px; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                    <h4>Vertical Stack</h4>
+                </div>
+                
+                <div class="example-card" data-direction="row" data-justify="flex-start" data-align="center" data-wrap="wrap" data-gap="12" data-count="6">
+                    <div class="example-preview">
+                        <div style="display: flex; flex-direction: row; justify-content: flex-start; align-items: center; flex-wrap: wrap; gap: 12px; width: 100%; height: 100%; padding: 5px;">
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 30px; height: 30px; border-radius: 4px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 30px; height: 30px; border-radius: 4px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 30px; height: 30px; border-radius: 4px;"></div>
+                            <div style="background: rgba(138, 43, 226, 0.6); width: 30px; height: 30px; border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                    <h4>Wrap Layout</h4>
+                </div>
             </div>
         </section>
 
         <!-- How to Use -->
         <section class="instructions">
-            <h2>How to Use the Flexbox Helper</h2>
+            <h2>How to Use This Tool</h2>
             <div class="steps">
                 <div class="step">
                     <div class="step-icon">1</div>
-                    <h3>Adjust Container Properties</h3>
-                    <p>Use the controls to change flex direction, justify content, align items, and flex wrap.</p>
+                    <h3>Adjust Properties</h3>
+                    <p>Click on different flex properties to see how they affect the layout.</p>
                 </div>
                 <div class="step">
                     <div class="step-icon">2</div>
-                    <h3>Customize Items</h3>
-                    <p>Adjust individual item properties like order, flex-grow, flex-shrink, and align-self.</p>
+                    <h3>Add/Remove Items</h3>
+                    <p>Add or remove flex items to see how the container adapts.</p>
                 </div>
                 <div class="step">
                     <div class="step-icon">3</div>
                     <h3>Try Examples</h3>
-                    <p>Click on example layouts to see common flexbox patterns in action.</p>
+                    <p>Click on example layouts to quickly see common flexbox patterns.</p>
                 </div>
                 <div class="step">
                     <div class="step-icon">4</div>
                     <h3>Copy & Learn</h3>
-                    <p>Copy the generated CSS code and use it in your projects while learning flexbox concepts.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Flexbox Cheat Sheet -->
-        <section class="tools-section" style="margin-top: 3rem;">
-            <div class="container">
-                <h2>Flexbox Cheat Sheet</h2>
-                <p class="section-subtitle">Quick reference for CSS Flexbox properties</p>
-                
-                <div class="tools-categories">
-                    <div class="tool-category">
-                        <h3><i class="fas fa-box"></i> Container Properties</h3>
-                        <div class="tool-links">
-                            <a href="#" class="cheat-item">
-                                <strong>display: flex</strong>
-                                <span>Creates a flex container</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>flex-direction</strong>
-                                <span>row | row-reverse | column | column-reverse</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>justify-content</strong>
-                                <span>Aligns items on main axis</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>align-items</strong>
-                                <span>Aligns items on cross axis</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>flex-wrap</strong>
-                                <span>nowrap | wrap | wrap-reverse</span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="tool-category">
-                        <h3><i class="fas fa-cube"></i> Item Properties</h3>
-                        <div class="tool-links">
-                            <a href="#" class="cheat-item">
-                                <strong>order</strong>
-                                <span>Controls display order (integer)</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>flex-grow</strong>
-                                <span>Ability to grow (number)</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>flex-shrink</strong>
-                                <span>Ability to shrink (number)</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>flex-basis</strong>
-                                <span>Initial size before growing/shrinking</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>align-self</strong>
-                                <span>Overrides align-items for single item</span>
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="tool-category">
-                        <h3><i class="fas fa-lightbulb"></i> Common Patterns</h3>
-                        <div class="tool-links">
-                            <a href="#" class="cheat-item">
-                                <strong>Centering</strong>
-                                <span>justify-content: center; align-items: center;</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>Equal Columns</strong>
-                                <span>flex: 1 on all items</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>Navigation Bar</strong>
-                                <span>flex-direction: row; justify-content: space-between;</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>Card Grid</strong>
-                                <span>flex-wrap: wrap; gap: 20px;</span>
-                            </a>
-                            <a href="#" class="cheat-item">
-                                <strong>Sticky Footer</strong>
-                                <span>flex-direction: column; min-height: 100vh;</span>
-                            </a>
-                        </div>
-                    </div>
+                    <p>Copy the generated CSS and use it in your projects or learn from it.</p>
                 </div>
             </div>
         </section>
@@ -895,7 +818,7 @@
                     <i class="fas fa-aura"></i>
                     <span>AuraText</span>
                 </div>
-                <p class="footer-tagline">Master CSS layout with interactive design tools.</p>
+                <p class="footer-tagline">Create beautiful text effects and design tools for your projects.</p>
                 
                 <div class="footer-links">
                     <a href="index.html">Home</a>
@@ -925,177 +848,111 @@
     <script>
         // Flexbox Helper JavaScript
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Flexbox Helper Loaded');
+            
             // Flexbox configuration
             let flexConfig = {
-                // Container properties
-                direction: 'row',
+                flexDirection: 'row',
                 justifyContent: 'flex-start',
                 alignItems: 'stretch',
                 flexWrap: 'nowrap',
                 gap: 10,
-                
-                // Item properties
-                itemCount: 3,
-                items: [
-                    { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto' },
-                    { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' },
-                    { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto' }
-                ],
-                
-                // Responsive mode
-                responsiveMode: 'desktop'
+                itemCount: 4
             };
             
             // DOM Elements
             const flexContainer = document.getElementById('flexContainer');
-            const directionButtons = document.getElementById('directionButtons');
-            const justifyButtons = document.getElementById('justifyButtons');
-            const alignItemsButtons = document.getElementById('alignItemsButtons');
-            const wrapButtons = document.getElementById('wrapButtons');
-            const alignSelfButtons = document.getElementById('alignSelfButtons');
-            const directionVisual = document.getElementById('directionVisual');
-            const itemCountDisplay = document.getElementById('itemCount');
-            const decreaseItemsBtn = document.getElementById('decreaseItems');
-            const increaseItemsBtn = document.getElementById('increaseItems');
-            const gapSlider = document.getElementById('gapSlider');
+            const cssOutput = document.getElementById('cssOutput');
+            const copyCssBtn = document.getElementById('copyCss');
+            const copyHtmlBtn = document.getElementById('copyHtml');
+            const resetFlexBtn = document.getElementById('resetFlex');
+            const addItemBtn = document.getElementById('addItem');
+            const removeItemBtn = document.getElementById('removeItem');
+            const randomFlexBtn = document.getElementById('randomFlex');
+            
+            // Sliders and values
+            const gapSlider = document.getElementById('gap');
             const gapValue = document.getElementById('gapValue');
             const gapDisplay = document.getElementById('gapDisplay');
-            const item1OrderSlider = document.getElementById('item1OrderSlider');
-            const item1OrderDisplay = document.getElementById('item1Order');
-            const item1GrowSlider = document.getElementById('item1GrowSlider');
-            const item1GrowDisplay = document.getElementById('item1Grow');
-            const item2ShrinkSlider = document.getElementById('item2ShrinkSlider');
-            const item2ShrinkDisplay = document.getElementById('item2Shrink');
-            const item3BasisSlider = document.getElementById('item3BasisSlider');
-            const item3BasisDisplay = document.getElementById('item3Basis');
-            const desktopViewBtn = document.getElementById('desktopView');
-            const mobileViewBtn = document.getElementById('mobileView');
-            const cssOutput = document.getElementById('cssOutput');
-            const htmlOutput = document.getElementById('htmlOutput');
-            const fullOutput = document.getElementById('fullOutput');
-            const copyFlexboxCssBtn = document.getElementById('copyFlexboxCss');
-            const copyCssBtn = document.getElementById('copyCssBtn');
-            const copyHtmlBtn = document.getElementById('copyHtmlBtn');
-            const copyFullBtn = document.getElementById('copyFullBtn');
-            const resetFlexboxBtn = document.getElementById('resetFlexbox');
-            const examplesGrid = document.getElementById('examplesGrid');
-            const codeTabs = document.querySelectorAll('.code-tab');
-            const codeContents = document.querySelectorAll('.code-content');
+            
+            const itemCountSlider = document.getElementById('itemCount');
+            const itemCountValue = document.getElementById('itemCountValue');
+            const itemCountDisplay = document.getElementById('itemCountDisplay');
+            
+            // Property options
+            const propertyOptions = document.querySelectorAll('.property-option');
+            const exampleCards = document.querySelectorAll('.example-card');
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
             
-            // Initialize flexbox
-            function initFlexbox() {
-                generateFlexItems();
-                updateFlexboxStyles();
-                updateOutput();
-                loadExamples();
-                setupEventListeners();
-                updateDirectionVisual();
+            // 1. Initialize flexbox
+            function initializeFlexbox() {
+                updateFlexDisplay();
+                renderFlexbox();
+                updateCssOutput();
             }
             
-            // Generate flex items
-            function generateFlexItems() {
+            // 2. Update display values
+            function updateFlexDisplay() {
+                gapValue.textContent = flexConfig.gap + 'px';
+                gapDisplay.textContent = flexConfig.gap + 'px';
+                if (gapSlider) gapSlider.value = flexConfig.gap;
+                
+                itemCountValue.textContent = flexConfig.itemCount;
+                itemCountDisplay.textContent = flexConfig.itemCount;
+                if (itemCountSlider) itemCountSlider.value = flexConfig.itemCount;
+                
+                // Update active property buttons
+                propertyOptions.forEach(option => {
+                    const property = option.dataset.property;
+                    const value = option.dataset.value;
+                    
+                    if (flexConfig[property] === value) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 3. Render flexbox preview
+            function renderFlexbox() {
                 flexContainer.innerHTML = '';
                 
-                for (let i = 0; i < flexConfig.itemCount; i++) {
-                    const flexItem = document.createElement('div');
-                    flexItem.className = 'flex-item';
-                    flexItem.textContent = i + 1;
-                    flexItem.dataset.index = i;
-                    
-                    // Set item-specific styles
-                    const itemConfig = flexConfig.items[i] || { 
-                        order: 0, 
-                        flexGrow: 0, 
-                        flexShrink: 1, 
-                        flexBasis: 'auto', 
-                        alignSelf: 'auto' 
-                    };
-                    
-                    flexItem.style.order = itemConfig.order;
-                    flexItem.style.flexGrow = itemConfig.flexGrow;
-                    flexItem.style.flexShrink = itemConfig.flexShrink;
-                    flexItem.style.flexBasis = i === 2 ? `${itemConfig.flexBasis}px` : itemConfig.flexBasis;
-                    if (i === 1) {
-                        flexItem.style.alignSelf = itemConfig.alignSelf;
-                    }
-                    
-                    flexContainer.appendChild(flexItem);
-                }
-                
-                // Update display
-                itemCountDisplay.textContent = flexConfig.itemCount;
-            }
-            
-            // Update flexbox styles
-            function updateFlexboxStyles() {
-                // Container properties
-                flexContainer.style.flexDirection = flexConfig.direction;
+                // Set container styles
+                flexContainer.style.flexDirection = flexConfig.flexDirection;
                 flexContainer.style.justifyContent = flexConfig.justifyContent;
                 flexContainer.style.alignItems = flexConfig.alignItems;
                 flexContainer.style.flexWrap = flexConfig.flexWrap;
-                flexContainer.style.gap = `${flexConfig.gap}px`;
+                flexContainer.style.gap = flexConfig.gap + 'px';
                 
-                // Update display values
-                gapValue.textContent = `${flexConfig.gap}px`;
-                gapDisplay.textContent = `${flexConfig.gap}px`;
-                
-                // Update item displays
-                item1OrderDisplay.textContent = flexConfig.items[0].order;
-                item1GrowDisplay.textContent = flexConfig.items[0].flexGrow;
-                item2ShrinkDisplay.textContent = flexConfig.items[1].flexShrink;
-                item3BasisDisplay.textContent = flexConfig.items[2].flexBasis === 'auto' ? 'auto' : `${flexConfig.items[2].flexBasis}px`;
-                
-                // Update sliders
-                item1OrderSlider.value = flexConfig.items[0].order;
-                item1GrowSlider.value = flexConfig.items[0].flexGrow;
-                item2ShrinkSlider.value = flexConfig.items[1].flexShrink;
-                item3BasisSlider.value = flexConfig.items[2].flexBasis === 'auto' ? 100 : flexConfig.items[2].flexBasis;
-                
-                // Update responsive mode
-                if (flexConfig.responsiveMode === 'mobile') {
-                    flexContainer.style.maxWidth = '400px';
-                    flexContainer.style.margin = '0 auto';
-                } else {
-                    flexContainer.style.maxWidth = 'none';
-                    flexContainer.style.margin = '0';
+                // Create flex items
+                for (let i = 0; i < flexConfig.itemCount; i++) {
+                    const item = document.createElement('div');
+                    item.className = 'flex-item';
+                    item.textContent = i + 1;
+                    
+                    // Add label
+                    const label = document.createElement('div');
+                    label.className = 'item-label';
+                    label.textContent = `Item ${i + 1}`;
+                    item.appendChild(label);
+                    
+                    // Random sizes for variety
+                    const width = 60 + (i * 10);
+                    const height = 60 + (i * 5);
+                    item.style.width = width + 'px';
+                    item.style.height = height + 'px';
+                    
+                    flexContainer.appendChild(item);
                 }
             }
             
-            // Update direction visual
-            function updateDirectionVisual() {
-                let icon = 'fa-arrow-right';
-                let rotation = 0;
-                
-                switch(flexConfig.direction) {
-                    case 'row':
-                        icon = 'fa-arrow-right';
-                        rotation = 0;
-                        break;
-                    case 'row-reverse':
-                        icon = 'fa-arrow-left';
-                        rotation = 0;
-                        break;
-                    case 'column':
-                        icon = 'fa-arrow-down';
-                        rotation = 0;
-                        break;
-                    case 'column-reverse':
-                        icon = 'fa-arrow-up';
-                        rotation = 0;
-                        break;
-                }
-                
-                directionVisual.innerHTML = `<i class="fas ${icon}" style="transform: rotate(${rotation}deg);"></i>`;
-            }
-            
-            // Update output code
-            function updateOutput() {
-                // CSS Output
-                const cssCode = `.flex-container {
+            // 4. Update CSS output
+            function updateCssOutput() {
+                const css = `.flex-container {
     display: flex;
-    flex-direction: ${flexConfig.direction};
+    flex-direction: ${flexConfig.flexDirection};
     justify-content: ${flexConfig.justifyContent};
     align-items: ${flexConfig.alignItems};
     flex-wrap: ${flexConfig.flexWrap};
@@ -1103,464 +960,148 @@
 }
 
 .flex-item {
-    /* Default item styles */
-}
-
-.flex-item:nth-child(1) {
-    order: ${flexConfig.items[0].order};
-    flex-grow: ${flexConfig.items[0].flexGrow};
-}
-
-.flex-item:nth-child(2) {
-    flex-shrink: ${flexConfig.items[1].flexShrink};
-    align-self: ${flexConfig.items[1].alignSelf};
-}
-
-.flex-item:nth-child(3) {
-    flex-basis: ${flexConfig.items[2].flexBasis === 'auto' ? 'auto' : flexConfig.items[2].flexBasis + 'px'};
+    /* Adjust these based on your needs */
+    flex: ${flexConfig.flexDirection.includes('row') ? '0 1 auto' : '0 1 auto'};
+    min-width: 60px;
+    min-height: 60px;
 }`;
-                cssOutput.textContent = cssCode;
-                
-                // HTML Output
-                let htmlCode = '<div class="flex-container">\n';
-                for (let i = 1; i <= flexConfig.itemCount; i++) {
-                    htmlCode += `    <div class="flex-item">${i}</div>\n`;
-                }
-                htmlCode += '</div>';
-                htmlOutput.textContent = htmlCode;
-                
-                // Full Output
-                const fullCode = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexbox Layout</title>
-    <style>
-        .flex-container {
-            display: flex;
-            flex-direction: ${flexConfig.direction};
-            justify-content: ${flexConfig.justifyContent};
-            align-items: ${flexConfig.alignItems};
-            flex-wrap: ${flexConfig.flexWrap};
-            gap: ${flexConfig.gap}px;
-            padding: 20px;
-            background: #1a1a2e;
-            border-radius: 10px;
-            min-height: 300px;
-        }
-        
-        .flex-item {
-            background: #8a2be2;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            border-radius: 6px;
-            min-width: 80px;
-            min-height: 80px;
-            padding: 10px;
-        }
-        
-        .flex-item:nth-child(1) {
-            order: ${flexConfig.items[0].order};
-            flex-grow: ${flexConfig.items[0].flexGrow};
-        }
-        
-        .flex-item:nth-child(2) {
-            flex-shrink: ${flexConfig.items[1].flexShrink};
-            align-self: ${flexConfig.items[1].alignSelf};
-        }
-        
-        .flex-item:nth-child(3) {
-            flex-basis: ${flexConfig.items[2].flexBasis === 'auto' ? 'auto' : flexConfig.items[2].flexBasis + 'px'};
-        }
-    </style>
-</head>
-<body>
-    <div class="flex-container">
-${Array.from({length: flexConfig.itemCount}, (_, i) => `        <div class="flex-item">${i + 1}</div>`).join('\n')}
-    </div>
-</body>
-</html>`;
-                fullOutput.textContent = fullCode;
+
+                const htmlExample = `<!-- HTML Structure -->
+<div class="flex-container">
+${Array.from({length: flexConfig.itemCount}, (_, i) => `    <div class="flex-item">Item ${i + 1}</div>`).join('\n')}
+</div>`;
+
+                cssOutput.textContent = css;
+                cssOutput.dataset.htmlExample = htmlExample;
             }
             
-            // Load examples
-            function loadExamples() {
-                const examples = [
-                    {
-                        name: 'Centered Layout',
-                        config: {
-                            direction: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexWrap: 'nowrap',
-                            gap: 20
-                        }
-                    },
-                    {
-                        name: 'Navigation Bar',
-                        config: {
-                            direction: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            flexWrap: 'nowrap',
-                            gap: 10
-                        }
-                    },
-                    {
-                        name: 'Card Grid',
-                        config: {
-                            direction: 'row',
-                            justifyContent: 'flex-start',
-                            alignItems: 'stretch',
-                            flexWrap: 'wrap',
-                            gap: 15
-                        }
-                    },
-                    {
-                        name: 'Sidebar Layout',
-                        config: {
-                            direction: 'column',
-                            justifyContent: 'flex-start',
-                            alignItems: 'stretch',
-                            flexWrap: 'nowrap',
-                            gap: 10
-                        }
-                    },
-                    {
-                        name: 'Equal Columns',
-                        config: {
-                            direction: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'stretch',
-                            flexWrap: 'nowrap',
-                            gap: 0,
-                            items: [
-                                { order: 0, flexGrow: 1, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' },
-                                { order: 0, flexGrow: 1, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' },
-                                { order: 0, flexGrow: 1, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' }
-                            ]
-                        }
-                    },
-                    {
-                        name: 'Vertical Center',
-                        config: {
-                            direction: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexWrap: 'nowrap',
-                            gap: 10
-                        }
-                    }
-                ];
-                
-                examplesGrid.innerHTML = '';
-                examples.forEach(example => {
-                    const exampleCard = document.createElement('div');
-                    exampleCard.className = 'example-card';
-                    exampleCard.dataset.example = JSON.stringify(example.config);
-                    
-                    // Create preview
-                    let previewHTML = '<div class="example-preview">';
-                    for (let i = 1; i <= 3; i++) {
-                        previewHTML += `<div>${i}</div>`;
-                    }
-                    previewHTML += '</div>';
-                    
-                    exampleCard.innerHTML = previewHTML + `<h4>${example.name}</h4>`;
-                    examplesGrid.appendChild(exampleCard);
-                });
-            }
-            
-            // Apply example
-            function applyExample(config) {
-                // Update container properties
-                flexConfig.direction = config.direction;
-                flexConfig.justifyContent = config.justifyContent;
-                flexConfig.alignItems = config.alignItems;
-                flexConfig.flexWrap = config.flexWrap;
-                flexConfig.gap = config.gap;
-                
-                // Update items if provided
-                if (config.items) {
-                    flexConfig.items = config.items;
-                }
-                
-                // Update buttons
-                updateActiveButtons('directionButtons', flexConfig.direction);
-                updateActiveButtons('justifyButtons', flexConfig.justifyContent);
-                updateActiveButtons('alignItemsButtons', flexConfig.alignItems);
-                updateActiveButtons('wrapButtons', flexConfig.flexWrap);
-                updateActiveButtons('alignSelfButtons', flexConfig.items[1].alignSelf);
-                
-                // Update sliders
-                gapSlider.value = flexConfig.gap;
-                
-                // Regenerate and update
-                generateFlexItems();
-                updateFlexboxStyles();
-                updateOutput();
-                updateDirectionVisual();
-                
-                showToast('Example applied!');
-            }
-            
-            // Update active buttons
-            function updateActiveButtons(containerId, value) {
-                const container = document.getElementById(containerId);
-                const buttons = container.querySelectorAll('.property-btn');
-                
-                buttons.forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.value === value) {
-                        btn.classList.add('active');
-                    }
-                });
-            }
-            
-            // Copy to clipboard
-            function copyToClipboard(text, message) {
+            // 5. Copy CSS to clipboard
+            function copyCss() {
+                const text = cssOutput.textContent;
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast(message);
+                    showToast('CSS copied to clipboard!');
                 }).catch(err => {
                     console.error('Failed to copy: ', err);
-                    // Fallback method
                     const textArea = document.createElement('textarea');
                     textArea.value = text;
                     document.body.appendChild(textArea);
                     textArea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textArea);
-                    showToast(message);
+                    showToast('CSS copied to clipboard!');
                 });
             }
             
-            // Show toast notification
-            function showToast(message) {
-                toastMessage.textContent = message;
-                toast.classList.add('show');
-                
-                setTimeout(() => {
-                    toast.classList.remove('show');
-                }, 3000);
+            // 6. Copy HTML to clipboard
+            function copyHtml() {
+                const text = cssOutput.dataset.htmlExample;
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('HTML structure copied!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showToast('HTML structure copied!');
+                });
             }
             
-            // Reset flexbox to defaults
+            // 7. Show toast notification
+            function showToast(message) {
+                if (toastMessage) toastMessage.textContent = message;
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(() => {
+                        toast.classList.remove('show');
+                    }, 3000);
+                }
+            }
+            
+            // 8. Add item
+            function addItem() {
+                if (flexConfig.itemCount < 8) {
+                    flexConfig.itemCount++;
+                    updateFlexDisplay();
+                    renderFlexbox();
+                    updateCssOutput();
+                }
+            }
+            
+            // 9. Remove item
+            function removeItem() {
+                if (flexConfig.itemCount > 1) {
+                    flexConfig.itemCount--;
+                    updateFlexDisplay();
+                    renderFlexbox();
+                    updateCssOutput();
+                }
+            }
+            
+            // 10. Update property
+            function updateProperty(property, value) {
+                flexConfig[property] = value;
+                updateFlexDisplay();
+                renderFlexbox();
+                updateCssOutput();
+            }
+            
+            // 11. Apply random flexbox
+            function applyRandomFlexbox() {
+                // Random properties
+                const directions = ['row', 'row-reverse', 'column', 'column-reverse'];
+                const justifyOptions = ['flex-start', 'center', 'flex-end', 'space-between', 'space-around', 'space-evenly'];
+                const alignOptions = ['stretch', 'flex-start', 'center', 'flex-end', 'baseline'];
+                const wrapOptions = ['nowrap', 'wrap', 'wrap-reverse'];
+                
+                flexConfig.flexDirection = directions[Math.floor(Math.random() * directions.length)];
+                flexConfig.justifyContent = justifyOptions[Math.floor(Math.random() * justifyOptions.length)];
+                flexConfig.alignItems = alignOptions[Math.floor(Math.random() * alignOptions.length)];
+                flexConfig.flexWrap = wrapOptions[Math.floor(Math.random() * wrapOptions.length)];
+                flexConfig.gap = Math.floor(Math.random() * 30) + 5;
+                flexConfig.itemCount = Math.floor(Math.random() * 5) + 3;
+                
+                updateFlexDisplay();
+                renderFlexbox();
+                updateCssOutput();
+                showToast('Random layout applied!');
+            }
+            
+            // 12. Reset flexbox
             function resetFlexbox() {
                 flexConfig = {
-                    direction: 'row',
+                    flexDirection: 'row',
                     justifyContent: 'flex-start',
                     alignItems: 'stretch',
                     flexWrap: 'nowrap',
                     gap: 10,
-                    itemCount: 3,
-                    items: [
-                        { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto' },
-                        { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'stretch' },
-                        { order: 0, flexGrow: 0, flexShrink: 1, flexBasis: 'auto', alignSelf: 'auto' }
-                    ],
-                    responsiveMode: 'desktop'
+                    itemCount: 4
                 };
-                
-                // Reset buttons
-                updateActiveButtons('directionButtons', 'row');
-                updateActiveButtons('justifyButtons', 'flex-start');
-                updateActiveButtons('alignItemsButtons', 'stretch');
-                updateActiveButtons('wrapButtons', 'nowrap');
-                updateActiveButtons('alignSelfButtons', 'stretch');
-                
-                // Reset responsive buttons
-                desktopViewBtn.classList.add('active');
-                mobileViewBtn.classList.remove('active');
-                
-                // Reset sliders
-                gapSlider.value = 10;
-                item1OrderSlider.value = 0;
-                item1GrowSlider.value = 0;
-                item2ShrinkSlider.value = 1;
-                item3BasisSlider.value = 100;
-                
-                generateFlexItems();
-                updateFlexboxStyles();
-                updateOutput();
-                updateDirectionVisual();
-                showToast('Flexbox playground reset!');
+                updateFlexDisplay();
+                renderFlexbox();
+                updateCssOutput();
+                showToast('Flexbox reset to default!');
             }
             
-            // Setup event listeners
-            function setupEventListeners() {
-                // Property buttons
-                setupPropertyButtons(directionButtons, 'direction');
-                setupPropertyButtons(justifyButtons, 'justifyContent');
-                setupPropertyButtons(alignItemsButtons, 'alignItems');
-                setupPropertyButtons(wrapButtons, 'flexWrap');
-                setupPropertyButtons(alignSelfButtons, 'alignSelfItem');
+            // 13. Apply example
+            function applyExample(e) {
+                const card = e.currentTarget;
+                flexConfig.flexDirection = card.dataset.direction;
+                flexConfig.justifyContent = card.dataset.justify;
+                flexConfig.alignItems = card.dataset.align;
+                flexConfig.flexWrap = card.dataset.wrap;
+                flexConfig.gap = parseInt(card.dataset.gap);
+                flexConfig.itemCount = parseInt(card.dataset.count);
                 
-                function setupPropertyButtons(container, property) {
-                    const buttons = container.querySelectorAll('.property-btn');
-                    buttons.forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            // Remove active class from all buttons
-                            buttons.forEach(b => b.classList.remove('active'));
-                            // Add active class to clicked button
-                            this.classList.add('active');
-                            
-                            const value = this.dataset.value;
-                            
-                            if (property === 'alignSelfItem') {
-                                flexConfig.items[1].alignSelf = value;
-                            } else {
-                                flexConfig[property] = value;
-                            }
-                            
-                            updateFlexboxStyles();
-                            updateOutput();
-                            
-                            if (property === 'direction') {
-                                updateDirectionVisual();
-                            }
-                        });
-                    });
-                }
-                
-                // Item count buttons
-                decreaseItemsBtn.addEventListener('click', function() {
-                    if (flexConfig.itemCount > 1) {
-                        flexConfig.itemCount--;
-                        itemCountDisplay.textContent = flexConfig.itemCount;
-                        generateFlexItems();
-                        updateOutput();
-                    }
-                });
-                
-                increaseItemsBtn.addEventListener('click', function() {
-                    if (flexConfig.itemCount < 8) {
-                        flexConfig.itemCount++;
-                        itemCountDisplay.textContent = flexConfig.itemCount;
-                        
-                        // Add new item config if needed
-                        if (flexConfig.items.length < flexConfig.itemCount) {
-                            flexConfig.items.push({ 
-                                order: 0, 
-                                flexGrow: 0, 
-                                flexShrink: 1, 
-                                flexBasis: 'auto', 
-                                alignSelf: 'auto' 
-                            });
-                        }
-                        
-                        generateFlexItems();
-                        updateOutput();
-                    }
-                });
-                
-                // Gap slider
-                gapSlider.addEventListener('input', function() {
-                    const value = parseInt(this.value);
-                    flexConfig.gap = value;
-                    updateFlexboxStyles();
-                    updateOutput();
-                });
-                
-                // Item sliders
-                item1OrderSlider.addEventListener('input', function() {
-                    const value = parseInt(this.value);
-                    flexConfig.items[0].order = value;
-                    updateFlexboxStyles();
-                    updateOutput();
-                });
-                
-                item1GrowSlider.addEventListener('input', function() {
-                    const value = parseInt(this.value);
-                    flexConfig.items[0].flexGrow = value;
-                    updateFlexboxStyles();
-                    updateOutput();
-                });
-                
-                item2ShrinkSlider.addEventListener('input', function() {
-                    const value = parseInt(this.value);
-                    flexConfig.items[1].flexShrink = value;
-                    updateFlexboxStyles();
-                    updateOutput();
-                });
-                
-                item3BasisSlider.addEventListener('input', function() {
-                    const value = parseInt(this.value);
-                    flexConfig.items[2].flexBasis = value === 100 ? 'auto' : value;
-                    updateFlexboxStyles();
-                    updateOutput();
-                });
-                
-                // Responsive buttons
-                desktopViewBtn.addEventListener('click', function() {
-                    desktopViewBtn.classList.add('active');
-                    mobileViewBtn.classList.remove('active');
-                    flexConfig.responsiveMode = 'desktop';
-                    updateFlexboxStyles();
-                });
-                
-                mobileViewBtn.addEventListener('click', function() {
-                    mobileViewBtn.classList.add('active');
-                    desktopViewBtn.classList.remove('active');
-                    flexConfig.responsiveMode = 'mobile';
-                    updateFlexboxStyles();
-                });
-                
-                // Example cards
-                document.querySelectorAll('.example-card').forEach(card => {
-                    card.addEventListener('click', function() {
-                        const config = JSON.parse(this.dataset.example);
-                        applyExample(config);
-                    });
-                });
-                
-                // Copy buttons
-                copyFlexboxCssBtn.addEventListener('click', () => {
-                    copyToClipboard(cssOutput.textContent, 'Flexbox CSS copied!');
-                });
-                
-                copyCssBtn.addEventListener('click', () => {
-                    copyToClipboard(cssOutput.textContent, 'CSS code copied!');
-                });
-                
-                copyHtmlBtn.addEventListener('click', () => {
-                    copyToClipboard(htmlOutput.textContent, 'HTML code copied!');
-                });
-                
-                copyFullBtn.addEventListener('click', () => {
-                    copyToClipboard(fullOutput.textContent, 'Full example copied!');
-                });
-                
-                // Reset button
-                resetFlexboxBtn.addEventListener('click', resetFlexbox);
-                
-                // Code tabs
-                codeTabs.forEach(tab => {
-                    tab.addEventListener('click', function() {
-                        const tabName = this.dataset.tab;
-                        
-                        // Update active tab
-                        codeTabs.forEach(t => t.classList.remove('active'));
-                        this.classList.add('active');
-                        
-                        // Show corresponding content
-                        codeContents.forEach(content => {
-                            content.classList.remove('active');
-                            if (content.id === tabName + 'Tab') {
-                                content.classList.add('active');
-                            }
-                        });
-                    });
-                });
+                updateFlexDisplay();
+                renderFlexbox();
+                updateCssOutput();
+                showToast('Example applied!');
             }
             
-            // Initialize
-            initFlexbox();
-            
-            // Copy navbar functionality from main site
+            // 14. Mobile menu functionality
             const menuToggle = document.querySelector('.menu-toggle');
             const navLinks = document.querySelector('.nav-links');
             
@@ -1576,6 +1117,77 @@ ${Array.from({length: flexConfig.itemCount}, (_, i) => `        <div class="flex
                     }
                 });
             }
+            
+            // 15. Dropdown functionality
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownMenu = document.querySelector('.dropdown-menu');
+            
+            if (dropdownToggle && dropdownMenu) {
+                dropdownToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!dropdownToggle.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                    }
+                });
+            }
+            
+            // 16. Event Listeners
+            copyCssBtn.addEventListener('click', copyCss);
+            copyHtmlBtn.addEventListener('click', copyHtml);
+            resetFlexBtn.addEventListener('click', resetFlexbox);
+            addItemBtn.addEventListener('click', addItem);
+            removeItemBtn.addEventListener('click', removeItem);
+            randomFlexBtn.addEventListener('click', applyRandomFlexbox);
+            
+            // Property option clicks
+            propertyOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const property = this.dataset.property;
+                    const value = this.dataset.value;
+                    
+                    // Remove active class from siblings
+                    const siblings = document.querySelectorAll(`[data-property="${property}"]`);
+                    siblings.forEach(sib => sib.classList.remove('active'));
+                    
+                    // Add active class to clicked option
+                    this.classList.add('active');
+                    
+                    // Update property
+                    updateProperty(property, value);
+                });
+            });
+            
+            if (gapSlider) {
+                gapSlider.addEventListener('input', function() {
+                    flexConfig.gap = parseInt(this.value);
+                    updateFlexDisplay();
+                    renderFlexbox();
+                    updateCssOutput();
+                });
+            }
+            
+            if (itemCountSlider) {
+                itemCountSlider.addEventListener('input', function() {
+                    flexConfig.itemCount = parseInt(this.value);
+                    updateFlexDisplay();
+                    renderFlexbox();
+                    updateCssOutput();
+                });
+            }
+            
+            exampleCards.forEach(card => {
+                card.addEventListener('click', applyExample);
+            });
+            
+            // 17. Initialize
+            initializeFlexbox();
+            
+            console.log('Flexbox Helper Ready');
         });
     </script>
 </body>
