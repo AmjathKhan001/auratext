@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://auratext.online/sitemap.xml
 
 # Disallow search engines from crawling JS and CSS files (optional)
 Disallow: /style.css
