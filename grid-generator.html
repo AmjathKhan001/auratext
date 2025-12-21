@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Generator | AuraText Tools</title>
+    <meta name="description" content="Generate CSS grid layouts visually with custom rows, columns, and gap controls. Free CSS grid generator for web developers.">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SPTDS5Z14Q"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-SPTDS5Z14Q');
+    </script>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6687860250561653" crossorigin="anonymous"></script>
+    
+    <!-- Grid-specific styles -->
+    <style>
+        .grid-page {
+            padding-top: 2rem;
+        }
+        
+        .grid-generator {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-generator {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .grid-preview-container {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .grid-preview {
+            height: 400px;
+            border-radius: 10px;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            background: rgba(15, 12, 41, 0.8);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .grid-container {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            gap: 10px;
+            padding: 20px;
+        }
+        
+        .grid-item {
+            background: rgba(138, 43, 226, 0.3);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .grid-item:hover {
+            background: rgba(138, 43, 226, 0.5);
+            transform: scale(1.02);
+        }
+        
+        .grid-controls {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .control-section {
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .control-section:last-child {
+            border-bottom: none;
+        }
+        
+        .control-section h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .control-group {
+            margin-bottom: 1.2rem;
+        }
+        
+        .control-group label {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .slider-container input[type="range"] {
+            flex: 1;
+        }
+        
+        .slider-container .value {
+            color: white;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .grid-size-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(138, 43, 226, 0.1);
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .grid-size-display span {
+            color: #8a2be2;
+        }
+        
+        .unit-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .unit-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .unit-btn.active {
+            background: #8a2be2;
+            color: white;
+            border-color: #8a2be2;
+        }
+        
+        .grid-output {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .code-output {
+            background: #1a1a2e;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .code-output pre {
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+        
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .preset-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        .preset-card:hover {
+            transform: translateY(-3px);
+            border-color: #8a2be2;
+            background: rgba(138, 43, 226, 0.1);
+        }
+        
+        .preset-preview {
+            height: 60px;
+            display: grid;
+            gap: 4px;
+            margin-bottom: 0.75rem;
+            border-radius: 6px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 5px;
+        }
+        
+        .preset-preview div {
+            background: rgba(138, 43, 226, 0.5);
+            border-radius: 3px;
+        }
+        
+        .preset-card h4 {
+            color: white;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .grid-areas-control {
+            margin-top: 1rem;
+        }
+        
+        .areas-input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: monospace;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .areas-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .code-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+        
+        .code-tab {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 6px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .code-tab.active {
+            background: #8a2be2;
+            color: white;
+        }
+        
+        .code-content {
+            display: none;
+        }
+        
+        .code-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-aura"></i>
+                <span>AuraText</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="index.html#effects">Effects</a>
+                <a href="index.html#text-styles">Text Styles</a>
+                
+                <!-- Our Tools Dropdown -->
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <i class="fas fa-star"></i> Our Tools 
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="index.html">AuraText Generator</a>
+                        <a href="gradient.html">CSS Gradient Generator</a>
+                        <a href="grid-generator.html" class="active">CSS Grid Generator</a>
+                        <a href="flexbox-helper.html" class="coming-soon">Flexbox Helper</a>
+                        <a href="box-shadow.html" class="coming-soon">Box Shadow Generator</a>
+                        <a href="css-animations.html" class="coming-soon">CSS Animations</a>
+                        <a href="color-palette.html" class="coming-soon">Color Palette</a>
+                    </div>
+                </div>
+                
+                <a href="index.html#tools">More Tools</a>
+                <a href="index.html#coming-soon">Coming Soon</a>
+                <a href="index.html#blog">Blog</a>
+                <a href="index.html#contact">Contact</a>
+                <span class="visitor-count">
+                    <i class="fas fa-users"></i>
+                    <span id="visitor-counter">Loading...</span>
+                </span>
+            </div>
+            <button class="menu-toggle" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Ads Banner -->
+    <div class="ads-banner">
+        <div class="container">
+            <a href="https://amzn.to/4p8ceG6" target="_blank" class="amazon-ad-btn">
+                <i class="fas fa-tag"></i>
+                <span>Clearence Sale Store Upto 70% All Day</span>
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+            <a href="https://buymeacoffee.com/s.amjathkhan" target="_blank" class="coffee-btn">
+                <i class="fas fa-coffee"></i>
+                <span>Buy Me a Coffee</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="container grid-page">
+        <header class="hero">
+            <h1>CSS Grid Generator</h1>
+            <p class="subtitle">Generate CSS grid layouts visually with custom rows, columns, and gap controls</p>
+            <p>Create responsive grid layouts for your websites with this visual CSS Grid generator. Perfect for modern web design.</p>
+        </header>
+
+        <div class="grid-generator">
+            <!-- Preview Column -->
+            <div class="preview-column">
+                <div class="grid-preview-container">
+                    <div class="grid-preview">
+                        <div class="grid-container" id="gridContainer">
+                            <!-- Grid items will be generated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="grid-size-display">
+                        Grid: <span id="currentRows">3</span> × <span id="currentCols">3</span>
+                    </div>
+                </div>
+                <div class="preview-actions" style="margin-top: 1.5rem;">
+                    <button id="copyGridCss" class="btn-primary">
+                        <i class="fas fa-copy"></i> Copy Grid CSS
+                    </button>
+                    <button id="resetGrid" class="btn-secondary">
+                        <i class="fas fa-redo"></i> Reset Grid
+                    </button>
+                </div>
+            </div>
+
+            <!-- Controls Column -->
+            <div class="grid-controls">
+                <!-- Grid Size Controls -->
+                <div class="control-section">
+                    <h3><i class="fas fa-th"></i> Grid Size</h3>
+                    
+                    <div class="control-group">
+                        <label>Columns: <span id="colsValue">3</span></label>
+                        <div class="slider-container">
+                            <input type="range" id="colsSlider" min="1" max="12" value="3">
+                            <span class="value" id="colsDisplay">3</span>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Rows: <span id="rowsValue">3</span></label>
+                        <div class="slider-container">
+                            <input type="range" id="rowsSlider" min="1" max="12" value="3">
+                            <span class="value" id="rowsDisplay">3</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gap Controls -->
+                <div class="control-section">
+                    <h3><i class="fas fa-expand-alt"></i> Gaps & Spacing</h3>
+                    
+                    <div class="control-group">
+                        <label>Column Gap</label>
+                        <div class="slider-container">
+                            <input type="range" id="colGap" min="0" max="50" value="10">
+                            <span class="value" id="colGapValue">10px</span>
+                        </div>
+                        <div class="unit-selector" data-target="colGap">
+                            <button class="unit-btn active" data-unit="px">px</button>
+                            <button class="unit-btn" data-unit="%">%</button>
+                            <button class="unit-btn" data-unit="rem">rem</button>
+                            <button class="unit-btn" data-unit="em">em</button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Row Gap</label>
+                        <div class="slider-container">
+                            <input type="range" id="rowGap" min="0" max="50" value="10">
+                            <span class="value" id="rowGapValue">10px</span>
+                        </div>
+                        <div class="unit-selector" data-target="rowGap">
+                            <button class="unit-btn active" data-unit="px">px</button>
+                            <button class="unit-btn" data-unit="%">%</button>
+                            <button class="unit-btn" data-unit="rem">rem</button>
+                            <button class="unit-btn" data-unit="em">em</button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Gap (Shorthand)</label>
+                        <div class="slider-container">
+                            <input type="range" id="gapSlider" min="0" max="50" value="10">
+                            <span class="value" id="gapValue">10px</span>
+                        </div>
+                        <div class="unit-selector" data-target="gap">
+                            <button class="unit-btn active" data-unit="px">px</button>
+                            <button class="unit-btn" data-unit="%">%</button>
+                            <button class="unit-btn" data-unit="rem">rem</button>
+                            <button class="unit-btn" data-unit="em">em</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Layout Presets -->
+                <div class="control-section">
+                    <h3><i class="fas fa-magic"></i> Layout Presets</h3>
+                    <div class="presets-grid" id="presetsGrid">
+                        <!-- Presets will be loaded by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CSS Output -->
+        <div class="grid-output">
+            <div class="code-tabs">
+                <button class="code-tab active" data-tab="css">CSS Code</button>
+                <button class="code-tab" data-tab="html">HTML Structure</button>
+                <button class="code-tab" data-tab="full">Full Example</button>
+            </div>
+            
+            <div class="code-content active" id="cssTab">
+                <div class="code-output">
+                    <pre id="cssOutput">.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+}</pre>
+                </div>
+            </div>
+            
+            <div class="code-content" id="htmlTab">
+                <div class="code-output">
+                    <pre id="htmlOutput">&lt;div class="grid-container"&gt;
+    &lt;div class="grid-item"&gt;1&lt;/div&gt;
+    &lt;div class="grid-item"&gt;2&lt;/div&gt;
+    &lt;div class="grid-item"&gt;3&lt;/div&gt;
+    &lt;div class="grid-item"&gt;4&lt;/div&gt;
+    &lt;div class="grid-item"&gt;5&lt;/div&gt;
+    &lt;div class="grid-item"&gt;6&lt;/div&gt;
+    &lt;div class="grid-item"&gt;7&lt;/div&gt;
+    &lt;div class="grid-item"&gt;8&lt;/div&gt;
+    &lt;div class="grid-item"&gt;9&lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+            
+            <div class="code-content" id="fullTab">
+                <div class="code-output">
+                    <pre id="fullOutput">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;CSS Grid Layout&lt;/title&gt;
+    &lt;style&gt;
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
+            height: 400px;
+        }
+        
+        .grid-item {
+            background: #8a2be2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 6px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="grid-container"&gt;
+        &lt;div class="grid-item"&gt;1&lt;/div&gt;
+        &lt;div class="grid-item"&gt;2&lt;/div&gt;
+        &lt;div class="grid-item"&gt;3&lt;/div&gt;
+        &lt;div class="grid-item"&gt;4&lt;/div&gt;
+        &lt;div class="grid-item"&gt;5&lt;/div&gt;
+        &lt;div class="grid-item"&gt;6&lt;/div&gt;
+        &lt;div class="grid-item"&gt;7&lt;/div&gt;
+        &lt;div class="grid-item"&gt;8&lt;/div&gt;
+        &lt;div class="grid-item"&gt;9&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+                </div>
+            </div>
+            
+            <div class="output-actions" style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <button id="copyCssBtn" class="btn-primary">
+                    <i class="fas fa-copy"></i> Copy CSS
+                </button>
+                <button id="copyHtmlBtn" class="btn-secondary">
+                    <i class="fas fa-code"></i> Copy HTML
+                </button>
+                <button id="copyFullBtn" class="btn-secondary">
+                    <i class="fas fa-file-code"></i> Copy Full Code
+                </button>
+            </div>
+        </div>
+
+        <!-- How to Use -->
+        <section class="instructions">
+            <h2>How to Use the Grid Generator</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h3>Set Grid Size</h3>
+                    <p>Adjust the number of columns and rows using the sliders to define your grid structure.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h3>Configure Gaps</h3>
+                    <p>Set the spacing between grid items using column gap, row gap, or the shorthand gap property.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h3>Try Presets</h3>
+                    <p>Click on any layout preset to quickly apply common grid patterns like header-sidebar-footer.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <h3>Copy & Use</h3>
+                    <p>Copy the generated CSS code and use it in your projects. You can also copy HTML or full examples.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CSS Grid Features -->
+        <section class="coming-soon-section" style="margin-top: 3rem;">
+            <h2>CSS Grid Features</h2>
+            <p class="section-subtitle">Learn about the powerful features of CSS Grid Layout</p>
+            
+            <div class="coming-soon-grid">
+                <div class="coming-soon-card">
+                    <div class="coming-soon-icon">
+                        <i class="fas fa-border-all"></i>
+                    </div>
+                    <h3>Grid Template Areas</h3>
+                    <p>Create named grid areas for semantic layout structures with visual placement control.</p>
+                </div>
+                
+                <div class="coming-soon-card">
+                    <div class="coming-soon-icon">
+                        <i class="fas fa-ruler-combined"></i>
+                    </div>
+                    <h3>Responsive Grids</h3>
+                    <p>Build responsive layouts that adapt to different screen sizes using media queries.</p>
+                </div>
+                
+                <div class="coming-soon-card">
+                    <div class="coming-soon-icon">
+                        <i class="fas fa-align-justify"></i>
+                    </div>
+                    <h3>Alignment Control</h3>
+                    <p>Precise control over item alignment with justify-items, align-items, and place-items.</p>
+                </div>
+                
+                <div class="coming-soon-card">
+                    <div class="coming-soon-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>Auto Placement</h3>
+                    <p>Automatic item placement with grid-auto-flow for dense packing of grid items.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-aura"></i>
+                    <span>AuraText</span>
+                </div>
+                <p class="footer-tagline">Create beautiful text effects and design tools for your projects.</p>
+                
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="index.html#effects">Effects</a>
+                    <a href="index.html#text-styles">Text Styles</a>
+                    <a href="gradient.html">Gradient Tool</a>
+                    <a href="grid-generator.html">Grid Generator</a>
+                    <a href="index.html#coming-soon">More Tools</a>
+                    <a href="index.html#blog">Blog</a>
+                    <a href="index.html#contact">Contact</a>
+                </div>
+                
+                <div class="copyright">
+                    <p>© 2024 AuraText Tools. Made with <i class="fas fa-heart"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer">Amjath Khan</a>.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toast-message">CSS copied to clipboard!</span>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // CSS Grid Generator JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Grid configuration
+            let gridConfig = {
+                columns: 3,
+                rows: 3,
+                colGap: 10,
+                rowGap: 10,
+                gap: 10,
+                colGapUnit: 'px',
+                rowGapUnit: 'px',
+                gapUnit: 'px'
+            };
+            
+            // DOM Elements
+            const gridContainer = document.getElementById('gridContainer');
+            const colsSlider = document.getElementById('colsSlider');
+            const rowsSlider = document.getElementById('rowsSlider');
+            const colsValue = document.getElementById('colsValue');
+            const rowsValue = document.getElementById('rowsValue');
+            const colsDisplay = document.getElementById('colsDisplay');
+            const rowsDisplay = document.getElementById('rowsDisplay');
+            const currentRows = document.getElementById('currentRows');
+            const currentCols = document.getElementById('currentCols');
+            const colGapSlider = document.getElementById('colGap');
+            const rowGapSlider = document.getElementById('rowGap');
+            const gapSlider = document.getElementById('gapSlider');
+            const colGapValue = document.getElementById('colGapValue');
+            const rowGapValue = document.getElementById('rowGapValue');
+            const gapValue = document.getElementById('gapValue');
+            const cssOutput = document.getElementById('cssOutput');
+            const htmlOutput = document.getElementById('htmlOutput');
+            const fullOutput = document.getElementById('fullOutput');
+            const copyGridCssBtn = document.getElementById('copyGridCss');
+            const copyCssBtn = document.getElementById('copyCssBtn');
+            const copyHtmlBtn = document.getElementById('copyHtmlBtn');
+            const copyFullBtn = document.getElementById('copyFullBtn');
+            const resetGridBtn = document.getElementById('resetGrid');
+            const presetsGrid = document.getElementById('presetsGrid');
+            const codeTabs = document.querySelectorAll('.code-tab');
+            const codeContents = document.querySelectorAll('.code-content');
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toast-message');
+            
+            // Initialize grid
+            function initGrid() {
+                generateGridItems();
+                updateGridStyles();
+                updateOutput();
+                loadPresets();
+                setupEventListeners();
+            }
+            
+            // Generate grid items
+            function generateGridItems() {
+                gridContainer.innerHTML = '';
+                const totalItems = gridConfig.columns * gridConfig.rows;
+                
+                for (let i = 1; i <= totalItems; i++) {
+                    const gridItem = document.createElement('div');
+                    gridItem.className = 'grid-item';
+                    gridItem.textContent = i;
+                    gridItem.dataset.index = i;
+                    gridContainer.appendChild(gridItem);
+                }
+                
+                // Update display
+                currentCols.textContent = gridConfig.columns;
+                currentRows.textContent = gridConfig.rows;
+            }
+            
+            // Update grid styles
+            function updateGridStyles() {
+                // Set grid template
+                gridContainer.style.gridTemplateColumns = `repeat(${gridConfig.columns}, 1fr)`;
+                gridContainer.style.gridTemplateRows = `repeat(${gridConfig.rows}, 1fr)`;
+                
+                // Set gaps
+                gridContainer.style.columnGap = `${gridConfig.colGap}${gridConfig.colGapUnit}`;
+                gridContainer.style.rowGap = `${gridConfig.rowGap}${gridConfig.rowGapUnit}`;
+                gridContainer.style.gap = `${gridConfig.gap}${gridConfig.gapUnit}`;
+                
+                // Update display values
+                colGapValue.textContent = `${gridConfig.colGap}${gridConfig.colGapUnit}`;
+                rowGapValue.textContent = `${gridConfig.rowGap}${gridConfig.rowGapUnit}`;
+                gapValue.textContent = `${gridConfig.gap}${gridConfig.gapUnit}`;
+            }
+            
+            // Update output code
+            function updateOutput() {
+                // CSS Output
+                const cssCode = `.grid-container {
+    display: grid;
+    grid-template-columns: repeat(${gridConfig.columns}, 1fr);
+    grid-template-rows: repeat(${gridConfig.rows}, 1fr);
+    gap: ${gridConfig.gap}${gridConfig.gapUnit};
+    column-gap: ${gridConfig.colGap}${gridConfig.colGapUnit};
+    row-gap: ${gridConfig.rowGap}${gridConfig.rowGapUnit};
+}`;
+                cssOutput.textContent = cssCode;
+                
+                // HTML Output
+                let htmlCode = '<div class="grid-container">\n';
+                const totalItems = gridConfig.columns * gridConfig.rows;
+                
+                for (let i = 1; i <= totalItems; i++) {
+                    const indent = i === 1 ? '    ' : '    ';
+                    htmlCode += `${indent}<div class="grid-item">${i}</div>\n`;
+                }
+                htmlCode += '</div>';
+                htmlOutput.textContent = htmlCode;
+                
+                // Full Output
+                const fullCode = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Grid Layout</title>
+    <style>
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(${gridConfig.columns}, 1fr);
+            grid-template-rows: repeat(${gridConfig.rows}, 1fr);
+            gap: ${gridConfig.gap}${gridConfig.gapUnit};
+            height: 400px;
+        }
+        
+        .grid-item {
+            background: #8a2be2;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+${Array.from({length: totalItems}, (_, i) => `        <div class="grid-item">${i + 1}</div>`).join('\n')}
+    </div>
+</body>
+</html>`;
+                fullOutput.textContent = fullCode;
+            }
+            
+            // Load layout presets
+            function loadPresets() {
+                const presets = [
+                    {
+                        name: '3×3 Grid',
+                        cols: 3,
+                        rows: 3,
+                        gap: 10,
+                        preview: [[1,1,1],[1,1,1],[1,1,1]]
+                    },
+                    {
+                        name: 'Header Layout',
+                        cols: 3,
+                        rows: 3,
+                        gap: 10,
+                        preview: [[2,2,2],[1,1,1],[1,1,1]]
+                    },
+                    {
+                        name: 'Sidebar Layout',
+                        cols: 4,
+                        rows: 3,
+                        gap: 10,
+                        preview: [[2,1,1,1],[2,1,1,1],[2,1,1,1]]
+                    },
+                    {
+                        name: 'Blog Layout',
+                        cols: 3,
+                        rows: 4,
+                        gap: 15,
+                        preview: [[2,2,2],[1,1,1],[1,1,1],[3,3,3]]
+                    },
+                    {
+                        name: 'Gallery Grid',
+                        cols: 4,
+                        rows: 4,
+                        gap: 5,
+                        preview: [[1,1,1,1],[1,1,1,1],[1,1,1,1],[1,1,1,1]]
+                    },
+                    {
+                        name: 'Dashboard',
+                        cols: 4,
+                        rows: 3,
+                        gap: 12,
+                        preview: [[2,1,1,1],[2,3,3,1],[2,3,3,1]]
+                    }
+                ];
+                
+                presetsGrid.innerHTML = '';
+                presets.forEach(preset => {
+                    const presetCard = document.createElement('div');
+                    presetCard.className = 'preset-card';
+                    presetCard.dataset.cols = preset.cols;
+                    presetCard.dataset.rows = preset.rows;
+                    presetCard.dataset.gap = preset.gap;
+                    
+                    // Create preview grid
+                    let previewHTML = '<div class="preset-preview" style="grid-template-columns: repeat(' + preset.cols + ', 1fr); grid-template-rows: repeat(' + preset.rows + ', 1fr); gap: 2px;">';
+                    for (let row = 0; row < preset.rows; row++) {
+                        for (let col = 0; col < preset.cols; col++) {
+                            const span = preset.preview[row] ? (preset.preview[row][col] || 1) : 1;
+                            previewHTML += `<div style="grid-column: span ${span};"></div>`;
+                        }
+                    }
+                    previewHTML += '</div>';
+                    
+                    presetCard.innerHTML = previewHTML + `<h4>${preset.name}</h4>`;
+                    presetsGrid.appendChild(presetCard);
+                });
+            }
+            
+            // Apply preset
+            function applyPreset(cols, rows, gap) {
+                gridConfig.columns = cols;
+                gridConfig.rows = rows;
+                gridConfig.gap = gap;
+                gridConfig.colGap = gap;
+                gridConfig.rowGap = gap;
+                
+                // Update sliders
+                colsSlider.value = cols;
+                rowsSlider.value = rows;
+                gapSlider.value = gap;
+                colGapSlider.value = gap;
+                rowGapSlider.value = gap;
+                
+                // Update displays
+                colsValue.textContent = cols;
+                rowsValue.textContent = rows;
+                colsDisplay.textContent = cols;
+                rowsDisplay.textContent = rows;
+                gapValue.textContent = `${gap}${gridConfig.gapUnit}`;
+                colGapValue.textContent = `${gap}${gridConfig.colGapUnit}`;
+                rowGapValue.textContent = `${gap}${gridConfig.rowGapUnit}`;
+                
+                // Regenerate grid
+                generateGridItems();
+                updateGridStyles();
+                updateOutput();
+                
+                showToast('Preset applied!');
+            }
+            
+            // Copy to clipboard
+            function copyToClipboard(text, message) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast(message);
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                    // Fallback method
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    showToast(message);
+                });
+            }
+            
+            // Show toast notification
+            function showToast(message) {
+                toastMessage.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Reset grid to defaults
+            function resetGrid() {
+                gridConfig = {
+                    columns: 3,
+                    rows: 3,
+                    colGap: 10,
+                    rowGap: 10,
+                    gap: 10,
+                    colGapUnit: 'px',
+                    rowGapUnit: 'px',
+                    gapUnit: 'px'
+                };
+                
+                // Reset sliders
+                colsSlider.value = 3;
+                rowsSlider.value = 3;
+                colGapSlider.value = 10;
+                rowGapSlider.value = 10;
+                gapSlider.value = 10;
+                
+                // Reset unit buttons
+                document.querySelectorAll('.unit-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.unit === 'px') {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Update displays
+                colsValue.textContent = '3';
+                rowsValue.textContent = '3';
+                colsDisplay.textContent = '3';
+                rowsDisplay.textContent = '3';
+                colGapValue.textContent = '10px';
+                rowGapValue.textContent = '10px';
+                gapValue.textContent = '10px';
+                
+                generateGridItems();
+                updateGridStyles();
+                updateOutput();
+                showToast('Grid reset to default!');
+            }
+            
+            // Setup event listeners
+            function setupEventListeners() {
+                // Column slider
+                colsSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    gridConfig.columns = value;
+                    colsValue.textContent = value;
+                    colsDisplay.textContent = value;
+                    generateGridItems();
+                    updateGridStyles();
+                    updateOutput();
+                });
+                
+                // Row slider
+                rowsSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    gridConfig.rows = value;
+                    rowsValue.textContent = value;
+                    rowsDisplay.textContent = value;
+                    generateGridItems();
+                    updateGridStyles();
+                    updateOutput();
+                });
+                
+                // Column gap slider
+                colGapSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    gridConfig.colGap = value;
+                    colGapValue.textContent = `${value}${gridConfig.colGapUnit}`;
+                    updateGridStyles();
+                    updateOutput();
+                });
+                
+                // Row gap slider
+                rowGapSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    gridConfig.rowGap = value;
+                    rowGapValue.textContent = `${value}${gridConfig.rowGapUnit}`;
+                    updateGridStyles();
+                    updateOutput();
+                });
+                
+                // Gap slider
+                gapSlider.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    gridConfig.gap = value;
+                    gridConfig.colGap = value;
+                    gridConfig.rowGap = value;
+                    gapValue.textContent = `${value}${gridConfig.gapUnit}`;
+                    colGapValue.textContent = `${value}${gridConfig.colGapUnit}`;
+                    rowGapValue.textContent = `${value}${gridConfig.rowGapUnit}`;
+                    colGapSlider.value = value;
+                    rowGapSlider.value = value;
+                    updateGridStyles();
+                    updateOutput();
+                });
+                
+                // Unit selectors
+                document.querySelectorAll('.unit-selector').forEach(selector => {
+                    const target = selector.dataset.target;
+                    const buttons = selector.querySelectorAll('.unit-btn');
+                    
+                    buttons.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            // Remove active class from all buttons
+                            buttons.forEach(b => b.classList.remove('active'));
+                            // Add active class to clicked button
+                            this.classList.add('active');
+                            
+                            // Update unit
+                            const unit = this.dataset.unit;
+                            if (target === 'colGap') {
+                                gridConfig.colGapUnit = unit;
+                                colGapValue.textContent = `${gridConfig.colGap}${unit}`;
+                            } else if (target === 'rowGap') {
+                                gridConfig.rowGapUnit = unit;
+                                rowGapValue.textContent = `${gridConfig.rowGap}${unit}`;
+                            } else if (target === 'gap') {
+                                gridConfig.gapUnit = unit;
+                                gridConfig.colGapUnit = unit;
+                                gridConfig.rowGapUnit = unit;
+                                gapValue.textContent = `${gridConfig.gap}${unit}`;
+                                colGapValue.textContent = `${gridConfig.colGap}${unit}`;
+                                rowGapValue.textContent = `${gridConfig.rowGap}${unit}`;
+                            }
+                            
+                            updateGridStyles();
+                            updateOutput();
+                        });
+                    });
+                });
+                
+                // Preset cards
+                document.querySelectorAll('.preset-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        const cols = parseInt(this.dataset.cols);
+                        const rows = parseInt(this.dataset.rows);
+                        const gap = parseInt(this.dataset.gap);
+                        applyPreset(cols, rows, gap);
+                    });
+                });
+                
+                // Copy buttons
+                copyGridCssBtn.addEventListener('click', () => {
+                    copyToClipboard(cssOutput.textContent, 'Grid CSS copied!');
+                });
+                
+                copyCssBtn.addEventListener('click', () => {
+                    copyToClipboard(cssOutput.textContent, 'CSS code copied!');
+                });
+                
+                copyHtmlBtn.addEventListener('click', () => {
+                    copyToClipboard(htmlOutput.textContent, 'HTML code copied!');
+                });
+                
+                copyFullBtn.addEventListener('click', () => {
+                    copyToClipboard(fullOutput.textContent, 'Full example copied!');
+                });
+                
+                // Reset button
+                resetGridBtn.addEventListener('click', resetGrid);
+                
+                // Code tabs
+                codeTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        const tabName = this.dataset.tab;
+                        
+                        // Update active tab
+                        codeTabs.forEach(t => t.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Show corresponding content
+                        codeContents.forEach(content => {
+                            content.classList.remove('active');
+                            if (content.id === tabName + 'Tab') {
+                                content.classList.add('active');
+                            }
+                        });
+                    });
+                });
+            }
+            
+            // Initialize
+            initGrid();
+            
+            // Copy navbar functionality from main site
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    navLinks.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                        navLinks.classList.remove('show');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
