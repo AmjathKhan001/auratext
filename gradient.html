@@ -6,13 +6,27 @@
     <title>CSS Gradient Generator | AuraText Tools</title>
     <meta name="description" content="Create beautiful CSS gradients with custom colors and directions. Free gradient generator for websites and designs.">
     
-    <!-- Use the same styles as your main site -->
+    <!-- Styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SPTDS5Z14Q"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-SPTDS5Z14Q');
+    </script>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6687860250561653" crossorigin="anonymous"></script>
+    
     <!-- Gradient-specific styles -->
     <style>
-        /* Add these styles to your existing style.css or keep them here */
         .gradient-page {
             padding-top: 2rem;
         }
@@ -92,6 +106,24 @@
             font-family: monospace;
         }
         
+        .remove-color {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid rgba(255, 107, 107, 0.4);
+            color: #ff6b6b;
+            border-radius: 8px;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .remove-color:hover {
+            background: rgba(255, 107, 107, 0.4);
+        }
+        
         .type-buttons {
             display: flex;
             gap: 0.5rem;
@@ -116,6 +148,21 @@
         
         .type-btn:hover {
             background: rgba(138, 43, 226, 0.3);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            margin-top: 0.5rem;
+        }
+        
+        .form-control option {
+            background: #1a1a2e;
+            color: white;
         }
         
         .gradient-output {
@@ -183,7 +230,7 @@
     </style>
 </head>
 <body>
-    <!-- Navigation - Copy from your index.html -->
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="container">
             <a href="index.html" class="logo">
@@ -194,8 +241,25 @@
                 <a href="index.html">Home</a>
                 <a href="index.html#effects">Effects</a>
                 <a href="index.html#text-styles">Text Styles</a>
-                <a href="index.html#tools">Tools</a>
-                <a href="gradient.html" class="active">Gradient Tool</a>
+                
+                <!-- Our Tools Dropdown -->
+                <div class="dropdown">
+                    <button class="dropbtn">
+                        <i class="fas fa-star"></i> Our Tools 
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="index.html">AuraText Generator</a>
+                        <a href="gradient.html" class="active">CSS Gradient Generator</a>
+                        <a href="grid-generator.html" class="coming-soon">CSS Grid Generator</a>
+                        <a href="flexbox-helper.html" class="coming-soon">Flexbox Helper</a>
+                        <a href="box-shadow.html" class="coming-soon">Box Shadow Generator</a>
+                        <a href="css-animations.html" class="coming-soon">CSS Animations</a>
+                        <a href="color-palette.html" class="coming-soon">Color Palette</a>
+                    </div>
+                </div>
+                
+                <a href="index.html#tools">More Tools</a>
                 <a href="index.html#coming-soon">Coming Soon</a>
                 <a href="index.html#blog">Blog</a>
                 <a href="index.html#contact">Contact</a>
@@ -380,7 +444,7 @@
         </section>
     </main>
 
-    <!-- Footer - Copy from your index.html -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
