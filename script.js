@@ -163,6 +163,7 @@ function init() {
     generateDesignerStyles();
     setupEventListeners();
     applyRandomEffect();
+    setupDropdownMenu();
     
     // Load saved text from localStorage
     const savedText = localStorage.getItem('auraText');
