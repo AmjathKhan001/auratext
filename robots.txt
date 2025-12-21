@@ -1,6 +1,19 @@
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /private/
 
-Sitemap: https://auratext.app/sitemap.xml
+# Sitemap
+Sitemap: https://yourdomain.com/sitemap.xml
+
+# Disallow search engines from crawling JS and CSS files (optional)
+Disallow: /style.css
+Disallow: /script.js
+Disallow: /box-shadow-script.js
+Disallow: /animations-script.js
+Disallow: /palette-script.js
+Disallow: /color-picker-script.js
+
+# Allow all HTML pages
+Allow: /*.html$
+
+# Crawl delay (adjust based on your server capacity)
+Crawl-delay: 1
