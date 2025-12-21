@@ -831,3 +831,60 @@ if (document.readyState === 'loading') {
 } else {
     init();
 }
+// Color Picker Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle color picker from navigation dropdown
+    const colorPickerNav = document.getElementById('color-picker-nav');
+    const colorPickerTryNow = document.getElementById('color-picker-try-now');
+    
+    // Function to show color picker coming soon message
+    function showColorPickerMessage() {
+        // You can use your existing toast notification
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        
+        if (toast && toastMessage) {
+            toastMessage.textContent = '🎨 Color Picker Tool is coming soon! Stay tuned!';
+            toast.classList.add('show');
+            
+            // Hide toast after 3 seconds
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        } else {
+            // Fallback alert
+            alert('🎨 Color Picker Tool is coming soon! Stay tuned!');
+        }
+    }
+    
+    // Add click event to color picker in navigation
+    if (colorPickerNav) {
+        colorPickerNav.addEventListener('click', function(e) {
+            e.preventDefault();
+            showColorPickerMessage();
+            
+            // Close dropdown if open
+            const dropdown = this.closest('.dropdown');
+            if (dropdown) {
+                dropdown.classList.remove('active');
+            }
+        });
+    }
+    
+    // Add click event to color picker in Try Now section
+    if (colorPickerTryNow) {
+        colorPickerTryNow.addEventListener('click', function(e) {
+            e.preventDefault();
+            showColorPickerMessage();
+        });
+    }
+    
+    // Also update the original color picker link in the Try Now section
+    const originalColorPicker = document.querySelector('.color-picker-modal-btn');
+    if (originalColorPicker && !originalColorPicker.id) {
+        originalColorPicker.addEventListener('click', function(e) {
+            e.preventDefault();
+            showColorPickerMessage();
+        });
+    }
+});
