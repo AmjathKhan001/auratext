@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS Animations Generator | AuraText Tools</title>
-    <meta name="description" content="Create CSS animations with keyframes, timing functions, and visual previews. Generate animation code for your projects.">
+    <title>Color Palette Generator | AuraText Tools</title>
+    <meta name="description" content="Generate beautiful color palettes with complementary, analogous, triadic, and tetradic color schemes. Export to CSS, SCSS, and more.">
     
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
@@ -25,7 +25,7 @@
     <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6687860250561653" crossorigin="anonymous"></script>
     
-    <!-- Animations-specific styles -->
+    <!-- Palette-specific styles -->
     <style>
         /* Page layout */
         .tool-page {
@@ -61,8 +61,8 @@
             }
         }
         
-        /* Animations generator layout */
-        .animations-generator {
+        /* Palette generator layout */
+        .palette-generator {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
@@ -70,7 +70,7 @@
         }
         
         @media (max-width: 992px) {
-            .animations-generator {
+            .palette-generator {
                 grid-template-columns: 1fr;
             }
         }
@@ -81,47 +81,80 @@
             padding: 2rem;
             border-radius: 15px;
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .palette-preview {
+            width: 100%;
+            height: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            margin-bottom: 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .color-swatch {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 400px;
-        }
-        
-        .animation-preview {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            justify-content: flex-end;
+            padding: 1rem 0.5rem;
             position: relative;
-            overflow: hidden;
-            border: 2px dashed rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .animated-element {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .color-swatch:hover {
+            transform: translateY(-5px);
+        }
+        
+        .color-hex {
             color: white;
+            font-family: monospace;
             font-weight: bold;
-            font-size: 1.2rem;
-            position: absolute;
-            animation: previewAnimation 2s infinite;
+            font-size: 0.9rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
         }
         
-        .animation-controls {
-            display: flex;
+        .color-name {
+            color: white;
+            font-size: 0.8rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        /* Color details */
+        .color-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 1rem;
             margin-top: 1.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
+        }
+        
+        .color-detail {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .color-detail h4 {
+            color: #ccc;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .color-detail-value {
+            color: white;
+            font-family: monospace;
+            font-size: 1rem;
         }
         
         /* Controls */
@@ -143,15 +176,15 @@
             font-weight: 600;
         }
         
-        /* Property groups */
-        .property-group {
+        /* Color scheme options */
+        .scheme-options {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 0.75rem;
             margin-top: 0.5rem;
         }
         
-        .property-option {
+        .scheme-option {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 8px;
@@ -163,14 +196,43 @@
             font-size: 0.9rem;
         }
         
-        .property-option:hover {
+        .scheme-option:hover {
             background: rgba(138, 43, 226, 0.2);
         }
         
-        .property-option.active {
+        .scheme-option.active {
             background: #8a2be2;
             color: white;
             border-color: #8a2be2;
+        }
+        
+        /* Color picker */
+        .color-picker-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .color-picker-input {
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .color-hex-input {
+            flex: 1;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-family: monospace;
+            font-size: 1.1rem;
+            font-weight: bold;
         }
         
         /* Range sliders */
@@ -210,39 +272,6 @@
             border: 2px solid white;
         }
         
-        /* Form controls */
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: white;
-            margin-top: 0.5rem;
-        }
-        
-        .form-control option {
-            background: #1a1a2e;
-            color: white;
-        }
-        
-        /* Keyframes editor */
-        .keyframes-editor {
-            margin-top: 1rem;
-        }
-        
-        .keyframe-points {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            color: #aaa;
-        }
-        
-        .keyframe-slider {
-            margin-top: 0.5rem;
-        }
-        
         /* Action buttons */
         .action-buttons {
             display: flex;
@@ -274,6 +303,35 @@
             margin: 0;
             white-space: pre-wrap;
             word-wrap: break-word;
+        }
+        
+        /* Export format tabs */
+        .export-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .export-tab {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+        
+        .export-tab:hover {
+            background: rgba(138, 43, 226, 0.2);
+        }
+        
+        .export-tab.active {
+            background: #8a2be2;
+            color: white;
+            border-color: #8a2be2;
         }
         
         /* Buttons */
@@ -336,18 +394,12 @@
             height: 100px;
             border-radius: 8px;
             margin-bottom: 0.75rem;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
             display: flex;
-            align-items: center;
-            justify-content: center;
             overflow: hidden;
         }
         
-        .example-animation {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+        .example-color {
+            flex: 1;
         }
         
         .example-card h4 {
@@ -484,8 +536,8 @@
                         <a href="grid-generator.html">CSS Grid Generator</a>
                         <a href="flexbox-helper.html">Flexbox Helper</a>
                         <a href="box-shadow.html">Box Shadow Generator</a>
-                        <a href="animations-generator.html" class="active">CSS Animations Generator</a>
-                        <a href="palette-generator.html">Color Palette Generator</a>
+                        <a href="animations-generator.html">CSS Animations Generator</a>
+                        <a href="palette-generator.html" class="active">Color Palette Generator</a>
                         <a href="color-picker.html">Color Picker Tool</a>
                     </div>
                 </div>
@@ -523,34 +575,45 @@
     <!-- Main Content -->
     <main class="container tool-page">
         <header class="hero">
-            <h1>CSS Animations Generator</h1>
-            <p class="subtitle">Create smooth CSS animations with keyframes</p>
-            <p>Generate CSS animations with custom properties, timing functions, and visual preview. Perfect for buttons, loaders, and UI interactions.</p>
+            <h1>Color Palette Generator</h1>
+            <p class="subtitle">Create harmonious color schemes for your designs</p>
+            <p>Generate beautiful color palettes with complementary, analogous, triadic, and tetradic schemes. Export to CSS, SCSS, Tailwind, and more.</p>
         </header>
 
-        <div class="animations-generator">
+        <div class="palette-generator">
             <!-- Preview Column -->
             <div class="preview-column">
                 <div class="preview-container">
-                    <h3><i class="fas fa-eye"></i> Animation Preview</h3>
-                    <div class="animation-preview" id="animationPreview">
-                        <div class="animated-element" id="animatedElement">
-                            <i class="fas fa-star"></i>
+                    <h3><i class="fas fa-palette"></i> Color Palette</h3>
+                    <div class="palette-preview" id="palettePreview">
+                        <!-- Color swatches will be generated here -->
+                    </div>
+                    
+                    <div class="color-details">
+                        <div class="color-detail">
+                            <h4>Primary Color</h4>
+                            <div class="color-detail-value" id="primaryColor">#8a2be2</div>
+                        </div>
+                        <div class="color-detail">
+                            <h4>Scheme Type</h4>
+                            <div class="color-detail-value" id="schemeType">Complementary</div>
+                        </div>
+                        <div class="color-detail">
+                            <h4>Colors in Palette</h4>
+                            <div class="color-detail-value" id="colorsCount">5</div>
+                        </div>
+                        <div class="color-detail">
+                            <h4>Contrast Ratio</h4>
+                            <div class="color-detail-value" id="contrastRatio">4.5:1</div>
                         </div>
                     </div>
                     
-                    <div class="animation-controls">
-                        <button id="playAnimation" class="btn-primary">
-                            <i class="fas fa-play"></i> Play
+                    <div class="action-buttons">
+                        <button id="randomPalette" class="btn-secondary">
+                            <i class="fas fa-random"></i> Random Palette
                         </button>
-                        <button id="pauseAnimation" class="btn-secondary">
-                            <i class="fas fa-pause"></i> Pause
-                        </button>
-                        <button id="stopAnimation" class="btn-secondary">
-                            <i class="fas fa-stop"></i> Stop
-                        </button>
-                        <button id="randomAnimation" class="btn-secondary">
-                            <i class="fas fa-random"></i> Random
+                        <button id="copyPalette" class="btn-secondary">
+                            <i class="fas fa-copy"></i> Copy All Colors
                         </button>
                     </div>
                 </div>
@@ -558,130 +621,107 @@
 
             <!-- Controls Column -->
             <div class="tool-controls">
-                <!-- Animation Type -->
+                <!-- Base Color -->
                 <div class="control-group">
-                    <label>Animation Type</label>
-                    <div class="property-group">
-                        <div class="property-option active" data-type="move">
-                            <i class="fas fa-arrows-alt"></i> Move
+                    <label>Base Color</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="baseColor" class="color-picker-input" value="#8a2be2">
+                        <input type="text" id="baseColorHex" class="color-hex-input" value="#8a2be2" maxlength="7">
+                    </div>
+                </div>
+
+                <!-- Color Scheme -->
+                <div class="control-group">
+                    <label>Color Scheme</label>
+                    <div class="scheme-options">
+                        <div class="scheme-option active" data-scheme="complementary">
+                            Complementary
                         </div>
-                        <div class="property-option" data-type="rotate">
-                            <i class="fas fa-sync-alt"></i> Rotate
+                        <div class="scheme-option" data-scheme="analogous">
+                            Analogous
                         </div>
-                        <div class="property-option" data-type="scale">
-                            <i class="fas fa-expand-alt"></i> Scale
+                        <div class="scheme-option" data-scheme="triadic">
+                            Triadic
                         </div>
-                        <div class="property-option" data-type="bounce">
-                            <i class="fas fa-basketball-ball"></i> Bounce
+                        <div class="scheme-option" data-scheme="tetradic">
+                            Tetradic
                         </div>
-                        <div class="property-option" data-type="fade">
-                            <i class="fas fa-eye-slash"></i> Fade
+                        <div class="scheme-option" data-scheme="monochromatic">
+                            Monochromatic
                         </div>
-                        <div class="property-option" data-type="color">
-                            <i class="fas fa-palette"></i> Color
+                        <div class="scheme-option" data-scheme="split-complementary">
+                            Split Complementary
                         </div>
                     </div>
                 </div>
 
-                <!-- Animation Properties -->
+                <!-- Number of Colors -->
                 <div class="control-group">
-                    <label for="duration">Duration: <span id="durationValue">2s</span></label>
+                    <label for="colorsCount">Number of Colors: <span id="colorsValue">5</span></label>
                     <div class="slider-container">
-                        <input type="range" id="duration" min="0.5" max="5" step="0.5" value="2" class="slider">
-                        <span class="slider-value" id="durationDisplay">2s</span>
+                        <input type="range" id="colorsCount" min="3" max="8" value="5" class="slider">
+                        <span class="slider-value" id="colorsDisplay">5</span>
                     </div>
                 </div>
 
+                <!-- Saturation -->
                 <div class="control-group">
-                    <label for="delay">Delay: <span id="delayValue">0s</span></label>
+                    <label for="saturation">Saturation: <span id="saturationValue">70%</span></label>
                     <div class="slider-container">
-                        <input type="range" id="delay" min="0" max="3" step="0.5" value="0" class="slider">
-                        <span class="slider-value" id="delayDisplay">0s</span>
+                        <input type="range" id="saturation" min="20" max="100" value="70" class="slider">
+                        <span class="slider-value" id="saturationDisplay">70%</span>
                     </div>
                 </div>
 
+                <!-- Lightness -->
                 <div class="control-group">
-                    <label for="iteration">Iteration Count: <span id="iterationValue">infinite</span></label>
+                    <label for="lightness">Lightness: <span id="lightnessValue">50%</span></label>
                     <div class="slider-container">
-                        <input type="range" id="iteration" min="1" max="10" value="0" class="slider">
-                        <span class="slider-value" id="iterationDisplay">infinite</span>
+                        <input type="range" id="lightness" min="20" max="80" value="50" class="slider">
+                        <span class="slider-value" id="lightnessDisplay">50%</span>
                     </div>
                 </div>
 
-                <!-- Timing Function -->
+                <!-- Harmony Angle -->
                 <div class="control-group">
-                    <label>Timing Function</label>
-                    <div class="property-group">
-                        <div class="property-option active" data-timing="ease">
-                            ease
-                        </div>
-                        <div class="property-option" data-timing="linear">
-                            linear
-                        </div>
-                        <div class="property-option" data-timing="ease-in">
-                            ease-in
-                        </div>
-                        <div class="property-option" data-timing="ease-out">
-                            ease-out
-                        </div>
-                        <div class="property-option" data-timing="ease-in-out">
-                            ease-in-out
-                        </div>
-                        <div class="property-option" data-timing="cubic-bezier">
-                            cubic-bezier
-                        </div>
+                    <label for="harmonyAngle">Harmony Angle: <span id="angleValue">30°</span></label>
+                    <div class="slider-container">
+                        <input type="range" id="harmonyAngle" min="15" max="90" value="30" class="slider">
+                        <span class="slider-value" id="angleDisplay">30°</span>
                     </div>
-                </div>
-
-                <!-- Direction -->
-                <div class="control-group">
-                    <label for="direction">Direction</label>
-                    <select id="direction" class="form-control">
-                        <option value="normal">Normal</option>
-                        <option value="reverse">Reverse</option>
-                        <option value="alternate">Alternate</option>
-                        <option value="alternate-reverse">Alternate Reverse</option>
-                    </select>
-                </div>
-
-                <!-- Fill Mode -->
-                <div class="control-group">
-                    <label for="fillMode">Fill Mode</label>
-                    <select id="fillMode" class="form-control">
-                        <option value="none">None</option>
-                        <option value="forwards">Forwards</option>
-                        <option value="backwards">Backwards</option>
-                        <option value="both">Both</option>
-                    </select>
                 </div>
             </div>
         </div>
 
-        <!-- CSS Output -->
+        <!-- Export Section -->
         <div class="tool-controls" style="margin-top: 2rem;">
-            <h3><i class="fas fa-code"></i> CSS Code</h3>
+            <h3><i class="fas fa-download"></i> Export Palette</h3>
+            
+            <div class="export-tabs">
+                <div class="export-tab active" data-format="css">CSS Variables</div>
+                <div class="export-tab" data-format="scss">SCSS Variables</div>
+                <div class="export-tab" data-format="tailwind">Tailwind Config</div>
+                <div class="export-tab" data-format="json">JSON</div>
+                <div class="export-tab" data-format="svg">SVG Palette</div>
+            </div>
+            
             <div class="code-output">
-                <pre id="cssOutput">@keyframes moveAnimation {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(100px); }
-    100% { transform: translateX(0); }
-}
-
-.animated-element {
-    animation: moveAnimation 2s ease infinite;
-    animation-delay: 0s;
-    animation-direction: normal;
-    animation-fill-mode: none;
+                <pre id="cssOutput">:root {
+    --color-primary: #8a2be2;
+    --color-secondary: #2be28a;
+    --color-accent: #e22b8a;
+    --color-neutral: #2b8ae2;
+    --color-light: #8ae22b;
 }</pre>
             </div>
             <div class="action-buttons">
-                <button id="copyCss" class="btn-primary">
-                    <i class="fas fa-copy"></i> Copy CSS
+                <button id="copyCode" class="btn-primary">
+                    <i class="fas fa-copy"></i> Copy Code
                 </button>
-                <button id="copyKeyframes" class="btn-secondary">
-                    <i class="fas fa-code"></i> Copy Keyframes Only
+                <button id="downloadJson" class="btn-secondary">
+                    <i class="fas fa-file-export"></i> Download JSON
                 </button>
-                <button id="resetAnimation" class="btn-secondary">
+                <button id="resetPalette" class="btn-secondary">
                     <i class="fas fa-redo"></i> Reset
                 </button>
             </div>
@@ -689,114 +729,100 @@
 
         <!-- Examples Section -->
         <section class="instructions">
-            <h2>Common Animation Examples</h2>
+            <h2>Beautiful Palette Examples</h2>
             <p style="text-align: center; margin-bottom: 1.5rem; color: #ccc;">Click on any example to apply it</p>
             
             <div class="examples-grid">
-                <div class="example-card" data-type="bounce" data-duration="1" data-timing="ease" data-iteration="infinite">
+                <div class="example-card" data-color="#8a2be2" data-scheme="complementary" data-count="5">
                     <div class="example-preview">
-                        <div class="example-animation" style="animation: bounceExample 1s ease infinite;"></div>
-                        <style>
-                            @keyframes bounceExample {
-                                0%, 100% { transform: translateY(0); }
-                                50% { transform: translateY(-20px); }
-                            }
-                        </style>
+                        <div class="example-color" style="background-color: #8a2be2;"></div>
+                        <div class="example-color" style="background-color: #2be28a;"></div>
+                        <div class="example-color" style="background-color: #e22b8a;"></div>
+                        <div class="example-color" style="background-color: #2b8ae2;"></div>
+                        <div class="example-color" style="background-color: #8ae22b;"></div>
                     </div>
-                    <h4>Bounce</h4>
+                    <h4>Vibrant Harmony</h4>
                 </div>
                 
-                <div class="example-card" data-type="rotate" data-duration="2" data-timing="linear" data-iteration="infinite">
+                <div class="example-card" data-color="#4ecdc4" data-scheme="analogous" data-count="6">
                     <div class="example-preview">
-                        <div class="example-animation" style="animation: rotateExample 2s linear infinite;"></div>
-                        <style>
-                            @keyframes rotateExample {
-                                0% { transform: rotate(0deg); }
-                                100% { transform: rotate(360deg); }
-                            }
-                        </style>
+                        <div class="example-color" style="background-color: #4ecdc4;"></div>
+                        <div class="example-color" style="background-color: #4e7acd;"></div>
+                        <div class="example-color" style="background-color: #4ecd8a;"></div>
+                        <div class="example-color" style="background-color: #8acd4e;"></div>
+                        <div class="example-color" style="background-color: #cd8a4e;"></div>
+                        <div class="example-color" style="background-color: #cd4e7a;"></div>
                     </div>
-                    <h4>Rotate</h4>
+                    <h4>Ocean Blues</h4>
                 </div>
                 
-                <div class="example-card" data-type="scale" data-duration="1.5" data-timing="ease-in-out" data-iteration="infinite">
+                <div class="example-card" data-color="#ff6b6b" data-scheme="triadic" data-count="5">
                     <div class="example-preview">
-                        <div class="example-animation" style="animation: scaleExample 1.5s ease-in-out infinite alternate;"></div>
-                        <style>
-                            @keyframes scaleExample {
-                                0% { transform: scale(1); }
-                                100% { transform: scale(1.3); }
-                            }
-                        </style>
+                        <div class="example-color" style="background-color: #ff6b6b;"></div>
+                        <div class="example-color" style="background-color: #6bff6b;"></div>
+                        <div class="example-color" style="background-color: #6b6bff;"></div>
+                        <div class="example-color" style="background-color: #ffff6b;"></div>
+                        <div class="example-color" style="background-color: #6bffff;"></div>
                     </div>
-                    <h4>Pulse</h4>
+                    <h4>Primary Triad</h4>
                 </div>
                 
-                <div class="example-card" data-type="move" data-duration="3" data-timing="ease" data-iteration="infinite">
+                <div class="example-card" data-color="#667eea" data-scheme="monochromatic" data-count="6">
                     <div class="example-preview">
-                        <div class="example-animation" style="animation: moveExample 3s ease infinite;"></div>
-                        <style>
-                            @keyframes moveExample {
-                                0%, 100% { transform: translateX(-30px); }
-                                50% { transform: translateX(30px); }
-                            }
-                        </style>
+                        <div class="example-color" style="background-color: #667eea;"></div>
+                        <div class="example-color" style="background-color: #8498ed;"></div>
+                        <div class="example-color" style="background-color: #a2b2f0;"></div>
+                        <div class="example-color" style="background-color: #c1ccf3;"></div>
+                        <div class="example-color" style="background-color: #dfe5f7;"></div>
+                        <div class="example-color" style="background-color: #667eea;"></div>
                     </div>
-                    <h4>Slide</h4>
+                    <h4>Purple Monochrome</h4>
                 </div>
                 
-                <div class="example-card" data-type="fade" data-duration="2" data-timing="ease-in-out" data-iteration="infinite">
+                <div class="example-card" data-color="#30cfd0" data-scheme="tetradic" data-count="8">
                     <div class="example-preview">
-                        <div class="example-animation" style="animation: fadeExample 2s ease-in-out infinite alternate;"></div>
-                        <style>
-                            @keyframes fadeExample {
-                                0% { opacity: 0.3; }
-                                100% { opacity: 1; }
-                            }
-                        </style>
+                        <div class="example-color" style="background-color: #30cfd0;"></div>
+                        <div class="example-color" style="background-color: #d030cf;"></div>
+                        <div class="example-color" style="background-color: #cfd030;"></div>
+                        <div class="example-color" style="background-color: #d0cf30;"></div>
+                        <div class="example-color" style="background-color: #30d0cf;"></div>
+                        <div class="example-color" style="background-color: #cf30d0;"></div>
+                        <div class="example-color" style="background-color: #d0cf30;"></div>
+                        <div class="example-color" style="background-color: #30d0cf;"></div>
                     </div>
-                    <h4>Fade In/Out</h4>
+                    <h4>Color Wheel</h4>
                 </div>
                 
-                <div class="example-card" data-type="color" data-duration="2" data-timing="linear" data-iteration="infinite">
+                <div class="example-card" data-color="#43e97b" data-scheme="split-complementary" data-count="5">
                     <div class="example-preview">
-                        <div class="example-animation" style="animation: colorExample 2s linear infinite alternate;"></div>
-                        <style>
-                            @keyframes colorExample {
-                                0% { background: linear-gradient(45deg, #8a2be2, #4ecdc4); }
-                                100% { background: linear-gradient(45deg, #ff6b6b, #667eea); }
-                            }
-                        </style>
+                        <div class="example-color" style="background-color: #43e97b;"></div>
+                        <div class="example-color" style="background-color: #e943b1;"></div>
+                        <div class="example-color" style="background-color: #e9b143;"></div>
+                        <div class="example-color" style="background-color: #43b1e9;"></div>
+                        <div class="example-color" style="background-color: #b143e9;"></div>
                     </div>
-                    <h4>Color Change</h4>
+                    <h4>Emerald Split</h4>
                 </div>
                 
-                <div class="example-card" data-type="move" data-duration="1" data-timing="cubic-bezier" data-iteration="infinite">
+                <div class="example-card" data-color="#fa709a" data-scheme="analogous" data-count="4">
                     <div class="example-preview">
-                        <div class="example-animation" style="animation: shakeExample 1s ease infinite;"></div>
-                        <style>
-                            @keyframes shakeExample {
-                                0%, 100% { transform: translateX(0); }
-                                25% { transform: translateX(-5px); }
-                                75% { transform: translateX(5px); }
-                            }
-                        </style>
+                        <div class="example-color" style="background-color: #fa709a;"></div>
+                        <div class="example-color" style="background-color: #fa70d2;"></div>
+                        <div class="example-color" style="background-color: #fa709a;"></div>
+                        <div class="example-color" style="background-color: #fa70d2;"></div>
                     </div>
-                    <h4>Shake</h4>
+                    <h4>Pink Dream</h4>
                 </div>
                 
-                <div class="example-card" data-type="bounce" data-duration="0.8" data-timing="ease-out" data-iteration="5">
+                <div class="example-card" data-color="#fee140" data-scheme="complementary" data-count="5">
                     <div class="example-preview">
-                        <div class="example-animation" style="animation: jumpExample 0.8s ease-out 5;"></div>
-                        <style>
-                            @keyframes jumpExample {
-                                0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-                                40% { transform: translateY(-15px); }
-                                60% { transform: translateY(-7px); }
-                            }
-                        </style>
+                        <div class="example-color" style="background-color: #fee140;"></div>
+                        <div class="example-color" style="background-color: #40feee;"></div>
+                        <div class="example-color" style="background-color: #ee40fe;"></div>
+                        <div class="example-color" style="background-color: #40ee40;"></div>
+                        <div class="example-color" style="background-color: #fe40ee;"></div>
                     </div>
-                    <h4>Jump</h4>
+                    <h4>Sunset Glow</h4>
                 </div>
             </div>
         </section>
@@ -807,23 +833,23 @@
             <div class="steps">
                 <div class="step">
                     <div class="step-icon">1</div>
-                    <h3>Choose Animation Type</h3>
-                    <p>Select the type of animation you want to create (move, rotate, scale, etc.).</p>
+                    <h3>Pick Base Color</h3>
+                    <p>Choose a base color using the color picker or enter a hex code.</p>
                 </div>
                 <div class="step">
                     <div class="step-icon">2</div>
-                    <h3>Adjust Properties</h3>
-                    <p>Set duration, delay, iteration count, and timing function for your animation.</p>
+                    <h3>Select Scheme</h3>
+                    <p>Choose a color harmony scheme (complementary, analogous, etc.).</p>
                 </div>
                 <div class="step">
                     <div class="step-icon">3</div>
-                    <h3>Preview & Control</h3>
-                    <p>Use play, pause, and stop buttons to control the animation preview.</p>
+                    <h3>Adjust Settings</h3>
+                    <p>Fine-tune saturation, lightness, and number of colors.</p>
                 </div>
                 <div class="step">
                     <div class="step-icon">4</div>
-                    <h3>Copy & Implement</h3>
-                    <p>Copy the generated CSS code and use it in your web projects.</p>
+                    <h3>Export & Use</h3>
+                    <p>Export your palette in CSS, SCSS, JSON, or other formats.</p>
                 </div>
             </div>
         </section>
@@ -848,6 +874,7 @@
                     <a href="flexbox-helper.html">Flexbox Helper</a>
                     <a href="box-shadow.html">Box Shadow Tool</a>
                     <a href="animations-generator.html">Animations Generator</a>
+                    <a href="palette-generator.html">Color Palette Tool</a>
                     <a href="index.html#coming-soon">More Tools</a>
                     <a href="index.html#blog">Blog</a>
                     <a href="index.html#contact">Contact</a>
@@ -867,213 +894,393 @@
 
     <!-- JavaScript -->
     <script>
-        // CSS Animations Generator JavaScript
+        // Color Palette Generator JavaScript
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Animations Generator Loaded');
+            console.log('Color Palette Generator Loaded');
             
-            // Animation configuration
-            let animationConfig = {
-                type: 'move',
-                duration: 2,
-                delay: 0,
-                iteration: 0, // 0 means infinite
-                timing: 'ease',
-                direction: 'normal',
-                fillMode: 'none',
-                isPlaying: true
+            // Color palette configuration
+            let paletteConfig = {
+                baseColor: '#8a2be2',
+                scheme: 'complementary',
+                colorsCount: 5,
+                saturation: 70,
+                lightness: 50,
+                harmonyAngle: 30,
+                exportFormat: 'css'
             };
             
+            // Generated palette
+            let currentPalette = [];
+            
             // DOM Elements
-            const animatedElement = document.getElementById('animatedElement');
+            const palettePreview = document.getElementById('palettePreview');
             const cssOutput = document.getElementById('cssOutput');
-            const copyCssBtn = document.getElementById('copyCss');
-            const copyKeyframesBtn = document.getElementById('copyKeyframes');
-            const resetAnimationBtn = document.getElementById('resetAnimation');
-            const playAnimationBtn = document.getElementById('playAnimation');
-            const pauseAnimationBtn = document.getElementById('pauseAnimation');
-            const stopAnimationBtn = document.getElementById('stopAnimation');
-            const randomAnimationBtn = document.getElementById('randomAnimation');
+            const copyCodeBtn = document.getElementById('copyCode');
+            const downloadJsonBtn = document.getElementById('downloadJson');
+            const resetPaletteBtn = document.getElementById('resetPalette');
+            const randomPaletteBtn = document.getElementById('randomPalette');
+            const copyPaletteBtn = document.getElementById('copyPalette');
             
-            // Sliders and inputs
-            const durationSlider = document.getElementById('duration');
-            const durationValue = document.getElementById('durationValue');
-            const durationDisplay = document.getElementById('durationDisplay');
+            // Color details
+            const primaryColorEl = document.getElementById('primaryColor');
+            const schemeTypeEl = document.getElementById('schemeType');
+            const colorsCountEl = document.getElementById('colorsCount');
+            const contrastRatioEl = document.getElementById('contrastRatio');
             
-            const delaySlider = document.getElementById('delay');
-            const delayValue = document.getElementById('delayValue');
-            const delayDisplay = document.getElementById('delayDisplay');
+            // Inputs and sliders
+            const baseColorPicker = document.getElementById('baseColor');
+            const baseColorHex = document.getElementById('baseColorHex');
             
-            const iterationSlider = document.getElementById('iteration');
-            const iterationValue = document.getElementById('iterationValue');
-            const iterationDisplay = document.getElementById('iterationDisplay');
+            const schemeOptions = document.querySelectorAll('.scheme-option');
             
-            const directionSelect = document.getElementById('direction');
-            const fillModeSelect = document.getElementById('fillMode');
+            const colorsCountSlider = document.getElementById('colorsCount');
+            const colorsValue = document.getElementById('colorsValue');
+            const colorsDisplay = document.getElementById('colorsDisplay');
             
-            // Property options
-            const typeOptions = document.querySelectorAll('[data-type]');
-            const timingOptions = document.querySelectorAll('[data-timing]');
+            const saturationSlider = document.getElementById('saturation');
+            const saturationValue = document.getElementById('saturationValue');
+            const saturationDisplay = document.getElementById('saturationDisplay');
+            
+            const lightnessSlider = document.getElementById('lightness');
+            const lightnessValue = document.getElementById('lightnessValue');
+            const lightnessDisplay = document.getElementById('lightnessDisplay');
+            
+            const harmonyAngleSlider = document.getElementById('harmonyAngle');
+            const angleValue = document.getElementById('angleValue');
+            const angleDisplay = document.getElementById('angleDisplay');
+            
+            // Export tabs
+            const exportTabs = document.querySelectorAll('.export-tab');
+            
+            // Example cards
             const exampleCards = document.querySelectorAll('.example-card');
             const toast = document.getElementById('toast');
             const toastMessage = document.getElementById('toast-message');
             
-            // 1. Initialize animation
-            function initializeAnimation() {
-                updateAnimationDisplay();
-                updateAnimation();
-                updateCssOutput();
+            // 1. Initialize palette
+            function initializePalette() {
+                updatePaletteDisplay();
+                generatePalette();
+                updatePalettePreview();
+                updateExportCode();
             }
             
             // 2. Update display values
-            function updateAnimationDisplay() {
-                durationValue.textContent = animationConfig.duration + 's';
-                durationDisplay.textContent = animationConfig.duration + 's';
-                if (durationSlider) durationSlider.value = animationConfig.duration;
+            function updatePaletteDisplay() {
+                // Update color picker
+                if (baseColorPicker) baseColorPicker.value = paletteConfig.baseColor;
+                if (baseColorHex) baseColorHex.value = paletteConfig.baseColor;
                 
-                delayValue.textContent = animationConfig.delay + 's';
-                delayDisplay.textContent = animationConfig.delay + 's';
-                if (delaySlider) delaySlider.value = animationConfig.delay;
-                
-                const iterationText = animationConfig.iteration === 0 ? 'infinite' : animationConfig.iteration;
-                iterationValue.textContent = iterationText;
-                iterationDisplay.textContent = iterationText;
-                if (iterationSlider) iterationSlider.value = animationConfig.iteration;
-                
-                if (directionSelect) directionSelect.value = animationConfig.direction;
-                if (fillModeSelect) fillModeSelect.value = animationConfig.fillMode;
-                
-                // Update active type buttons
-                typeOptions.forEach(option => {
-                    if (option.dataset.type === animationConfig.type) {
+                // Update active scheme
+                schemeOptions.forEach(option => {
+                    if (option.dataset.scheme === paletteConfig.scheme) {
                         option.classList.add('active');
                     } else {
                         option.classList.remove('active');
                     }
                 });
                 
-                // Update active timing buttons
-                timingOptions.forEach(option => {
-                    if (option.dataset.timing === animationConfig.timing) {
-                        option.classList.add('active');
+                // Update sliders
+                colorsValue.textContent = paletteConfig.colorsCount;
+                colorsDisplay.textContent = paletteConfig.colorsCount;
+                if (colorsCountSlider) colorsCountSlider.value = paletteConfig.colorsCount;
+                
+                saturationValue.textContent = paletteConfig.saturation + '%';
+                saturationDisplay.textContent = paletteConfig.saturation + '%';
+                if (saturationSlider) saturationSlider.value = paletteConfig.saturation;
+                
+                lightnessValue.textContent = paletteConfig.lightness + '%';
+                lightnessDisplay.textContent = paletteConfig.lightness + '%';
+                if (lightnessSlider) lightnessSlider.value = paletteConfig.lightness;
+                
+                angleValue.textContent = paletteConfig.harmonyAngle + '°';
+                angleDisplay.textContent = paletteConfig.harmonyAngle + '°';
+                if (harmonyAngleSlider) harmonyAngleSlider.value = paletteConfig.harmonyAngle;
+                
+                // Update active export tab
+                exportTabs.forEach(tab => {
+                    if (tab.dataset.format === paletteConfig.exportFormat) {
+                        tab.classList.add('active');
                     } else {
-                        option.classList.remove('active');
+                        tab.classList.remove('active');
                     }
+                });
+                
+                // Update details
+                if (primaryColorEl) primaryColorEl.textContent = paletteConfig.baseColor;
+                if (schemeTypeEl) schemeTypeEl.textContent = formatSchemeName(paletteConfig.scheme);
+                if (colorsCountEl) colorsCountEl.textContent = paletteConfig.colorsCount;
+            }
+            
+            // 3. Format scheme name for display
+            function formatSchemeName(scheme) {
+                const names = {
+                    'complementary': 'Complementary',
+                    'analogous': 'Analogous',
+                    'triadic': 'Triadic',
+                    'tetradic': 'Tetradic',
+                    'monochromatic': 'Monochromatic',
+                    'split-complementary': 'Split Complementary'
+                };
+                return names[scheme] || scheme;
+            }
+            
+            // 4. Convert hex to HSL
+            function hexToHsl(hex) {
+                // Remove # if present
+                hex = hex.replace('#', '');
+                
+                // Convert to RGB
+                let r, g, b;
+                if (hex.length === 3) {
+                    r = parseInt(hex[0] + hex[0], 16);
+                    g = parseInt(hex[1] + hex[1], 16);
+                    b = parseInt(hex[2] + hex[2], 16);
+                } else {
+                    r = parseInt(hex.substring(0, 2), 16);
+                    g = parseInt(hex.substring(2, 4), 16);
+                    b = parseInt(hex.substring(4, 6), 16);
+                }
+                
+                // Convert RGB to HSL
+                r /= 255;
+                g /= 255;
+                b /= 255;
+                
+                const max = Math.max(r, g, b);
+                const min = Math.min(r, g, b);
+                let h, s, l = (max + min) / 2;
+                
+                if (max === min) {
+                    h = s = 0; // achromatic
+                } else {
+                    const d = max - min;
+                    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                    
+                    switch (max) {
+                        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                        case g: h = (b - r) / d + 2; break;
+                        case b: h = (r - g) / d + 4; break;
+                    }
+                    h /= 6;
+                }
+                
+                return {
+                    h: Math.round(h * 360),
+                    s: Math.round(s * 100),
+                    l: Math.round(l * 100)
+                };
+            }
+            
+            // 5. Convert HSL to hex
+            function hslToHex(h, s, l) {
+                h /= 360;
+                s /= 100;
+                l /= 100;
+                
+                let r, g, b;
+                
+                if (s === 0) {
+                    r = g = b = l; // achromatic
+                } else {
+                    const hue2rgb = (p, q, t) => {
+                        if (t < 0) t += 1;
+                        if (t > 1) t -= 1;
+                        if (t < 1/6) return p + (q - p) * 6 * t;
+                        if (t < 1/2) return q;
+                        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                        return p;
+                    };
+                    
+                    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                    const p = 2 * l - q;
+                    
+                    r = hue2rgb(p, q, h + 1/3);
+                    g = hue2rgb(p, q, h);
+                    b = hue2rgb(p, q, h - 1/3);
+                }
+                
+                const toHex = x => {
+                    const hex = Math.round(x * 255).toString(16);
+                    return hex.length === 1 ? '0' + hex : hex;
+                };
+                
+                return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+            }
+            
+            // 6. Generate color palette
+            function generatePalette() {
+                const baseHsl = hexToHsl(paletteConfig.baseColor);
+                currentPalette = [paletteConfig.baseColor];
+                
+                // Apply scheme
+                const angle = paletteConfig.harmonyAngle;
+                let hueOffsets = [];
+                
+                switch (paletteConfig.scheme) {
+                    case 'complementary':
+                        hueOffsets = [0, 180];
+                        break;
+                    case 'analogous':
+                        hueOffsets = [0, -angle, angle];
+                        break;
+                    case 'triadic':
+                        hueOffsets = [0, 120, 240];
+                        break;
+                    case 'tetradic':
+                        hueOffsets = [0, 90, 180, 270];
+                        break;
+                    case 'monochromatic':
+                        // Generate variations of the same hue
+                        for (let i = 1; i < paletteConfig.colorsCount; i++) {
+                            const variation = {
+                                h: baseHsl.h,
+                                s: Math.max(20, Math.min(100, baseHsl.s + (i * 10 - paletteConfig.colorsCount * 5))),
+                                l: Math.max(20, Math.min(80, baseHsl.l + (i * 10 - paletteConfig.colorsCount * 5)))
+                            };
+                            currentPalette.push(hslToHex(variation.h, variation.s, variation.l));
+                        }
+                        return;
+                    case 'split-complementary':
+                        hueOffsets = [0, 180 - angle, 180 + angle];
+                        break;
+                }
+                
+                // Generate colors based on offsets
+                for (let i = 1; i < paletteConfig.colorsCount; i++) {
+                    const offsetIndex = (i - 1) % hueOffsets.length;
+                    let hue = (baseHsl.h + hueOffsets[offsetIndex]) % 360;
+                    if (hue < 0) hue += 360;
+                    
+                    const color = hslToHex(
+                        hue,
+                        paletteConfig.saturation,
+                        paletteConfig.lightness
+                    );
+                    
+                    currentPalette.push(color);
+                }
+            }
+            
+            // 7. Update palette preview
+            function updatePalettePreview() {
+                palettePreview.innerHTML = '';
+                
+                const colorNames = ['Primary', 'Secondary', 'Accent', 'Neutral', 'Light', 'Dark', 'Highlight', 'Muted'];
+                
+                currentPalette.forEach((color, index) => {
+                    const swatch = document.createElement('div');
+                    swatch.className = 'color-swatch';
+                    swatch.style.backgroundColor = color;
+                    swatch.title = `Click to copy ${color}`;
+                    
+                    // Determine text color based on background brightness
+                    const hex = color.replace('#', '');
+                    const r = parseInt(hex.substring(0, 2), 16);
+                    const g = parseInt(hex.substring(2, 4), 16);
+                    const b = parseInt(hex.substring(4, 6), 16);
+                    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+                    
+                    swatch.style.color = brightness > 128 ? '#000' : '#fff';
+                    
+                    const hexElement = document.createElement('div');
+                    hexElement.className = 'color-hex';
+                    hexElement.textContent = color;
+                    hexElement.style.color = brightness > 128 ? '#000' : '#fff';
+                    hexElement.style.background = brightness > 128 ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.5)';
+                    
+                    const nameElement = document.createElement('div');
+                    nameElement.className = 'color-name';
+                    nameElement.textContent = colorNames[index] || `Color ${index + 1}`;
+                    nameElement.style.color = brightness > 128 ? '#000' : '#fff';
+                    nameElement.style.background = brightness > 128 ? 'rgba(255, 255, 255, 0.7)' : 'rgba(0, 0, 0, 0.5)';
+                    
+                    swatch.appendChild(hexElement);
+                    swatch.appendChild(nameElement);
+                    
+                    // Add click to copy
+                    swatch.addEventListener('click', () => {
+                        copyToClipboard(color, `Color ${color} copied!`);
+                    });
+                    
+                    palettePreview.appendChild(swatch);
                 });
             }
             
-            // 3. Update animation preview
-            function updateAnimation() {
-                if (!animatedElement) return;
+            // 8. Update export code
+            function updateExportCode() {
+                let code = '';
                 
-                // Generate keyframes based on type
-                let keyframes = '';
-                let animationName = '';
-                
-                switch (animationConfig.type) {
-                    case 'move':
-                        animationName = 'moveAnimation';
-                        keyframes = `
-    @keyframes moveAnimation {
-        0% { transform: translateX(0); }
-        50% { transform: translateX(100px); }
-        100% { transform: translateX(0); }
-    }`;
+                switch (paletteConfig.exportFormat) {
+                    case 'css':
+                        code = `:root {\n`;
+                        currentPalette.forEach((color, index) => {
+                            const names = ['primary', 'secondary', 'accent', 'neutral', 'light', 'dark', 'highlight', 'muted'];
+                            const name = names[index] || `color-${index + 1}`;
+                            code += `    --color-${name}: ${color};\n`;
+                        });
+                        code += `}`;
                         break;
                         
-                    case 'rotate':
-                        animationName = 'rotateAnimation';
-                        keyframes = `
-    @keyframes rotateAnimation {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }`;
+                    case 'scss':
+                        code = `// Color Variables\n`;
+                        currentPalette.forEach((color, index) => {
+                            const names = ['primary', 'secondary', 'accent', 'neutral', 'light', 'dark', 'highlight', 'muted'];
+                            const name = names[index] || `color-${index + 1}`;
+                            code += `$${name}: ${color};\n`;
+                        });
                         break;
                         
-                    case 'scale':
-                        animationName = 'scaleAnimation';
-                        keyframes = `
-    @keyframes scaleAnimation {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.3); }
-        100% { transform: scale(1); }
-    }`;
-                        break;
-                        
-                    case 'bounce':
-                        animationName = 'bounceAnimation';
-                        keyframes = `
-    @keyframes bounceAnimation {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-50px); }
-    }`;
-                        break;
-                        
-                    case 'fade':
-                        animationName = 'fadeAnimation';
-                        keyframes = `
-    @keyframes fadeAnimation {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.3; }
-    }`;
-                        break;
-                        
-                    case 'color':
-                        animationName = 'colorAnimation';
-                        keyframes = `
-    @keyframes colorAnimation {
-        0% { background: linear-gradient(45deg, #8a2be2, #4ecdc4); }
-        50% { background: linear-gradient(45deg, #ff6b6b, #667eea); }
-        100% { background: linear-gradient(45deg, #8a2be2, #4ecdc4); }
-    }`;
-                        break;
-                }
-                
-                // Remove existing keyframes
-                const existingStyle = document.getElementById('dynamicKeyframes');
-                if (existingStyle) {
-                    existingStyle.remove();
-                }
-                
-                // Add new keyframes
-                const style = document.createElement('style');
-                style.id = 'dynamicKeyframes';
-                style.textContent = keyframes;
-                document.head.appendChild(style);
-                
-                // Apply animation to element
-                const iterationCount = animationConfig.iteration === 0 ? 'infinite' : animationConfig.iteration;
-                
-                animatedElement.style.animation = `${animationName} ${animationConfig.duration}s ${animationConfig.timing} ${iterationCount} ${animationConfig.direction} ${animationConfig.fillMode}`;
-                animatedElement.style.animationDelay = animationConfig.delay + 's';
-                animatedElement.style.animationPlayState = animationConfig.isPlaying ? 'running' : 'paused';
-                
-                // Store for CSS output
-                animatedElement.dataset.animationName = animationName;
-                animatedElement.dataset.keyframes = keyframes;
-            }
-            
-            // 4. Update CSS output
-            function updateCssOutput() {
-                const iterationCount = animationConfig.iteration === 0 ? 'infinite' : animationConfig.iteration;
-                
-                const css = `${animatedElement.dataset.keyframes}
-
-.animated-element {
-    animation: ${animatedElement.dataset.animationName} ${animationConfig.duration}s ${animationConfig.timing} ${iterationCount};
-    animation-delay: ${animationConfig.delay}s;
-    animation-direction: ${animationConfig.direction};
-    animation-fill-mode: ${animationConfig.fillMode};
+                    case 'tailwind':
+                        code = `// tailwind.config.js\nmodule.exports = {
+  theme: {
+    extend: {
+      colors: {\n`;
+                        currentPalette.forEach((color, index) => {
+                            const names = ['primary', 'secondary', 'accent', 'neutral', 'light', 'dark', 'highlight', 'muted'];
+                            const name = names[index] || `color${index + 1}`;
+                            code += `        '${name}': '${color}',\n`;
+                        });
+                        code += `      }
+    }
+  }
 }`;
-
-                cssOutput.textContent = css;
-                cssOutput.dataset.keyframes = animatedElement.dataset.keyframes;
+                        break;
+                        
+                    case 'json':
+                        code = JSON.stringify({
+                            palette: currentPalette,
+                            scheme: paletteConfig.scheme,
+                            baseColor: paletteConfig.baseColor,
+                            generatedAt: new Date().toISOString()
+                        }, null, 2);
+                        break;
+                        
+                    case 'svg':
+                        code = `<svg width="800" height="200" viewBox="0 0 800 200">
+  <defs>
+    <style>
+      .color-label { font-family: Arial, sans-serif; font-size: 12px; fill: white; text-anchor: middle; }
+    </style>
+  </defs>\n`;
+                        
+                        const swatchWidth = 800 / currentPalette.length;
+                        currentPalette.forEach((color, index) => {
+                            const x = index * swatchWidth;
+                            code += `  <rect x="${x}" y="0" width="${swatchWidth}" height="150" fill="${color}" />
+  <text x="${x + swatchWidth/2}" y="180" class="color-label">${color}</text>\n`;
+                        });
+                        code += `</svg>`;
+                        break;
+                }
+                
+                cssOutput.textContent = code;
             }
             
-            // 5. Copy CSS to clipboard
-            function copyCss(keyframesOnly = false) {
-                const text = keyframesOnly ? cssOutput.dataset.keyframes : cssOutput.textContent;
+            // 9. Copy to clipboard helper
+            function copyToClipboard(text, message = 'Copied to clipboard!') {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast(keyframesOnly ? 'Keyframes copied!' : 'CSS copied to clipboard!');
+                    showToast(message);
                 }).catch(err => {
                     console.error('Failed to copy: ', err);
                     const textArea = document.createElement('textarea');
@@ -1082,11 +1289,11 @@
                     textArea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textArea);
-                    showToast(keyframesOnly ? 'Keyframes copied!' : 'CSS copied to clipboard!');
+                    showToast(message);
                 });
             }
             
-            // 6. Show toast notification
+            // 10. Show toast notification
             function showToast(message) {
                 if (toastMessage) toastMessage.textContent = message;
                 if (toast) {
@@ -1097,91 +1304,86 @@
                 }
             }
             
-            // 7. Play animation
-            function playAnimation() {
-                animationConfig.isPlaying = true;
-                if (animatedElement) {
-                    animatedElement.style.animationPlayState = 'running';
-                }
-                showToast('Animation playing');
-            }
-            
-            // 8. Pause animation
-            function pauseAnimation() {
-                animationConfig.isPlaying = false;
-                if (animatedElement) {
-                    animatedElement.style.animationPlayState = 'paused';
-                }
-                showToast('Animation paused');
-            }
-            
-            // 9. Stop animation
-            function stopAnimation() {
-                if (animatedElement) {
-                    animatedElement.style.animation = 'none';
-                    setTimeout(() => {
-                        updateAnimation();
-                    }, 10);
-                }
-                showToast('Animation stopped');
-            }
-            
-            // 10. Apply random animation
-            function applyRandomAnimation() {
-                const types = ['move', 'rotate', 'scale', 'bounce', 'fade', 'color'];
-                const timings = ['ease', 'linear', 'ease-in', 'ease-out', 'ease-in-out'];
-                const directions = ['normal', 'reverse', 'alternate', 'alternate-reverse'];
-                const fillModes = ['none', 'forwards', 'backwards', 'both'];
-                
-                animationConfig.type = types[Math.floor(Math.random() * types.length)];
-                animationConfig.duration = (Math.floor(Math.random() * 40) + 10) / 10; // 1.0 to 5.0
-                animationConfig.delay = Math.floor(Math.random() * 20) / 10; // 0.0 to 2.0
-                animationConfig.iteration = Math.random() > 0.5 ? 0 : Math.floor(Math.random() * 5) + 1;
-                animationConfig.timing = timings[Math.floor(Math.random() * timings.length)];
-                animationConfig.direction = directions[Math.floor(Math.random() * directions.length)];
-                animationConfig.fillMode = fillModes[Math.floor(Math.random() * fillModes.length)];
-                animationConfig.isPlaying = true;
-                
-                updateAnimationDisplay();
-                updateAnimation();
-                updateCssOutput();
-                showToast('Random animation applied!');
-            }
-            
-            // 11. Reset animation
-            function resetAnimation() {
-                animationConfig = {
-                    type: 'move',
-                    duration: 2,
-                    delay: 0,
-                    iteration: 0,
-                    timing: 'ease',
-                    direction: 'normal',
-                    fillMode: 'none',
-                    isPlaying: true
+            // 11. Download JSON
+            function downloadJson() {
+                const data = {
+                    palette: currentPalette,
+                    scheme: paletteConfig.scheme,
+                    baseColor: paletteConfig.baseColor,
+                    colorsCount: paletteConfig.colorsCount,
+                    saturation: paletteConfig.saturation,
+                    lightness: paletteConfig.lightness,
+                    generatedAt: new Date().toISOString()
                 };
-                updateAnimationDisplay();
-                updateAnimation();
-                updateCssOutput();
-                showToast('Animation reset to default!');
+                
+                const jsonString = JSON.stringify(data, null, 2);
+                const blob = new Blob([jsonString], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `color-palette-${Date.now()}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast('Palette downloaded as JSON!');
             }
             
-            // 12. Apply example
+            // 12. Apply random palette
+            function applyRandomPalette() {
+                const colors = ['#8a2be2', '#4ecdc4', '#ff6b6b', '#667eea', '#30cfd0', '#43e97b', '#fa709a', '#fee140'];
+                const schemes = ['complementary', 'analogous', 'triadic', 'tetradic', 'monochromatic', 'split-complementary'];
+                
+                paletteConfig.baseColor = colors[Math.floor(Math.random() * colors.length)];
+                paletteConfig.scheme = schemes[Math.floor(Math.random() * schemes.length)];
+                paletteConfig.colorsCount = Math.floor(Math.random() * 4) + 4; // 4-7
+                paletteConfig.saturation = Math.floor(Math.random() * 50) + 50; // 50-100
+                paletteConfig.lightness = Math.floor(Math.random() * 40) + 30; // 30-70
+                paletteConfig.harmonyAngle = [15, 30, 45, 60][Math.floor(Math.random() * 4)];
+                
+                updatePaletteDisplay();
+                generatePalette();
+                updatePalettePreview();
+                updateExportCode();
+                showToast('Random palette generated!');
+            }
+            
+            // 13. Reset palette
+            function resetPalette() {
+                paletteConfig = {
+                    baseColor: '#8a2be2',
+                    scheme: 'complementary',
+                    colorsCount: 5,
+                    saturation: 70,
+                    lightness: 50,
+                    harmonyAngle: 30,
+                    exportFormat: 'css'
+                };
+                
+                updatePaletteDisplay();
+                generatePalette();
+                updatePalettePreview();
+                updateExportCode();
+                showToast('Palette reset to default!');
+            }
+            
+            // 14. Apply example
             function applyExample(e) {
                 const card = e.currentTarget;
-                animationConfig.type = card.dataset.type;
-                animationConfig.duration = parseFloat(card.dataset.duration);
-                animationConfig.timing = card.dataset.timing;
-                animationConfig.iteration = card.dataset.iteration === 'infinite' ? 0 : parseInt(card.dataset.iteration);
-                animationConfig.isPlaying = true;
+                paletteConfig.baseColor = card.dataset.color;
+                paletteConfig.scheme = card.dataset.scheme;
+                paletteConfig.colorsCount = parseInt(card.dataset.count);
                 
-                updateAnimationDisplay();
-                updateAnimation();
-                updateCssOutput();
-                showToast('Example animation applied!');
+                updatePaletteDisplay();
+                generatePalette();
+                updatePalettePreview();
+                updateExportCode();
+                showToast('Example palette applied!');
             }
             
-            // 13. Mobile menu functionality
+            // 15. Mobile menu functionality
             const menuToggle = document.querySelector('.menu-toggle');
             const navLinks = document.querySelector('.nav-links');
             
@@ -1198,7 +1400,7 @@
                 });
             }
             
-            // 14. Dropdown functionality
+            // 16. Dropdown functionality
             const dropdownToggle = document.querySelector('.dropdown-toggle');
             const dropdownMenu = document.querySelector('.dropdown-menu');
             
@@ -1216,88 +1418,111 @@
                 });
             }
             
-            // 15. Event Listeners
-            copyCssBtn.addEventListener('click', () => copyCss(false));
-            copyKeyframesBtn.addEventListener('click', () => copyCss(true));
-            resetAnimationBtn.addEventListener('click', resetAnimation);
-            playAnimationBtn.addEventListener('click', playAnimation);
-            pauseAnimationBtn.addEventListener('click', pauseAnimation);
-            stopAnimationBtn.addEventListener('click', stopAnimation);
-            randomAnimationBtn.addEventListener('click', applyRandomAnimation);
+            // 17. Event Listeners
+            copyCodeBtn.addEventListener('click', () => copyToClipboard(cssOutput.textContent, 'Code copied to clipboard!'));
+            downloadJsonBtn.addEventListener('click', downloadJson);
+            resetPaletteBtn.addEventListener('click', resetPalette);
+            randomPaletteBtn.addEventListener('click', applyRandomPalette);
+            copyPaletteBtn.addEventListener('click', () => copyToClipboard(currentPalette.join('\n'), 'All colors copied!'));
             
-            // Type option clicks
-            typeOptions.forEach(option => {
-                option.addEventListener('click', function() {
-                    animationConfig.type = this.dataset.type;
-                    updateAnimationDisplay();
-                    updateAnimation();
-                    updateCssOutput();
+            // Color picker events
+            if (baseColorPicker) {
+                baseColorPicker.addEventListener('input', function() {
+                    paletteConfig.baseColor = this.value;
+                    if (baseColorHex) baseColorHex.value = this.value;
+                    updatePaletteDisplay();
+                    generatePalette();
+                    updatePalettePreview();
+                    updateExportCode();
                 });
-            });
+            }
             
-            // Timing option clicks
-            timingOptions.forEach(option => {
+            if (baseColorHex) {
+                baseColorHex.addEventListener('input', function() {
+                    let value = this.value;
+                    if (!value.startsWith('#')) {
+                        value = '#' + value;
+                    }
+                    if (/^#[0-9A-F]{6}$/i.test(value)) {
+                        paletteConfig.baseColor = value.toUpperCase();
+                        if (baseColorPicker) baseColorPicker.value = value;
+                        updatePaletteDisplay();
+                        generatePalette();
+                        updatePalettePreview();
+                        updateExportCode();
+                    }
+                });
+            }
+            
+            // Scheme option clicks
+            schemeOptions.forEach(option => {
                 option.addEventListener('click', function() {
-                    animationConfig.timing = this.dataset.timing;
-                    updateAnimationDisplay();
-                    updateAnimation();
-                    updateCssOutput();
+                    paletteConfig.scheme = this.dataset.scheme;
+                    updatePaletteDisplay();
+                    generatePalette();
+                    updatePalettePreview();
+                    updateExportCode();
                 });
             });
             
             // Slider events
-            if (durationSlider) {
-                durationSlider.addEventListener('input', function() {
-                    animationConfig.duration = parseFloat(this.value);
-                    updateAnimationDisplay();
-                    updateAnimation();
-                    updateCssOutput();
+            if (colorsCountSlider) {
+                colorsCountSlider.addEventListener('input', function() {
+                    paletteConfig.colorsCount = parseInt(this.value);
+                    updatePaletteDisplay();
+                    generatePalette();
+                    updatePalettePreview();
+                    updateExportCode();
                 });
             }
             
-            if (delaySlider) {
-                delaySlider.addEventListener('input', function() {
-                    animationConfig.delay = parseFloat(this.value);
-                    updateAnimationDisplay();
-                    updateAnimation();
-                    updateCssOutput();
+            if (saturationSlider) {
+                saturationSlider.addEventListener('input', function() {
+                    paletteConfig.saturation = parseInt(this.value);
+                    updatePaletteDisplay();
+                    generatePalette();
+                    updatePalettePreview();
+                    updateExportCode();
                 });
             }
             
-            if (iterationSlider) {
-                iterationSlider.addEventListener('input', function() {
-                    animationConfig.iteration = parseInt(this.value);
-                    updateAnimationDisplay();
-                    updateAnimation();
-                    updateCssOutput();
+            if (lightnessSlider) {
+                lightnessSlider.addEventListener('input', function() {
+                    paletteConfig.lightness = parseInt(this.value);
+                    updatePaletteDisplay();
+                    generatePalette();
+                    updatePalettePreview();
+                    updateExportCode();
                 });
             }
             
-            // Select events
-            if (directionSelect) {
-                directionSelect.addEventListener('change', function() {
-                    animationConfig.direction = this.value;
-                    updateAnimation();
-                    updateCssOutput();
+            if (harmonyAngleSlider) {
+                harmonyAngleSlider.addEventListener('input', function() {
+                    paletteConfig.harmonyAngle = parseInt(this.value);
+                    updatePaletteDisplay();
+                    generatePalette();
+                    updatePalettePreview();
+                    updateExportCode();
                 });
             }
             
-            if (fillModeSelect) {
-                fillModeSelect.addEventListener('change', function() {
-                    animationConfig.fillMode = this.value;
-                    updateAnimation();
-                    updateCssOutput();
+            // Export tab clicks
+            exportTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    paletteConfig.exportFormat = this.dataset.format;
+                    updatePaletteDisplay();
+                    updateExportCode();
                 });
-            }
+            });
             
             exampleCards.forEach(card => {
                 card.addEventListener('click', applyExample);
             });
             
-            // 16. Initialize
-            initializeAnimation();
+            // 18. Initialize
+            initializePalette();
             
-            console.log('Animations Generator Ready');
+            console.log('Color Palette Generator Ready');
         });
     </script>
 </body>
