@@ -6,23 +6,22 @@
     <title>LaunchPad Pro - Complete Website Creation Tracker | AuraText Tools</title>
     <meta name="description" content="Professional website creation tracker with step-by-step guidance, progress monitoring, and launch support.">
     
-    <!-- Professional Styles -->
+    <!-- Import your site's main styles -->
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     
-    <!-- LaunchPad CSS -->
+    <!-- LaunchPad specific styles -->
     <link rel="stylesheet" href="launchpad.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
     
     <style>
-        /* Additional Custom Styles */
-        .launchpad-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 1rem;
+        /* LaunchPad specific styles */
+        .launchpad-main {
+            padding-top: 100px;
+            min-height: 70vh;
         }
         
         /* Welcome Screen */
@@ -280,6 +279,81 @@
             font-size: 0.875rem;
         }
         
+        /* LaunchPad Action Buttons */
+        .btn-pro-primary {
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-pro-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-pro-secondary {
+            background: white;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-pro-secondary:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+        
+        /* LaunchPad Progress Bars */
+        .lp-progress-container {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .lp-progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .lp-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .wizard-steps {
@@ -294,11 +368,34 @@
             .welcome-title {
                 font-size: 2rem;
             }
+            
+            .launchpad-main {
+                padding-top: 80px;
+            }
+        }
+        
+        /* Tool header styling */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .tool-header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tool-subtitle {
+            color: #b5b3cc;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
         }
     </style>
 </head>
-<body class="launchpad-light-theme">
-    <!-- Navigation -->
+<body>
+    <!-- Navigation - EXACT copy from your index.html -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
@@ -329,16 +426,21 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="container" style="padding: 20px; min-height: 70vh;">
+    <main class="container launchpad-main">
+        <header class="tool-header">
+            <h1><i class="fas fa-rocket"></i> LaunchPad Pro</h1>
+            <p class="tool-subtitle">Your complete step-by-step guide to creating and launching successful websites</p>
+        </header>
+
         <!-- Welcome Screen -->
         <section class="welcome-screen">
             <div class="welcome-icon">
                 <i class="fas fa-rocket"></i>
             </div>
             <h1 class="welcome-title">Welcome to LaunchPad Pro</h1>
-            <p class="welcome-subtitle">Your complete step-by-step guide to creating and launching a successful website. We'll guide you through every phase with detailed instructions, video tutorials, and real-time support.</p>
+            <p class="welcome-subtitle">Track your website creation from idea to launch with this comprehensive dashboard. We'll guide you through every phase with detailed instructions, video tutorials, and professional tools.</p>
             
-            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; flex-wrap: wrap;">
                 <button class="btn-pro-primary" id="startWizardBtn">
                     <i class="fas fa-play-circle"></i> Start Your Journey
                 </button>
@@ -542,8 +644,8 @@
                             <span style="font-weight: 500;">Overall Progress</span>
                             <span style="font-weight: 600; color: #7c3aed;" id="overallProgressText">0%</span>
                         </div>
-                        <div class="pro-progress-container">
-                            <div class="pro-progress-bar" id="overallProgressBar" style="width: 0%"></div>
+                        <div class="lp-progress-container">
+                            <div class="lp-progress-bar" id="overallProgressBar" style="width: 0%"></div>
                         </div>
                     </div>
                     
@@ -636,34 +738,32 @@
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer" style="background: #1a1740; color: #fff; padding: 40px 0; margin-top: 60px;">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>AuraText Tools</h4>
-                    <p>A complete suite of free web development tools for designers and developers.</p>
-                </div>
-                <div class="footer-section">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html" style="color: #b5b3cc;">Home</a></li>
-                        <li><a href="sitemap.html" style="color: #b5b3cc;">Site Map</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h4>Popular Tools</h4>
-                    <ul>
-                        <li><a href="palette-generator.html" style="color: #b5b3cc;">Color Palette Generator</a></li>
-                        <li><a href="gradient.html" style="color: #b5b3cc;">CSS Gradient Generator</a></li>
-                        <li><a href="box-shadow.html" style="color: #b5b3cc;">Box Shadow Generator</a></li>
-                        <li><a href="launchpad-pro.html" style="color: #b5b3cc;">LaunchPad Pro</a></li>
-                    </ul>
-                </div>
+    <!-- Footer - EXACT copy from your index.html -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>AuraText Tools</h4>
+                <p>A complete suite of free web development tools for designers and developers.</p>
             </div>
-            <div class="footer-bottom" style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; margin-top: 40px; text-align: center;">
-                <p style="color: #b5b3cc;">&copy; 2025 www.auratext.online. All rights reserved. | <a href="sitemap.html" style="color: #8a2be2;">Site Map</a></p>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="sitemap.html">Site Map</a></li>
+                </ul>
             </div>
+            <div class="footer-section">
+                <h4>Popular Tools</h4>
+                <ul>
+                    <li><a href="palette-generator.html">Color Palette Generator</a></li>
+                    <li><a href="gradient.html">CSS Gradient Generator</a></li>
+                    <li><a href="box-shadow.html">Box Shadow Generator</a></li>
+                    <li><a href="launchpad-pro.html">LaunchPad Pro</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 www.auratext.online. All rights reserved. | <a href="sitemap.html">Site Map</a></p>
         </div>
     </footer>
 
@@ -687,6 +787,27 @@
             initializeLaunchPad();
             setupNavigation();
             loadSavedProject();
+            
+            // Add navigation dropdown functionality
+            const dropdowns = document.querySelectorAll('.dropdown');
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                
+                if (toggle && menu) {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        dropdown.classList.toggle('active');
+                    });
+                    
+                    document.addEventListener('click', function(e) {
+                        if (!dropdown.contains(e.target)) {
+                            dropdown.classList.remove('active');
+                        }
+                    });
+                }
+            });
         });
 
         // Initialize LaunchPad
@@ -704,6 +825,19 @@
             const saved = localStorage.getItem('launchpadProject');
             if (saved) {
                 document.getElementById('loadProjectBtn').innerHTML = '<i class="fas fa-folder-open"></i> Continue Project';
+            }
+        }
+
+        // Setup Navigation
+        function setupNavigation() {
+            // Mobile menu toggle if exists
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('show');
+                });
             }
         }
 
@@ -740,10 +874,8 @@
 
         // Go to specific step
         function goToStep(step) {
-            // Update current step
             currentProject.currentStep = step;
             
-            // Update wizard steps
             document.querySelectorAll('.wizard-step').forEach(stepEl => {
                 const stepNum = parseInt(stepEl.dataset.step);
                 stepEl.classList.remove('active', 'completed');
@@ -755,7 +887,6 @@
                 }
             });
             
-            // Show step content
             document.querySelectorAll('.step-content').forEach(content => {
                 content.classList.remove('active');
                 if (parseInt(content.dataset.step) === step) {
@@ -763,21 +894,15 @@
                 }
             });
             
-            // Update navigation buttons
             updateNavigationButtons();
         }
 
         // Next Step
         function nextStep() {
-            // Validate current step
-            if (!validateCurrentStep()) {
-                return;
-            }
+            if (!validateCurrentStep()) return;
             
-            // Save step data
             saveStepData(currentProject.currentStep);
             
-            // Move to next step or finish
             if (currentProject.currentStep < 5) {
                 goToStep(currentProject.currentStep + 1);
             } else {
@@ -797,14 +922,12 @@
             const prevBtn = document.getElementById('prevStepBtn');
             const nextBtn = document.getElementById('nextStepBtn');
             
-            // Show/hide previous button
             if (currentProject.currentStep > 1) {
                 prevBtn.style.display = 'flex';
             } else {
                 prevBtn.style.display = 'none';
             }
             
-            // Update next button text
             if (currentProject.currentStep === 5) {
                 nextBtn.innerHTML = 'Finish & Create Project <i class="fas fa-check"></i>';
             } else {
@@ -831,10 +954,6 @@
                     
                     return true;
                     
-                case 2:
-                    // Domain validation would go here
-                    return true;
-                    
                 default:
                     return true;
             }
@@ -851,7 +970,6 @@
                     break;
                     
                 case 3:
-                    // Save tech stack selection
                     const selectedTech = document.querySelector('.tech-option.selected');
                     if (selectedTech) {
                         currentProject.techStack = selectedTech.dataset.tech;
@@ -862,13 +980,11 @@
 
         // Select Technology
         window.selectTech = function(element, tech) {
-            // Remove selection from all
             document.querySelectorAll('.tech-option').forEach(opt => {
                 opt.style.borderColor = '#d1d5db';
                 opt.style.boxShadow = 'none';
             });
             
-            // Select current
             element.style.borderColor = '#7c3aed';
             element.style.boxShadow = '0 4px 12px rgba(124, 58, 237, 0.2)';
             element.classList.add('selected');
@@ -877,7 +993,6 @@
 
         // Finish Wizard
         function finishWizard() {
-            // Create project object
             const project = {
                 ...currentProject,
                 id: Date.now(),
@@ -888,35 +1003,26 @@
                 completedTasks: 0
             };
             
-            // Save to localStorage
             localStorage.setItem('launchpadProject', JSON.stringify(project));
-            
-            // Show dashboard
             showDashboard();
         }
 
         // Show Dashboard
         function showDashboard() {
-            // Load project data
             const saved = localStorage.getItem('launchpadProject');
             if (saved) {
                 currentProject = JSON.parse(saved);
             }
             
-            // Hide wizard, show dashboard
             document.getElementById('projectWizard').style.display = 'none';
             document.getElementById('mainDashboard').style.display = 'block';
             
-            // Update dashboard
             updateDashboard();
-            
-            // Load phases
             loadPhases();
         }
 
         // Update Dashboard
         function updateDashboard() {
-            // Update project info
             document.getElementById('dashboardTitle').textContent = currentProject.name;
             
             if (currentProject.deadline) {
@@ -927,16 +1033,13 @@
                 document.getElementById('daysRemaining').textContent = daysRemaining > 0 ? daysRemaining : 0;
             }
             
-            // Calculate progress
             const progress = currentProject.progress || 0;
             document.getElementById('overallProgressText').textContent = `${progress}%`;
             document.getElementById('overallProgressBar').style.width = `${progress}%`;
             
-            // Update counts
             document.getElementById('completedTasks').textContent = currentProject.completedTasks || 0;
             document.getElementById('activePhase').textContent = getActivePhase();
             
-            // Update status
             if (progress >= 100) {
                 document.getElementById('overallStatus').innerHTML = '<i class="fas fa-check-circle"></i> Completed';
                 document.getElementById('overallStatus').className = 'status-badge status-complete';
@@ -991,8 +1094,8 @@
                                 <span>Progress</span>
                                 <span style="font-weight: 600; color: #7c3aed;">${phase.progress}%</span>
                             </div>
-                            <div class="pro-progress-container">
-                                <div class="pro-progress-bar" style="width: ${phase.progress}%"></div>
+                            <div class="lp-progress-container">
+                                <div class="lp-progress-bar" style="width: ${phase.progress}%"></div>
                             </div>
                         </div>
                         <div id="phaseTasks${index}">
@@ -1002,8 +1105,6 @@
                 `;
                 
                 container.appendChild(phaseCard);
-                
-                // Load tasks for this phase
                 setTimeout(() => loadPhaseTasks(index, phase.tasks), 100);
             });
         }
@@ -1060,22 +1161,15 @@
 
         // Toggle Task Completion
         window.toggleTask = function(phaseIndex, taskIndex) {
-            // Toggle completion status
             currentProject.phases[phaseIndex].tasks[taskIndex].completed = 
                 !currentProject.phases[phaseIndex].tasks[taskIndex].completed;
             
-            // Update phase progress
             const phase = currentProject.phases[phaseIndex];
             const completedTasks = phase.tasks.filter(t => t.completed).length;
             phase.progress = Math.round((completedTasks / phase.tasks.length) * 100);
             
-            // Update overall progress
             updateOverallProgress();
-            
-            // Save changes
             saveProject();
-            
-            // Reload UI
             loadPhaseTasks(phaseIndex, phase.tasks);
             updateDashboard();
         }
@@ -1125,33 +1219,6 @@
                                 { name: "Analysis Template", url: "#", icon: "fas fa-table" },
                                 { name: "SWOT Guide", url: "#", icon: "fas fa-chart-bar" }
                             ]
-                        },
-                        {
-                            title: "Create Sitemap",
-                            description: "Plan all pages and their hierarchy",
-                            completed: false,
-                            resources: [
-                                { name: "Sitemap Tool", url: "#", icon: "fas fa-sitemap" },
-                                { name: "Examples", url: "#", icon: "fas fa-project-diagram" }
-                            ]
-                        },
-                        {
-                            title: "Content Strategy",
-                            description: "Plan all text, images, and media",
-                            completed: false,
-                            resources: [
-                                { name: "Content Calendar", url: "#", icon: "fas fa-calendar" },
-                                { name: "Writing Guide", url: "#", icon: "fas fa-pen" }
-                            ]
-                        },
-                        {
-                            title: "Brand Guidelines",
-                            description: "Define colors, fonts, and visual style",
-                            completed: false,
-                            resources: [
-                                { name: "AuraText Generator", url: "index.html", icon: "fas fa-palette" },
-                                { name: "Color Palette", url: "palette-generator.html", icon: "fas fa-fill-drip" }
-                            ]
                         }
                     ]
                 },
@@ -1178,46 +1245,9 @@
                                 { name: "Design System", url: "#", icon: "fas fa-paint-brush" },
                                 { name: "UI Kits", url: "#", icon: "fas fa-box" }
                             ]
-                        },
-                        {
-                            title: "Set Up Development Environment",
-                            description: "Install tools and create project structure",
-                            completed: false,
-                            resources: [
-                                { name: "VS Code Setup", url: "#", icon: "fas fa-code" },
-                                { name: "Git Setup", url: "#", icon: "fab fa-git" }
-                            ]
-                        },
-                        {
-                            title: "Build Homepage",
-                            description: "Code the main landing page",
-                            completed: false,
-                            resources: [
-                                { name: "HTML/CSS Guide", url: "#", icon: "fab fa-html5" },
-                                { name: "Templates", url: "#", icon: "fas fa-file-code" }
-                            ]
-                        },
-                        {
-                            title: "Build Inner Pages",
-                            description: "Create all remaining pages",
-                            completed: false,
-                            resources: [
-                                { name: "Page Templates", url: "#", icon: "fas fa-copy" },
-                                { name: "Components", url: "#", icon: "fas fa-cube" }
-                            ]
-                        },
-                        {
-                            title: "Responsive Design",
-                            description: "Ensure mobile compatibility",
-                            completed: false,
-                            resources: [
-                                { name: "Media Queries", url: "#", icon: "fas fa-mobile-alt" },
-                                { name: "Testing Tools", url: "#", icon: "fas fa-tablet-alt" }
-                            ]
                         }
                     ]
                 }
-                // Add more phases as needed...
             ];
         }
 
@@ -1257,13 +1287,11 @@
             currentProject.currentStep = 1;
             goToStep(1);
             
-            // Clear form fields
             document.getElementById('projectName').value = '';
             document.getElementById('projectType').selectedIndex = 0;
             document.getElementById('projectDescription').value = '';
             document.getElementById('launchDeadline').value = '';
             
-            // Reset tech selection
             document.querySelectorAll('.tech-option').forEach(opt => {
                 opt.style.borderColor = '#d1d5db';
                 opt.style.boxShadow = 'none';
@@ -1281,7 +1309,6 @@
                 return;
             }
             
-            // Simulate domain check
             const available = Math.random() > 0.5;
             
             if (available) {
@@ -1298,7 +1325,6 @@
                 try {
                     const project = JSON.parse(saved);
                     if (project.name) {
-                        // Show continue option
                         document.getElementById('loadProjectBtn').innerHTML = 
                             `<i class="fas fa-play-circle"></i> Continue "${project.name}"`;
                     }
@@ -1308,7 +1334,7 @@
             }
         }
 
-        console.log('LaunchPad Pro Initialized! 🚀');
+        console.log('LaunchPad Pro fully loaded! 🚀');
     </script>
 </body>
 </html>
