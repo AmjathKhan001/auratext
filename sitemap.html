@@ -4,12 +4,451 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Map | AuraText Tools</title>
+    <meta name="description" content="Complete site map of AuraText Tools - Find all web development tools and resources easily.">
     
-    <!-- Import your site's main styles -->
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/auratext/launchpad.css">
+    <!-- Fonts and Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗺️</text></svg>">
+    
+    <style>
+        /* ===== SITEMAP COMPLETE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: #1f2937;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #374151;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: #8a2be2;
+            font-size: 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu a {
+            color: #e5e7eb;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #60a5fa;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            color: #e5e7eb;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            min-width: 250px;
+            padding: 0.5rem 0;
+            display: none;
+            z-index: 1001;
+        }
+
+        .dropdown.active .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f3f4f6;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .sitemap-main {
+            padding-top: 100px;
+            padding-bottom: 3rem;
+            min-height: 70vh;
+        }
+
+        /* Header */
+        .sitemap-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .sitemap-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .sitemap-subtitle {
+            color: #b5b3cc;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Site Map Grid */
+        .sitemap-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .sitemap-category {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .sitemap-category:hover {
+            transform: translateY(-5px);
+            border-color: #8a2be2;
+            box-shadow: 0 10px 20px rgba(138, 43, 226, 0.2);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #8a2be2, #4a00e0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .category-description {
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* Page Links */
+        .page-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .page-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .page-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: #e5e7eb;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .page-links a:hover {
+            background: rgba(138, 43, 226, 0.2);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .page-links i {
+            color: #8a2be2;
+            font-size: 1.2rem;
+            min-width: 24px;
+        }
+
+        .page-description {
+            display: block;
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-top: 3px;
+            line-height: 1.4;
+        }
+
+        /* Site Info Section */
+        .site-info {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        .site-info h2 {
+            color: white;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .site-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            background: rgba(138, 43, 226, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            color: #8a2be2;
+            margin-bottom: 1rem;
+        }
+
+        .info-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #8a2be2, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-description {
+            color: #d1d5db;
+            font-size: 0.875rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+            border-top: 1px solid #374151;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #60a5fa;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #374151;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sitemap-main {
+                padding-top: 80px;
+            }
+            
+            .sitemap-header h1 {
+                font-size: 2rem;
+            }
+            
+            .sitemap-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #1f2937;
+                padding: 1rem;
+                display: none;
+            }
+            
+            .nav-menu.show {
+                display: flex;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.75rem;
+            }
+            
+            .category-title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sitemap-category {
+                padding: 1.5rem;
+            }
+            
+            .site-info {
+                padding: 1.5rem;
+            }
+            
+            .site-info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -22,7 +461,7 @@
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle">Our Tools <i class="fas fa-chevron-down"></i></a>
+                    <button class="dropdown-toggle">Our Tools <i class="fas fa-chevron-down"></i></button>
                     <ul class="dropdown-menu">
                         <li><a href="index.html"><i class="fas fa-code"></i> AuraText Generator</a></li>
                         <li><a href="gradient.html"><i class="fas fa-fill-drip"></i> CSS Gradient Generator</a></li>
@@ -32,155 +471,249 @@
                         <li><a href="animations-generator.html"><i class="fas fa-play-circle"></i> CSS Animations Generator</a></li>
                         <li><a href="palette-generator.html"><i class="fas fa-palette"></i> Color Palette Generator</a></li>
                         <li><a href="color-picker.html"><i class="fas fa-eye-dropper"></i> Color Picker Tool</a></li>
-                        <li><a href="launchpad-pro.html" style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(37, 99, 235, 0.1)); color: #7c3aeb;">
-                            <i class="fas fa-rocket"></i> LaunchPad Pro
-                        </a></li>
+                        <li><a href="launchpad-pro.html"><i class="fas fa-rocket"></i> LaunchPad Pro</a></li>
                     </ul>
                 </li>
                 <li><a href="sitemap.html" class="active">Site Map</a></li>
             </ul>
+            <button class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
-    <main class="container">
-        <header class="tool-header">
+    <!-- Main Content -->
+    <main class="container sitemap-main">
+        <header class="sitemap-header">
             <h1><i class="fas fa-sitemap"></i> Site Map</h1>
-            <p class="subtitle">Complete overview of all AuraText web development tools</p>
+            <p class="sitemap-subtitle">Navigate through all AuraText Tools web development resources and utilities easily</p>
         </header>
 
         <div class="sitemap-grid">
-            <!-- Main Tools Section -->
-            <div class="sitemap-section">
-                <h2><i class="fas fa-home"></i> Main Page</h2>
-                <ul>
-                    <li><a href="index.html"><i class="fas fa-code"></i> AuraText Generator</a> - Main text effects generator tool</li>
+            <!-- Main Tools -->
+            <div class="sitemap-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div>
+                        <h2 class="category-title">Main Tools</h2>
+                        <p class="category-description">Core text generation and styling utilities</p>
+                    </div>
+                </div>
+                <ul class="page-links">
+                    <li>
+                        <a href="index.html">
+                            <i class="fas fa-text-height"></i>
+                            <div>
+                                <strong>AuraText Generator</strong>
+                                <span class="page-description">Generate stylish text with various effects and animations</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="gradient.html">
+                            <i class="fas fa-fill-drip"></i>
+                            <div>
+                                <strong>CSS Gradient Generator</strong>
+                                <span class="page-description">Create beautiful CSS gradients with live preview</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="launchpad-pro.html">
+                            <i class="fas fa-rocket"></i>
+                            <div>
+                                <strong>LaunchPad Pro</strong>
+                                <span class="page-description">Complete website creation tracker and project manager</span>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
-            <!-- CSS Tools Section -->
-            <div class="sitemap-section">
-                <h2><i class="fab fa-css3-alt"></i> CSS Tools</h2>
-                <ul>
-                    <li><a href="gradient.html"><i class="fas fa-fill-drip"></i> CSS Gradient Generator</a> - Create beautiful CSS gradients</li>
-                    <li><a href="box-shadow.html"><i class="fas fa-layer-group"></i> Box Shadow Generator</a> - Generate CSS box shadows with multiple layers</li>
-                    <li><a href="animations-generator.html"><i class="fas fa-running"></i> CSS Animations Generator</a> - Create keyframe animations with preview</li>
+            <!-- Layout Tools -->
+            <div class="sitemap-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-th"></i>
+                    </div>
+                    <div>
+                        <h2 class="category-title">Layout Tools</h2>
+                        <p class="category-description">CSS layout and positioning utilities</p>
+                    </div>
+                </div>
+                <ul class="page-links">
+                    <li>
+                        <a href="grid-generator.html">
+                            <i class="fas fa-grip"></i>
+                            <div>
+                                <strong>CSS Grid Generator</strong>
+                                <span class="page-description">Visual CSS Grid layout generator with code export</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="flexbox-helper.html">
+                            <i class="fas fa-boxes"></i>
+                            <div>
+                                <strong>Flexbox Helper</strong>
+                                <span class="page-description">Interactive Flexbox playground and helper</span>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
-            <!-- Layout Tools Section -->
-            <div class="sitemap-section">
-                <h2><i class="fas fa-th"></i> Layout Tools</h2>
-                <ul>
-                    <li><a href="grid-generator.html"><i class="fas fa-border-all"></i> CSS Grid Generator</a> - Visual CSS Grid layout builder</li>
-                    <li><a href="flexbox-helper.html"><i class="fas fa-boxes"></i> Flexbox Helper</a> - Flexbox layout visualizer and helper</li>
+            <!-- Design Tools -->
+            <div class="sitemap-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <div>
+                        <h2 class="category-title">Design Tools</h2>
+                        <p class="category-description">Visual design and styling utilities</p>
+                    </div>
+                </div>
+                <ul class="page-links">
+                    <li>
+                        <a href="box-shadow.html">
+                            <i class="fas fa-square"></i>
+                            <div>
+                                <strong>Box Shadow Generator</strong>
+                                <span class="page-description">Create and customize CSS box shadows</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="animations-generator.html">
+                            <i class="fas fa-play-circle"></i>
+                            <div>
+                                <strong>CSS Animations Generator</strong>
+                                <span class="page-description">Create smooth CSS animations and keyframes</span>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
-            <!-- Color Tools Section -->
-            <div class="sitemap-section">
-                <h2><i class="fas fa-palette"></i> Color Tools</h2>
-                <ul>
-                    <li><a href="palette-generator.html"><i class="fas fa-swatchbook"></i> Color Palette Generator</a> - Create color schemes with harmony rules</li>
-                    <li><a href="color-picker.html"><i class="fas fa-eye-dropper"></i> Color Picker Tool</a> - Advanced color picker with screen selection</li>
-                    <li><a href="gradient.html"><i class="fas fa-fill-drip"></i> CSS Gradient Generator</a> - Also includes color gradient tools</li>
-                </ul>
-            </div>
-
-            <!-- Project Management Tools Section -->
-            <div class="sitemap-section">
-                <h2><i class="fas fa-rocket"></i> Project Management Tools</h2>
-                <ul>
-                    <li><a href="launchpad-pro.html"><i class="fas fa-rocket"></i> LaunchPad Pro</a> - Complete website creation tracker with step-by-step guidance, progress monitoring, and launch support</li>
-                </ul>
-            </div>
-
-            <!-- Resource Files -->
-            <div class="sitemap-section">
-                <h2><i class="fas fa-file-code"></i> Resource Files</h2>
-                <ul>
-                    <li><a href="style.css"><i class="fab fa-css3-alt"></i> style.css</a> - Main stylesheet for all tools</li>
-                    <li><a href="script.js"><i class="fab fa-js"></i> script.js</a> - Shared JavaScript functions</li>
-                    <li><a href="launchpad.css"><i class="fab fa-css3-alt"></i> launchpad.css</a> - LaunchPad Pro specific styles</li>
-                    <li><a href="box-shadow-script.js"><i class="fab fa-js"></i> box-shadow-script.js</a> - Box Shadow Generator script</li>
-                    <li><a href="animations-script.js"><i class="fab fa-js"></i> animations-script.js</a> - CSS Animations Generator script</li>
-                    <li><a href="palette-script.js"><i class="fab fa-js"></i> palette-script.js</a> - Color Palette Generator script</li>
-                    <li><a href="color-picker-script.js"><i class="fab fa-js"></i> color-picker-script.js</a> - Color Picker Tool script</li>
+            <!-- Color Tools -->
+            <div class="sitemap-category">
+                <div class="category-header">
+                    <div class="category-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div>
+                        <h2 class="category-title">Color Tools</h2>
+                        <p class="category-description">Color manipulation and palette utilities</p>
+                    </div>
+                </div>
+                <ul class="page-links">
+                    <li>
+                        <a href="palette-generator.html">
+                            <i class="fas fa-swatchbook"></i>
+                            <div>
+                                <strong>Color Palette Generator</strong>
+                                <span class="page-description">Generate harmonious color palettes</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="color-picker.html">
+                            <i class="fas fa-eye-dropper"></i>
+                            <div>
+                                <strong>Color Picker Tool</strong>
+                                <span class="page-description">Advanced color picker with multiple formats</span>
+                            </div>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
 
-        <!-- Tool Statistics -->
-        <div class="stats-section">
-            <h2><i class="fas fa-chart-bar"></i> Tool Statistics</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">9</div>
-                    <div class="stat-label">Total Tools</div>
+        <!-- Site Information -->
+        <section class="site-info">
+            <h2><i class="fas fa-info-circle"></i> Site Information</h2>
+            <div class="site-info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="info-title">Total Tools</h3>
+                    <div class="info-value">8</div>
+                    <p class="info-description">Web development utilities</p>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">3</div>
-                    <div class="stat-label">Color Tools</div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-free-code-camp"></i>
+                    </div>
+                    <h3 class="info-title">Pricing</h3>
+                    <div class="info-value">100% Free</div>
+                    <p class="info-description">No subscriptions, no limits</p>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">3</div>
-                    <div class="stat-label">CSS Tools</div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="info-title">Performance</h3>
+                    <div class="info-value">Instant</div>
+                    <p class="info-description">Real-time preview and generation</p>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number">2</div>
-                    <div class="stat-label">Layout Tools</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">1</div>
-                    <div class="stat-label">Project Tools</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">7</div>
-                    <div class="stat-label">Resource Files</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">100%</div>
-                    <div class="stat-label">Free Tools</div>
+                
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <h3 class="info-title">Updates</h3>
+                    <div class="info-value">Regular</div>
+                    <p class="info-description">New tools added frequently</p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Update Information -->
-        <div class="update-section">
-            <h2><i class="fas fa-info-circle"></i> Update Information</h2>
-            <div class="update-timeline">
-                <div class="update-item">
-                    <div class="update-date">January 2025</div>
-                    <div class="update-content">
-                        <h4>LaunchPad Pro Added</h4>
-                        <p>New comprehensive website creation tracker launched:</p>
-                        <ul>
-                            <li>Complete 5-phase website creation process</li>
-                            <li>Progress tracking and milestone monitoring</li>
-                            <li>Resource library with tutorials and templates</li>
-                            <li>Interactive checklists with automatic saving</li>
-                            <li>Project management dashboard</li>
-                            <li>Launch preparation and testing tools</li>
-                        </ul>
-                    </div>
+        <!-- Navigation Tips -->
+        <div class="sitemap-category" style="margin-top: 2rem;">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-compass"></i>
                 </div>
-                <div class="update-item">
-                    <div class="update-date">December 2025</div>
-                    <div class="update-content">
-                        <h4>Complete Tool Suite Launch</h4>
-                        <p>All web development tools are now live and fully functional:</p>
-                        <ul>
-                            <li>AuraText Generator (Original)</li>
-                            <li>CSS Gradient Generator</li>
-                            <li>CSS Grid Generator</li>
-                            <li>Flexbox Helper</li>
-                            <li>Box Shadow Generator</li>
-                            <li>CSS Animations Generator</li>
-                            <li>Color Palette Generator</li>
-                            <li>Color Picker Tool</li>
-                        </ul>
-                    </div>
+                <div>
+                    <h2 class="category-title">Navigation Tips</h2>
+                    <p class="category-description">How to make the most of AuraText Tools</p>
                 </div>
             </div>
+            <ul class="page-links">
+                <li>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                        <i class="fas fa-mouse-pointer" style="color: #8a2be2; font-size: 1.2rem; margin-top: 3px;"></i>
+                        <div>
+                            <strong>Quick Access</strong>
+                            <p style="color: #d1d5db; margin-top: 5px; font-size: 0.9rem;">Use the navigation dropdown to access any tool instantly</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                        <i class="fas fa-search" style="color: #8a2be2; font-size: 1.2rem; margin-top: 3px;"></i>
+                        <div>
+                            <strong>Feature Discovery</strong>
+                            <p style="color: #d1d5db; margin-top: 5px; font-size: 0.9rem;">Each tool has multiple features - explore all options for best results</p>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 8px;">
+                        <i class="fas fa-clipboard" style="color: #8a2be2; font-size: 1.2rem; margin-top: 3px;"></i>
+                        <div>
+                            <strong>Code Export</strong>
+                            <p style="color: #d1d5db; margin-top: 5px; font-size: 0.9rem;">Most tools allow you to copy generated code with one click</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </main>
 
@@ -213,230 +746,97 @@
         </div>
     </footer>
 
-    <style>
-        /* SITEMAP SPECIFIC STYLES - All text in white with shadow */
-        .sitemap-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 40px 0;
+    <!-- JavaScript -->
+    <script>
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setupNavigation();
+            setupMobileMenu();
+        });
+
+        // Setup navigation dropdowns
+        function setupNavigation() {
+            const dropdowns = document.querySelectorAll('.dropdown');
+            
+            dropdowns.forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                const menu = dropdown.querySelector('.dropdown-menu');
+                
+                if (toggle && menu) {
+                    toggle.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // Close other dropdowns
+                        dropdowns.forEach(d => {
+                            if (d !== dropdown) {
+                                d.classList.remove('active');
+                            }
+                        });
+                        
+                        // Toggle this dropdown
+                        dropdown.classList.toggle('active');
+                    });
+                }
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    dropdowns.forEach(dropdown => {
+                        dropdown.classList.remove('active');
+                    });
+                }
+            });
         }
-        
-        .sitemap-section {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+        // Setup mobile menu toggle
+        function setupMobileMenu() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('show');
+                });
+                
+                // Check initial screen size
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('show');
+                } else {
+                    navMenu.classList.add('show');
+                }
+            }
         }
-        
-        .sitemap-section h2 {
-            color: #fff !important; /* White text */
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Text shadow */
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(138, 43, 226, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-        }
-        
-        .sitemap-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        
-        .sitemap-section li {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .sitemap-section li:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-        
-        .sitemap-section a {
-            color: #fff !important; /* White text */
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow */
-            text-decoration: none;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 5px;
-            transition: color 0.3s ease;
-        }
-        
-        .sitemap-section a:hover {
-            color: #8a2be2 !important;
-            text-shadow: 0 1px 3px rgba(138, 43, 226, 0.5);
-        }
-        
-        .sitemap-section p {
-            color: #fff !important; /* White text */
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow */
-            font-size: 14px;
-            line-height: 1.6;
-            margin-left: 30px;
-            opacity: 0.9;
-        }
-        
-        /* Stats Section */
-        .stats-section {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin: 40px 0;
-        }
-        
-        .stats-section h2 {
-            color: #fff !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .stat-card {
-            background: rgba(21, 18, 53, 0.8);
-            border-radius: 10px;
-            padding: 25px;
-            text-align: center;
-            border: 2px solid rgba(138, 43, 226, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            border-color: #8a2be2;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.2);
-        }
-        
-        .stat-number {
-            font-size: 36px;
-            font-weight: 700;
-            color: #8a2be2;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(138, 43, 226, 0.3);
-        }
-        
-        .stat-label {
-            color: #fff !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        /* Update Section */
-        .update-section {
-            background: linear-gradient(145deg, #1a1740, #151235);
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            margin: 40px 0;
-        }
-        
-        .update-section h2 {
-            color: #fff !important;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .update-timeline {
-            position: relative;
-            padding-left: 30px;
-            margin-top: 20px;
-        }
-        
-        .update-timeline::before {
-            content: '';
-            position: absolute;
-            left: 15px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, #8a2be2, #4a00e0);
-        }
-        
-        .update-item {
-            position: relative;
-            margin-bottom: 30px;
-        }
-        
-        .update-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .update-item::before {
-            content: '';
-            position: absolute;
-            left: -33px;
-            top: 5px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #8a2be2;
-            border: 3px solid #151235;
-        }
-        
-        .update-date {
-            color: #8a2be2;
-            font-weight: 600;
-            margin-bottom: 10px;
-            font-size: 18px;
-            text-shadow: 0 1px 2px rgba(138, 43, 226, 0.3);
-        }
-        
-        .update-content h4 {
-            color: #fff !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-            margin-bottom: 10px;
-        }
-        
-        .update-content p {
-            color: #fff !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-            margin-bottom: 10px;
-            opacity: 0.9;
-        }
-        
-        .update-content ul {
-            color: #fff !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-            padding-left: 20px;
-            margin-top: 10px;
-            opacity: 0.9;
-        }
-        
-        .update-content li {
-            margin-bottom: 5px;
-        }
-        
-        /* Ensure main container has proper spacing */
-        main.container {
-            padding-top: 100px;
-            min-height: 80vh;
-        }
-        
-        /* Tool header styling */
-        .tool-header h1 {
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        
-        .subtitle {
-            color: #b5b3cc !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        }
-    </style>
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            if (window.innerWidth <= 768) {
+                navMenu.classList.remove('show');
+            } else {
+                navMenu.classList.add('show');
+            }
+        });
+
+        // Add smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId !== '#') {
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        console.log('Site Map loaded successfully! 🗺️');
+    </script>
 </body>
 </html>
