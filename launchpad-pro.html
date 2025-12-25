@@ -1336,5 +1336,47 @@
 
         console.log('LaunchPad Pro fully loaded! 🚀');
     </script>
+    <script>
+// Fix for navigation dropdowns
+document.addEventListener('DOMContentLoaded', function() {
+    // Add launchpad class to body
+    document.body.classList.add('launchpad-pro');
+    
+    // Fix dropdowns
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        const toggle = dropdown.querySelector('.dropdown-toggle');
+        const menu = dropdown.querySelector('.dropdown-menu');
+        
+        if (toggle && menu) {
+            toggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Close other dropdowns
+                dropdowns.forEach(d => {
+                    if (d !== dropdown) {
+                        d.classList.remove('active');
+                    }
+                });
+                
+                // Toggle this dropdown
+                dropdown.classList.toggle('active');
+            });
+        }
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            dropdowns.forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
+        }
+    });
+    
+    console.log('LaunchPad Pro fixes applied');
+});
+</script>
 </body>
 </html>
