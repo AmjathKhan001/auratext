@@ -6,34 +6,177 @@
     <title>LaunchPad Pro - Complete Website Creation Tracker | AuraText Tools</title>
     <meta name="description" content="Professional website creation tracker with step-by-step guidance, progress monitoring, and launch support.">
     
-    <!-- Import your site's main styles -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Fonts and Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
-    <!-- LaunchPad specific styles -->
-    <link rel="stylesheet" href="launchpad.css">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
     
     <style>
-        /* LaunchPad specific styles */
+        /* ===== LAUNCHPAD PRO COMPLETE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: #1f2937;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #374151;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo i {
+            color: #8a2be2;
+            font-size: 2rem;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-menu a {
+            color: #e5e7eb;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #60a5fa;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            color: #e5e7eb;
+            font-family: inherit;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 0.5rem 0;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            min-width: 250px;
+            padding: 0.5rem 0;
+            display: none;
+            z-index: 1001;
+        }
+
+        .dropdown.active .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background: #f3f4f6;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
         .launchpad-main {
             padding-top: 100px;
+            padding-bottom: 3rem;
             min-height: 70vh;
         }
-        
+
+        /* Tool Header */
+        .tool-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .tool-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #8a2be2, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tool-subtitle {
+            color: #b5b3cc;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         /* Welcome Screen */
         .welcome-screen {
             text-align: center;
             padding: 4rem 2rem;
-            background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
             border-radius: 24px;
             margin: 2rem 0;
-            border: 1px solid #dbeafe;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
         }
-        
+
         .welcome-icon {
             width: 80px;
             height: 80px;
@@ -47,7 +190,7 @@
             margin: 0 auto 2rem;
             box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
         }
-        
+
         .welcome-title {
             font-size: 2.5rem;
             font-weight: 700;
@@ -57,38 +200,38 @@
             background-clip: text;
             margin-bottom: 1rem;
         }
-        
+
         .welcome-subtitle {
             font-size: 1.25rem;
-            color: #4b5563;
+            color: #d1d5db;
             max-width: 600px;
             margin: 0 auto 2rem;
             line-height: 1.6;
         }
-        
-        /* Project Setup Wizard */
+
+        /* Wizard Container */
         .wizard-container {
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             margin: 2rem 0;
             overflow: hidden;
         }
-        
+
         .wizard-header {
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            background: rgba(255, 255, 255, 0.05);
             padding: 1.5rem 2rem;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .wizard-steps {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 2rem;
         }
-        
+
         .wizard-step {
             display: flex;
             flex-direction: column;
@@ -97,7 +240,7 @@
             flex: 1;
             position: relative;
         }
-        
+
         .wizard-step::after {
             content: '';
             position: absolute;
@@ -105,70 +248,244 @@
             left: 50%;
             right: -50%;
             height: 2px;
-            background: #e5e7eb;
+            background: rgba(255, 255, 255, 0.2);
             z-index: 1;
         }
-        
+
         .wizard-step:last-child::after {
             display: none;
         }
-        
+
         .step-number {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #f3f4f6;
-            border: 2px solid #e5e7eb;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 600;
-            color: #6b7280;
+            color: #d1d5db;
             position: relative;
             z-index: 2;
         }
-        
+
         .wizard-step.active .step-number {
             background: linear-gradient(135deg, #7c3aed, #2563eb);
             border-color: #7c3aed;
             color: white;
         }
-        
+
         .wizard-step.completed .step-number {
             background: #10b981;
             border-color: #10b981;
             color: white;
         }
-        
+
         .step-label {
             font-size: 0.875rem;
-            color: #6b7280;
+            color: #9ca3af;
             text-align: center;
         }
-        
+
         .wizard-step.active .step-label {
             color: #2563eb;
             font-weight: 500;
         }
-        
-        /* Detailed Guidance Cards */
-        .guidance-card {
-            background: white;
+
+        /* Step Contents */
+        .step-content {
+            display: none;
+        }
+
+        .step-content.active {
+            display: block;
+        }
+
+        /* Input Styles */
+        input, select, textarea {
+            padding: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: inherit;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #e5e7eb;
+        }
+
+        /* Cards */
+        .pro-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             border-radius: 16px;
-            border: 1px solid #e5e7eb;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .pro-card-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .pro-card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .pro-card-subtitle {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        /* Status Badges */
+        .status-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .status-in-progress {
+            background: rgba(37, 99, 235, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(37, 99, 235, 0.3);
+        }
+
+        .status-complete {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-pending {
+            background: rgba(107, 114, 128, 0.2);
+            color: #9ca3af;
+            border: 1px solid rgba(107, 114, 128, 0.3);
+        }
+
+        /* Achievement Badges */
+        .achievement-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(254, 243, 199, 0.2), rgba(253, 230, 138, 0.2));
+            border: 2px solid rgba(245, 158, 11, 0.3);
+            border-radius: 20px;
+            color: #f59e0b;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        /* Progress Bars */
+        .lp-progress-container {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .lp-progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .lp-progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .metric-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #7c3aed, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        /* Guidance Cards */
+        .guidance-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             overflow: hidden;
             margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
         }
-        
+
         .guidance-header {
             padding: 1.5rem;
-            border-bottom: 1px solid #f3f4f6;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             gap: 1rem;
             cursor: pointer;
         }
-        
+
         .guidance-icon {
             width: 48px;
             height: 48px;
@@ -181,25 +498,47 @@
             font-size: 1.25rem;
             flex-shrink: 0;
         }
-        
+
         .guidance-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: #111827;
+            color: white;
             flex: 1;
         }
-        
+
         .guidance-content {
             padding: 1.5rem;
-            background: #f9fafb;
+            background: rgba(0, 0, 0, 0.2);
             display: none;
         }
-        
+
         .guidance-card.expanded .guidance-content {
             display: block;
         }
-        
-        /* Video Tutorials */
+
+        /* Tech Options */
+        .tech-option {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .tech-option:hover {
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .tech-option.selected {
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.2);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2);
+        }
+
+        /* Video & Code */
         .video-placeholder {
             background: linear-gradient(135deg, #1f2937, #374151);
             border-radius: 12px;
@@ -211,14 +550,7 @@
             color: white;
             margin: 1rem 0;
         }
-        
-        .video-placeholder i {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            opacity: 0.7;
-        }
-        
-        /* Code Examples */
+
         .code-example {
             background: #1f2937;
             border-radius: 8px;
@@ -226,60 +558,15 @@
             margin: 1rem 0;
             overflow-x: auto;
         }
-        
+
         .code-example pre {
             color: #d1d5db;
-            font-family: 'Courier New', monospace;
+            font-family: 'Roboto Mono', monospace;
             font-size: 0.875rem;
             margin: 0;
         }
-        
-        /* Success Metrics */
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .metric-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid #e5e7eb;
-            text-align: center;
-        }
-        
-        .metric-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #7c3aed, #2563eb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-        
-        .metric-label {
-            color: #6b7280;
-            font-size: 0.875rem;
-        }
-        
-        /* Achievement Badges */
-        .achievement-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: linear-gradient(135deg, #fef3c7, #fde68a);
-            border: 2px solid #f59e0b;
-            border-radius: 20px;
-            color: #92400e;
-            font-weight: 500;
-            font-size: 0.875rem;
-        }
-        
-        /* LaunchPad Action Buttons */
+
+        /* Buttons */
         .btn-pro-primary {
             background: linear-gradient(135deg, #7c3aed, #2563eb);
             color: white;
@@ -293,18 +580,18 @@
             gap: 0.5rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
         }
-        
+
         .btn-pro-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
         }
-        
+
         .btn-pro-secondary {
-            background: white;
-            color: #374151;
-            border: 1px solid #d1d5db;
+            background: rgba(255, 255, 255, 0.1);
+            color: #e5e7eb;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 0.75rem 1.5rem;
             border-radius: 10px;
             font-weight: 500;
@@ -315,46 +602,152 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .btn-pro-secondary:hover {
-            background: #f3f4f6;
-            border-color: #9ca3af;
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
         }
-        
-        /* LaunchPad Progress Bars */
-        .lp-progress-container {
-            height: 8px;
-            background: #e5e7eb;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 1rem 0;
+
+        /* Checklist */
+        .pro-checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.2s ease;
         }
-        
-        .lp-progress-bar {
-            height: 100%;
-            background: linear-gradient(135deg, #7c3aed, #2563eb);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-            position: relative;
+
+        .pro-checklist-item:hover {
+            background: rgba(255, 255, 255, 0.1);
         }
-        
-        .lp-progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: shimmer 2s infinite;
+
+        .pro-checklist-item.completed {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(13, 148, 136, 0.1));
+            border-left: 4px solid #10b981;
         }
-        
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+
+        .pro-checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.1);
         }
-        
-        /* Mobile Responsive */
+
+        .pro-checklist-item.completed .pro-checkbox {
+            background: #10b981;
+            border-color: #10b981;
+            color: white;
+        }
+
+        .pro-checklist-content {
+            flex: 1;
+        }
+
+        .pro-checklist-title {
+            font-weight: 500;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .pro-checklist-desc {
+            color: #d1d5db;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .pro-checklist-resources {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pro-resource-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.375rem 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #e5e7eb;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .pro-resource-badge:hover {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+            border-top: 1px solid #374151;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            color: white;
+            margin-bottom: 1rem;
+            font-size: 1.125rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: #60a5fa;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #374151;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .wizard-steps {
                 flex-direction: column;
@@ -372,30 +765,44 @@
             .launchpad-main {
                 padding-top: 80px;
             }
+            
+            .nav-menu {
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: #1f2937;
+                padding: 1rem;
+                display: none;
+            }
+            
+            .nav-menu.show {
+                display: flex;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
         }
-        
-        /* Tool header styling */
-        .tool-header {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .tool-header h1 {
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .tool-subtitle {
-            color: #b5b3cc;
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
+
+        @media (max-width: 480px) {
+            .welcome-screen {
+                padding: 2rem 1rem;
+            }
+            
+            .tool-header h1 {
+                font-size: 2rem;
+            }
+            
+            .metric-value {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
-<body>
-    <!-- Navigation - EXACT copy from your index.html -->
+<body class="launchpad-pro">
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="logo">
@@ -405,7 +812,7 @@
             <ul class="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle active">Our Tools <i class="fas fa-chevron-down"></i></a>
+                    <button class="dropdown-toggle active">Our Tools <i class="fas fa-chevron-down"></i></button>
                     <ul class="dropdown-menu">
                         <li><a href="index.html"><i class="fas fa-code"></i> AuraText Generator</a></li>
                         <li><a href="gradient.html"><i class="fas fa-fill-drip"></i> CSS Gradient Generator</a></li>
@@ -422,6 +829,9 @@
                 </li>
                 <li><a href="sitemap.html">Site Map</a></li>
             </ul>
+            <button class="menu-toggle" style="display: none; background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </nav>
 
@@ -452,24 +862,24 @@
             <div style="margin-top: 3rem; display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
                 <div style="text-align: center;">
                     <div style="font-size: 2rem; font-weight: 700; color: #7c3aed;">25</div>
-                    <div style="color: #6b7280; font-size: 0.875rem;">Steps to Launch</div>
+                    <div style="color: #9ca3af; font-size: 0.875rem;">Steps to Launch</div>
                 </div>
                 <div style="text-align: center;">
                     <div style="font-size: 2rem; font-weight: 700; color: #0d9488;">50+</div>
-                    <div style="color: #6b7280; font-size: 0.875rem;">Video Tutorials</div>
+                    <div style="color: #9ca3af; font-size: 0.875rem;">Video Tutorials</div>
                 </div>
                 <div style="text-align: center;">
                     <div style="font-size: 2rem; font-weight: 700; color: #2563eb;">24/7</div>
-                    <div style="color: #6b7280; font-size: 0.875rem;">Support Available</div>
+                    <div style="color: #9ca3af; font-size: 0.875rem;">Support Available</div>
                 </div>
             </div>
         </section>
 
         <!-- Wizard Container (Initially Hidden) -->
-        <div class="wizard-container" id="projectWizard" style="display: none;">
+        <div class="wizard-container hidden" id="projectWizard">
             <div class="wizard-header">
-                <h2 style="margin: 0; color: #1f2937;">Website Project Setup</h2>
-                <p style="margin: 0.5rem 0 0; color: #6b7280;">Complete these steps to set up your project</p>
+                <h2 style="margin: 0; color: white;">Website Project Setup</h2>
+                <p style="margin: 0.5rem 0 0; color: #9ca3af;">Complete these steps to set up your project</p>
             </div>
             
             <!-- Wizard Steps -->
@@ -500,17 +910,17 @@
             <div id="stepContents" style="padding: 2rem;">
                 <!-- Step 1: Project Info -->
                 <div class="step-content active" data-step="1">
-                    <h3 style="margin-bottom: 1.5rem; color: #1f2937;">Tell us about your project</h3>
+                    <h3 style="margin-bottom: 1.5rem; color: white;">Tell us about your project</h3>
                     
                     <div style="display: grid; gap: 1.5rem;">
                         <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Project Name</label>
-                            <input type="text" id="projectName" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem;" placeholder="e.g., My Business Website">
+                            <label>Project Name</label>
+                            <input type="text" id="projectName" placeholder="e.g., My Business Website">
                         </div>
                         
                         <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Project Type</label>
-                            <select id="projectType" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem;">
+                            <label>Project Type</label>
+                            <select id="projectType">
                                 <option value="">Select project type</option>
                                 <option value="business">Business Website</option>
                                 <option value="portfolio">Portfolio Website</option>
@@ -521,21 +931,21 @@
                         </div>
                         
                         <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Project Description</label>
-                            <textarea id="projectDescription" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem; min-height: 100px;" placeholder="Describe your website's purpose, target audience, and key features..."></textarea>
+                            <label>Project Description</label>
+                            <textarea id="projectDescription" placeholder="Describe your website's purpose, target audience, and key features..." style="min-height: 100px;"></textarea>
                         </div>
                         
                         <div>
-                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Launch Deadline</label>
-                            <input type="date" id="launchDeadline" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 1rem;">
+                            <label>Launch Deadline</label>
+                            <input type="date" id="launchDeadline">
                         </div>
                     </div>
                 </div>
                 
                 <!-- Step 2: Domain & Hosting -->
                 <div class="step-content" data-step="2">
-                    <h3 style="margin-bottom: 1.5rem; color: #1f2937;">Domain and Hosting Setup</h3>
-                    <p style="color: #6b7280; margin-bottom: 1.5rem;">We'll help you choose the right domain and hosting for your needs.</p>
+                    <h3 style="margin-bottom: 1.5rem; color: white;">Domain and Hosting Setup</h3>
+                    <p style="color: #9ca3af; margin-bottom: 1.5rem;">We'll help you choose the right domain and hosting for your needs.</p>
                     
                     <div class="guidance-card">
                         <div class="guidance-header" onclick="toggleGuidance(this)">
@@ -546,8 +956,8 @@
                             <i class="fas fa-chevron-down"></i>
                         </div>
                         <div class="guidance-content">
-                            <h4>How to Choose a Great Domain Name:</h4>
-                            <ul style="color: #4b5563; line-height: 1.6; padding-left: 1.5rem;">
+                            <h4 style="color: white; margin-bottom: 1rem;">How to Choose a Great Domain Name:</h4>
+                            <ul style="color: #d1d5db; line-height: 1.6; padding-left: 1.5rem;">
                                 <li><strong>Keep it short and memorable</strong> (ideally under 15 characters)</li>
                                 <li><strong>Use .com extension</strong> when possible</li>
                                 <li><strong>Avoid hyphens and numbers</strong></li>
@@ -556,10 +966,10 @@
                             </ul>
                             
                             <div style="margin-top: 1rem;">
-                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Check Domain Availability:</label>
-                                <div style="display: flex; gap: 0.5rem;">
-                                    <input type="text" id="domainCheck" style="flex: 1; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px;" placeholder="yourdomain">
-                                    <select style="padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px;">
+                                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: white;">Check Domain Availability:</label>
+                                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                    <input type="text" id="domainCheck" style="flex: 1; min-width: 200px;" placeholder="yourdomain">
+                                    <select style="padding: 0.75rem; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; background: rgba(255, 255, 255, 0.1); color: white;">
                                         <option>.com</option>
                                         <option>.net</option>
                                         <option>.org</option>
@@ -577,38 +987,38 @@
                 
                 <!-- Step 3: Technology Stack -->
                 <div class="step-content" data-step="3">
-                    <h3 style="margin-bottom: 1.5rem; color: #1f2937;">Choose Your Technology Stack</h3>
+                    <h3 style="margin-bottom: 1.5rem; color: white;">Choose Your Technology Stack</h3>
                     
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
-                        <div class="tech-option" onclick="selectTech(this, 'html')" style="border: 2px solid #d1d5db; border-radius: 12px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s;">
+                        <div class="tech-option" onclick="selectTech(this, 'html')">
                             <div style="font-size: 2rem; margin-bottom: 1rem; color: #e34c26;">
                                 <i class="fab fa-html5"></i>
                             </div>
-                            <div style="font-weight: 600; margin-bottom: 0.5rem;">HTML/CSS/JS</div>
-                            <div style="color: #6b7280; font-size: 0.875rem;">Static Website</div>
+                            <div style="font-weight: 600; margin-bottom: 0.5rem; color: white;">HTML/CSS/JS</div>
+                            <div style="color: #9ca3af; font-size: 0.875rem;">Static Website</div>
                         </div>
                         
-                        <div class="tech-option" onclick="selectTech(this, 'wordpress')" style="border: 2px solid #d1d5db; border-radius: 12px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s;">
+                        <div class="tech-option" onclick="selectTech(this, 'wordpress')">
                             <div style="font-size: 2rem; margin-bottom: 1rem; color: #21759b;">
                                 <i class="fab fa-wordpress"></i>
                             </div>
-                            <div style="font-weight: 600; margin-bottom: 0.5rem;">WordPress</div>
-                            <div style="color: #6b7280; font-size: 0.875rem;">Blogs & CMS</div>
+                            <div style="font-weight: 600; margin-bottom: 0.5rem; color: white;">WordPress</div>
+                            <div style="color: #9ca3af; font-size: 0.875rem;">Blogs & CMS</div>
                         </div>
                         
-                        <div class="tech-option" onclick="selectTech(this, 'react')" style="border: 2px solid #d1d5db; border-radius: 12px; padding: 1.5rem; text-align: center; cursor: pointer; transition: all 0.3s;">
+                        <div class="tech-option" onclick="selectTech(this, 'react')">
                             <div style="font-size: 2rem; margin-bottom: 1rem; color: #61dafb;">
                                 <i class="fab fa-react"></i>
                             </div>
-                            <div style="font-weight: 600; margin-bottom: 0.5rem;">React.js</div>
-                            <div style="color: #6b7280; font-size: 0.875rem;">Web Applications</div>
+                            <div style="font-weight: 600; margin-bottom: 0.5rem; color: white;">React.js</div>
+                            <div style="color: #9ca3af; font-size: 0.875rem;">Web Applications</div>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Step Navigation -->
-                <div style="display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e5e7eb;">
-                    <button class="btn-pro-secondary" id="prevStepBtn" style="display: none;">
+                <div style="display: flex; justify-content: space-between; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                    <button class="btn-pro-secondary hidden" id="prevStepBtn">
                         <i class="fas fa-arrow-left"></i> Previous
                     </button>
                     <button class="btn-pro-primary" id="nextStepBtn">
@@ -619,7 +1029,7 @@
         </div>
 
         <!-- Main Dashboard (Initially Hidden) -->
-        <div id="mainDashboard" style="display: none;">
+        <div id="mainDashboard" class="hidden">
             <!-- Progress Overview -->
             <section class="pro-card" style="margin-bottom: 2rem;">
                 <div class="pro-card-header">
@@ -627,7 +1037,7 @@
                         <div class="pro-card-title" id="dashboardTitle">Website Project Dashboard</div>
                         <div class="pro-card-subtitle" id="projectDeadline">Launch Date: Loading...</div>
                     </div>
-                    <div style="display: flex; gap: 1rem;">
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
                         <span class="status-badge status-in-progress" id="overallStatus">
                             <i class="fas fa-sync-alt"></i> In Progress
                         </span>
@@ -641,7 +1051,7 @@
                     <!-- Progress Bars -->
                     <div style="margin-bottom: 2rem;">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                            <span style="font-weight: 500;">Overall Progress</span>
+                            <span style="font-weight: 500; color: white;">Overall Progress</span>
                             <span style="font-weight: 600; color: #7c3aed;" id="overallProgressText">0%</span>
                         </div>
                         <div class="lp-progress-container">
@@ -702,7 +1112,7 @@
                                     <div>HTML & CSS Crash Course</div>
                                     <div style="font-size: 0.875rem; opacity: 0.7;">Duration: 2 hours</div>
                                 </div>
-                                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                                <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
                                     <a href="#" class="pro-resource-badge"><i class="fas fa-play"></i> Watch Now</a>
                                     <a href="#" class="pro-resource-badge"><i class="fas fa-download"></i> Download Slides</a>
                                 </div>
@@ -726,7 +1136,7 @@
   &lt;a href="#contact"&gt;Contact&lt;/a&gt;
 &lt;/nav&gt;</pre>
                                 </div>
-                                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                                <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
                                     <a href="#" class="pro-resource-badge"><i class="fas fa-copy"></i> Copy Code</a>
                                     <a href="#" class="pro-resource-badge"><i class="fas fa-download"></i> Download All</a>
                                 </div>
@@ -738,7 +1148,7 @@
         </div>
     </main>
 
-    <!-- Footer - EXACT copy from your index.html -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
@@ -785,7 +1195,7 @@
         // Initialize LaunchPad
         document.addEventListener('DOMContentLoaded', function() {
             initializeLaunchPad();
-            setupNavigation();
+            setupMobileMenu();
             loadSavedProject();
             
             // Add navigation dropdown functionality
@@ -809,6 +1219,23 @@
                 }
             });
         });
+
+        // Mobile menu setup
+        function setupMobileMenu() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (menuToggle && navMenu) {
+                menuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('show');
+                });
+                
+                // Check if mobile view
+                if (window.innerWidth <= 768) {
+                    menuToggle.style.display = 'block';
+                }
+            }
+        }
 
         // Initialize LaunchPad
         function initializeLaunchPad() {
@@ -844,7 +1271,7 @@
         // Start Wizard
         function startWizard() {
             document.querySelector('.welcome-screen').style.display = 'none';
-            document.getElementById('projectWizard').style.display = 'block';
+            document.getElementById('projectWizard').classList.remove('hidden');
             resetWizard();
         }
 
@@ -923,9 +1350,9 @@
             const nextBtn = document.getElementById('nextStepBtn');
             
             if (currentProject.currentStep > 1) {
-                prevBtn.style.display = 'flex';
+                prevBtn.classList.remove('hidden');
             } else {
-                prevBtn.style.display = 'none';
+                prevBtn.classList.add('hidden');
             }
             
             if (currentProject.currentStep === 5) {
@@ -981,12 +1408,9 @@
         // Select Technology
         window.selectTech = function(element, tech) {
             document.querySelectorAll('.tech-option').forEach(opt => {
-                opt.style.borderColor = '#d1d5db';
-                opt.style.boxShadow = 'none';
+                opt.classList.remove('selected');
             });
             
-            element.style.borderColor = '#7c3aed';
-            element.style.boxShadow = '0 4px 12px rgba(124, 58, 237, 0.2)';
             element.classList.add('selected');
             element.dataset.tech = tech;
         }
@@ -1014,8 +1438,8 @@
                 currentProject = JSON.parse(saved);
             }
             
-            document.getElementById('projectWizard').style.display = 'none';
-            document.getElementById('mainDashboard').style.display = 'block';
+            document.getElementById('projectWizard').classList.add('hidden');
+            document.getElementById('mainDashboard').classList.remove('hidden');
             
             updateDashboard();
             loadPhases();
@@ -1023,7 +1447,7 @@
 
         // Update Dashboard
         function updateDashboard() {
-            document.getElementById('dashboardTitle').textContent = currentProject.name;
+            document.getElementById('dashboardTitle').textContent = currentProject.name || 'Website Project Dashboard';
             
             if (currentProject.deadline) {
                 const deadline = new Date(currentProject.deadline);
@@ -1044,6 +1468,10 @@
                 document.getElementById('overallStatus').innerHTML = '<i class="fas fa-check-circle"></i> Completed';
                 document.getElementById('overallStatus').className = 'status-badge status-complete';
             }
+            
+            // Update achievements
+            const completed = currentProject.completedTasks || 0;
+            document.getElementById('achievementCount').innerHTML = `<i class="fas fa-trophy"></i> ${completed} Achievements`;
         }
 
         // Get Active Phase
@@ -1091,7 +1519,7 @@
                     <div id="phaseContent${index}" style="display: none; padding: 1.5rem;">
                         <div style="margin-bottom: 1.5rem;">
                             <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
-                                <span>Progress</span>
+                                <span style="color: white;">Progress</span>
                                 <span style="font-weight: 600; color: #7c3aed;">${phase.progress}%</span>
                             </div>
                             <div class="lp-progress-container">
@@ -1130,11 +1558,11 @@
                         <div class="pro-checklist-title">${task.title}</div>
                         <div class="pro-checklist-desc">${task.description}</div>
                         <div class="pro-checklist-resources">
-                            ${task.resources.map(resource => `
-                                <a href="${resource.url}" target="_blank" class="pro-resource-badge">
-                                    <i class="${resource.icon}"></i> ${resource.name}
+                            ${task.resources?.map(resource => `
+                                <a href="${resource.url || '#'}" target="_blank" class="pro-resource-badge">
+                                    <i class="${resource.icon || 'fas fa-link'}"></i> ${resource.name}
                                 </a>
-                            `).join('')}
+                            `).join('') || ''}
                         </div>
                     </div>
                 `;
@@ -1161,6 +1589,8 @@
 
         // Toggle Task Completion
         window.toggleTask = function(phaseIndex, taskIndex) {
+            if (!currentProject.phases[phaseIndex] || !currentProject.phases[phaseIndex].tasks[taskIndex]) return;
+            
             currentProject.phases[phaseIndex].tasks[taskIndex].completed = 
                 !currentProject.phases[phaseIndex].tasks[taskIndex].completed;
             
@@ -1179,10 +1609,10 @@
             let totalTasks = 0;
             let completedTasks = 0;
             
-            currentProject.phases.forEach(phase => {
+            currentProject.phases?.forEach(phase => {
                 totalTasks += phase.tasks.length;
                 completedTasks += phase.tasks.filter(t => t.completed).length;
-            });
+            }) || [];
             
             currentProject.completedTasks = completedTasks;
             currentProject.progress = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
@@ -1293,8 +1723,6 @@
             document.getElementById('launchDeadline').value = '';
             
             document.querySelectorAll('.tech-option').forEach(opt => {
-                opt.style.borderColor = '#d1d5db';
-                opt.style.boxShadow = 'none';
                 opt.classList.remove('selected');
             });
         }
@@ -1334,49 +1762,21 @@
             }
         }
 
+        // Handle window resize for mobile menu
+        window.addEventListener('resize', function() {
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (window.innerWidth <= 768) {
+                menuToggle.style.display = 'block';
+                navMenu.classList.remove('show');
+            } else {
+                menuToggle.style.display = 'none';
+                navMenu.classList.add('show');
+            }
+        });
+
         console.log('LaunchPad Pro fully loaded! 🚀');
     </script>
-    <script>
-// Fix for navigation dropdowns
-document.addEventListener('DOMContentLoaded', function() {
-    // Add launchpad class to body
-    document.body.classList.add('launchpad-pro');
-    
-    // Fix dropdowns
-    const dropdowns = document.querySelectorAll('.dropdown');
-    dropdowns.forEach(dropdown => {
-        const toggle = dropdown.querySelector('.dropdown-toggle');
-        const menu = dropdown.querySelector('.dropdown-menu');
-        
-        if (toggle && menu) {
-            toggle.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                // Close other dropdowns
-                dropdowns.forEach(d => {
-                    if (d !== dropdown) {
-                        d.classList.remove('active');
-                    }
-                });
-                
-                // Toggle this dropdown
-                dropdown.classList.toggle('active');
-            });
-        }
-    });
-    
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.dropdown')) {
-            dropdowns.forEach(dropdown => {
-                dropdown.classList.remove('active');
-            });
-        }
-    });
-    
-    console.log('LaunchPad Pro fixes applied');
-});
-</script>
 </body>
 </html>
