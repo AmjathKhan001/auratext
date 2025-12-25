@@ -266,33 +266,6 @@
             font-size: 0.875rem;
         }
         
-        /* Support Chat */
-        .support-chat {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            z-index: 1000;
-        }
-        
-        .chat-toggle {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #7c3aed, #2563eb);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.3);
-            transition: all 0.3s ease;
-        }
-        
-        .chat-toggle:hover {
-            transform: scale(1.1);
-        }
-        
         /* Achievement Badges */
         .achievement-badge {
             display: inline-flex;
@@ -321,66 +294,42 @@
             .welcome-title {
                 font-size: 2rem;
             }
-            
-            .support-chat {
-                bottom: 1rem;
-                right: 1rem;
-            }
         }
     </style>
 </head>
 <body class="launchpad-light-theme">
     <!-- Navigation -->
     <nav class="navbar">
-        <div class="container">
+        <div class="nav-container">
             <a href="index.html" class="logo">
-                <i class="fas fa-rocket" style="color: #7c3aed;"></i>
-                <span style="color: #1f2937;">LaunchPad Pro</span>
+                <i class="fas fa-code"></i>
+                <span>AuraText</span> Tools
             </a>
-            <div class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="index.html#effects">Effects</a>
-                <a href="index.html#text-styles">Text Styles</a>
-                
-                <!-- Our Tools Dropdown -->
-                <div class="dropdown">
-                    <a href="#" class="dropdown-toggle active" style="color: #7c3aed; font-weight: 600;">
-                        <i class="fas fa-tools"></i> Our Tools <i class="fas fa-chevron-down"></i>
-                    </a>
-                    <div class="dropdown-menu" style="background: white; border-color: #e5e7eb;">
-                        <a href="index.html"><i class="fas fa-magic"></i> AuraText Generator</a>
-                        <a href="gradient.html"><i class="fas fa-fill-drip"></i> CSS Gradient</a>
-                        <a href="grid-generator.html"><i class="fas fa-th"></i> CSS Grid</a>
-                        <a href="flexbox-helper.html"><i class="fas fa-boxes"></i> Flexbox Helper</a>
-                        <a href="box-shadow.html"><i class="fas fa-square"></i> Box Shadow</a>
-                        <a href="border-generator.html"><i class="fas fa-border-style"></i> Border Generator</a>
-                        <a href="text-shadow-generator.html"><i class="fas fa-text-height"></i> Text Shadow</a>
-                        <a href="animations-generator.html"><i class="fas fa-play-circle"></i> Animations</a>
-                        <a href="palette-generator.html"><i class="fas fa-palette"></i> Color Palette</a>
-                        <a href="color-picker.html"><i class="fas fa-eye-dropper"></i> Color Picker</a>
-                        <a href="launchpad-pro.html" class="active" style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(37, 99, 235, 0.1)); color: #7c3aed;">
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle active">Our Tools <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="index.html"><i class="fas fa-code"></i> AuraText Generator</a></li>
+                        <li><a href="gradient.html"><i class="fas fa-fill-drip"></i> CSS Gradient Generator</a></li>
+                        <li><a href="grid-generator.html"><i class="fas fa-th"></i> CSS Grid Generator</a></li>
+                        <li><a href="flexbox-helper.html"><i class="fas fa-boxes"></i> Flexbox Helper</a></li>
+                        <li><a href="box-shadow.html"><i class="fas fa-square"></i> Box Shadow Generator</a></li>
+                        <li><a href="animations-generator.html"><i class="fas fa-play-circle"></i> CSS Animations Generator</a></li>
+                        <li><a href="palette-generator.html"><i class="fas fa-palette"></i> Color Palette Generator</a></li>
+                        <li><a href="color-picker.html"><i class="fas fa-eye-dropper"></i> Color Picker Tool</a></li>
+                        <li><a href="launchpad-pro.html" style="background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(37, 99, 235, 0.1)); color: #7c3aeb;">
                             <i class="fas fa-rocket"></i> LaunchPad Pro
-                        </a>
-                    </div>
-                </div>
-                
-                <a href="index.html#tools">More Tools</a>
-                <a href="index.html#try-now">Try Now</a>
-                <a href="index.html#blog">Blog</a>
-                <a href="index.html#contact">Contact</a>
-                <span class="visitor-count" style="color: #6b7280;">
-                    <i class="fas fa-users"></i>
-                    <span id="visitor-counter">1,234</span>
-                </span>
-            </div>
-            <button class="menu-toggle" aria-label="Menu">
-                <i class="fas fa-bars"></i>
-            </button>
+                        </a></li>
+                    </ul>
+                </li>
+                <li><a href="sitemap.html">Site Map</a></li>
+            </ul>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="container tool-page">
+    <main class="container" style="padding: 20px; min-height: 70vh;">
         <!-- Welcome Screen -->
         <section class="welcome-screen">
             <div class="welcome-icon">
@@ -687,42 +636,33 @@
         </div>
     </main>
 
-    <!-- Support Chat -->
-    <div class="support-chat">
-        <div class="chat-toggle" onclick="toggleChat()">
-            <i class="fas fa-comments"></i>
-        </div>
-    </div>
-
     <!-- Footer -->
-    <footer class="footer" style="background: white; border-top: 1px solid #e5e7eb; color: #6b7280;">
+    <footer class="footer" style="background: #1a1740; color: #fff; padding: 40px 0; margin-top: 60px;">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">
-                    <i class="fas fa-rocket" style="color: #7c3aed;"></i>
-                    <span style="color: #1f2937;">LaunchPad Pro</span>
+                <div class="footer-section">
+                    <h4>AuraText Tools</h4>
+                    <p>A complete suite of free web development tools for designers and developers.</p>
                 </div>
-                <p class="footer-tagline">Your complete website creation companion</p>
-                
-                <div class="footer-links">
-                    <a href="index.html">Home</a>
-                    <a href="index.html#effects">Effects</a>
-                    <a href="index.html#text-styles">Text Styles</a>
-                    <a href="gradient.html">Gradient Tool</a>
-                    <a href="grid-generator.html">Grid Generator</a>
-                    <a href="flexbox-helper.html">Flexbox Helper</a>
-                    <a href="box-shadow.html">Box Shadow</a>
-                    <a href="border-generator.html">Border Generator</a>
-                    <a href="text-shadow-generator.html">Text Shadow</a>
-                    <a href="animations-generator.html">Animations</a>
-                    <a href="palette-generator.html">Color Palette</a>
-                    <a href="color-picker.html">Color Picker</a>
-                    <a href="launchpad-pro.html">LaunchPad Pro</a>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html" style="color: #b5b3cc;">Home</a></li>
+                        <li><a href="sitemap.html" style="color: #b5b3cc;">Site Map</a></li>
+                    </ul>
                 </div>
-                
-                <div class="copyright">
-                    <p>© 2025 www.auratext.online. Made with <i class="fas fa-heart" style="color: #ef4444;"></i> by <a href="https://www.amjathkhan.com" target="_blank" rel="noopener noreferrer" style="color: #7c3aed;">Amjath Khan</a>.</p>
+                <div class="footer-section">
+                    <h4>Popular Tools</h4>
+                    <ul>
+                        <li><a href="palette-generator.html" style="color: #b5b3cc;">Color Palette Generator</a></li>
+                        <li><a href="gradient.html" style="color: #b5b3cc;">CSS Gradient Generator</a></li>
+                        <li><a href="box-shadow.html" style="color: #b5b3cc;">Box Shadow Generator</a></li>
+                        <li><a href="launchpad-pro.html" style="color: #b5b3cc;">LaunchPad Pro</a></li>
+                    </ul>
                 </div>
+            </div>
+            <div class="footer-bottom" style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 20px; margin-top: 40px; text-align: center;">
+                <p style="color: #b5b3cc;">&copy; 2024 www.auratext.online. All rights reserved. | <a href="sitemap.html" style="color: #8a2be2;">Site Map</a></p>
             </div>
         </div>
     </footer>
@@ -1348,53 +1288,6 @@
                 alert(`🎉 Congratulations! "${domain}.com" is available!`);
             } else {
                 alert(`😔 Sorry, "${domain}.com" is already taken. Try a different name.`);
-            }
-        }
-
-        // Toggle Chat
-        window.toggleChat = function() {
-            alert('💬 Chat feature coming soon! For now, you can email us at contact@amjathkhan.com');
-        }
-
-        // Setup Navigation
-        function setupNavigation() {
-            // Dropdown functionality
-            const dropdowns = document.querySelectorAll('.dropdown');
-            
-            dropdowns.forEach(dropdown => {
-                const toggle = dropdown.querySelector('.dropdown-toggle');
-                const menu = dropdown.querySelector('.dropdown-menu');
-                
-                if (toggle && menu) {
-                    toggle.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        dropdown.classList.toggle('active');
-                    });
-                    
-                    document.addEventListener('click', function(e) {
-                        if (!dropdown.contains(e.target)) {
-                            dropdown.classList.remove('active');
-                        }
-                    });
-                }
-            });
-            
-            // Mobile menu
-            const menuToggle = document.querySelector('.menu-toggle');
-            const navLinks = document.querySelector('.nav-links');
-            
-            if (menuToggle && navLinks) {
-                menuToggle.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    navLinks.classList.toggle('show');
-                });
-                
-                document.addEventListener('click', function(e) {
-                    if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
-                        navLinks.classList.remove('show');
-                    }
-                });
             }
         }
 
