@@ -811,6 +811,7 @@ body {
 .try-now-section {
     padding: 4rem 0;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #ffffff;
 }
 
 .try-now-section h2 {
@@ -851,6 +852,7 @@ body {
     flex-direction: column;
     position: relative;
     overflow: hidden;
+    color: #ffffff;
 }
 
 .try-now-card::before {
@@ -900,6 +902,7 @@ body {
     line-height: 1.6;
     margin-bottom: 1.5rem;
     flex-grow: 1;
+    font-weight: 400;
 }
 
 .try-now-btn {
@@ -1529,6 +1532,11 @@ body {
     .try-now-section h2 {
         font-size: 2rem;
     }
+    
+    /* Template responsive */
+    .grid-2-col {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1585,29 +1593,12 @@ body {
     .color-inputs {
         grid-template-columns: 1fr;
     }
-}
-/* Fix light text issues */
-.try-now-section {
-    color: #ffffff;
-}
-
-.try-now-section * {
-    color: inherit;
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
 }
 
-.try-now-card {
-    color: #ffffff;
-}
-
-.try-now-card h3 {
-    color: #ffffff;
-    font-weight: 600;
-}
-
-.try-now-card p {
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 400;
-}
 /* ===== TEMPLATE STYLES ===== */
 
 /* Tool Page Layout */
@@ -1617,12 +1608,6 @@ body {
 }
 
 /* Hero Section */
-.hero {
-    text-align: center;
-    margin-bottom: 3rem;
-    padding: 2rem 1rem;
-}
-
 .hero h1 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -1632,19 +1617,6 @@ body {
     background-clip: text;
 }
 
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 2rem;
-    }
-}
-
-.subtitle {
-    font-size: 1.2rem;
-    color: #ccc;
-    margin-bottom: 1.5rem;
-}
-
-/* Instructions */
 .instructions {
     margin-top: 4rem;
     padding: 2rem;
@@ -1805,12 +1777,6 @@ body {
     gap: 2rem;
 }
 
-@media (max-width: 768px) {
-    .grid-2-col {
-        grid-template-columns: 1fr;
-    }
-}
-
 /* Examples Grid */
 .examples-grid {
     display: grid;
@@ -1873,7 +1839,8 @@ body {
     background: rgba(138, 43, 226, 0.5);
     border-left: 3px solid #8a2be2;
 }
-/* Ensure dropdown works on hover */
+
+/* Ensure dropdown works */
 .dropdown:hover .dropdown-menu {
     display: block;
     opacity: 1;
@@ -1881,13 +1848,13 @@ body {
     transform: translateY(0);
 }
 
-/* Or if you're using click-to-toggle with JavaScript */
 .dropdown.active .dropdown-menu {
     display: block;
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
+
 /* ===== LAUNCHPAD PRO FIXES ===== */
 
 /* LaunchPad Navigation Fix */
@@ -2163,9 +2130,17 @@ body {
     transform: translateY(-1px);
 }
 
-/* Container for LaunchPad */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
+/* Fix text color issues */
+.try-now-section * {
+    color: inherit;
+}
+
+.try-now-card h3 {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.try-now-card p {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
 }
