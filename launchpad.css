@@ -417,3 +417,125 @@
     outline: 2px solid var(--primary-blue);
     outline-offset: 2px;
 }
+/* Add these to launchpad.css */
+
+/* Progress bars (matching HTML classes) */
+.lp-progress-container {
+    height: 8px;
+    background: var(--neutral-200);
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.lp-progress-bar {
+    height: 100%;
+    background: var(--gradient-primary);
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.lp-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+/* Achievement badges */
+.achievement-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #fef3c7, #fde68a);
+    border: 2px solid #f59e0b;
+    border-radius: 20px;
+    color: #92400e;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+/* Metric cards */
+.metric-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    text-align: center;
+}
+
+.metric-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+}
+
+.metric-label {
+    color: var(--neutral-500);
+    font-size: 0.875rem;
+}
+
+/* Status badge variations */
+.status-badge.status-in-progress {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
+    color: var(--primary-blue);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.status-badge.status-complete {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(13, 148, 136, 0.1));
+    color: var(--success-green);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+/* Dark theme for LaunchPad */
+.launchpad-dark-theme {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: var(--neutral-100);
+    min-height: 100vh;
+}
+
+.launchpad-dark-theme .pro-card {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+}
+
+.launchpad-dark-theme .pro-card-header {
+    background: linear-gradient(135deg, var(--neutral-800), var(--neutral-900));
+    border-color: var(--neutral-700);
+}
+
+.launchpad-dark-theme .metric-card {
+    background: var(--neutral-800);
+    border-color: var(--neutral-700);
+}
+
+.launchpad-dark-theme .metric-label {
+    color: var(--neutral-400);
+}
+
+.launchpad-dark-theme .btn-pro-secondary {
+    background: var(--neutral-800);
+    color: var(--neutral-200);
+    border-color: var(--neutral-700);
+}
+
+.launchpad-dark-theme .btn-pro-secondary:hover {
+    background: var(--neutral-700);
+}
+
+/* Ensure proper spacing */
+.launchpad-main {
+    padding-top: 100px;
+    min-height: 70vh;
+}
